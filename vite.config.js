@@ -6,6 +6,10 @@ export default defineConfig({
   esbuild: {
     loader: 'jsx',
   },
+  root: './',
+  build: {
+    outDir: './build',
+  },
   optimizeDeps: {
     esbuildOptions: {
       loader: {
