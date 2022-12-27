@@ -10,15 +10,7 @@ import {
 
 } from '@mui/material';
 
-/* 
------- MUST READ ------
-Keep the files structure similar.
-Each group must have similar folder with their
-group leader name's first letter and G followed by a - and Folder Name
-e.g: IG-HeadForms for Idrees Group
-UG = Usman Group
-RDepartment = Register Department
-*/
+
 
 const Program = () => {
   const [title,subtitle] = useState();
@@ -96,6 +88,11 @@ const Program = () => {
             <Button variant='contained' sx={{ margin: '.5em .5em .5em 0' }}  display= 'flex'
   justify-content= 'flex-end'>
               Save
+            </Button>
+
+            <Button variant='contained' sx={{ margin: '.5em .5em .5em 0' }}  display= 'flex'
+  justify-content= 'flex-end'>
+              Next
             </Button>
           </Grid>
         </Grid>
