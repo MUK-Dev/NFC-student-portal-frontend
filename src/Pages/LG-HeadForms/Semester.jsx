@@ -10,16 +10,6 @@ import {
 
 } from '@mui/material';
 
-/* 
------- MUST READ ------
-Keep the files structure similar.
-Each group must have similar folder with their
-group leader name's first letter and G followed by a - and Folder Name
-e.g: IG-HeadForms for Idrees Group
-UG = Usman Group
-RDepartment = Register Department
-*/
-
 const Semester = () => {
   const [title,subtitle] = useState();
   
@@ -28,7 +18,7 @@ const Semester = () => {
       <Grid item flexGrow={1}>
         <Grid container direction='column' width='100%'>
           <Grid item width='100%'>
-            <Typography  position= "center" variant='h3'>Program Registeration</Typography>
+            <Typography  position= "center" variant='h3'>Semester Registeration</Typography>
           </Grid>
           <Grid item width='100%'>
             <Grid container width='100%'>
@@ -104,6 +94,11 @@ const Semester = () => {
             <Button variant='contained' sx={{ margin: '.5em .5em .5em 0' }}  display= 'flex'
   justify-content= 'flex-end'>
               Save
+            </Button>
+
+            <Button variant='contained' sx={{ margin: '.5em .5em .5em 0' }}  display= 'flex'
+  justify-content= 'flex-end'>
+              Next
             </Button>
           </Grid>
         </Grid>
