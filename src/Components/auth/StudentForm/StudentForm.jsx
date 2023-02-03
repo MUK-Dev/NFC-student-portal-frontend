@@ -1,17 +1,17 @@
-import { useRef } from 'react';
-import { Stack, Step, StepButton, Stepper } from '@mui/material';
-import { motion } from 'framer-motion';
+import { useRef } from 'react'
+import { Stack, Step, StepButton, Stepper } from '@mui/material'
+import { motion } from 'framer-motion'
 
-import useStepper from '../../../Hooks/useStepper';
-import StudentForm1 from './StudentFormStep1';
-import StudentForm2 from './StudentFormStep2';
-import StudentForm3 from './StudentFormStep3';
-import useStudentRegisterPage from '../../../Hooks/useStudentRegisterForm';
+import useStepper from '../../../Hooks/useStepper'
+import StudentForm1 from './StudentFormStep1'
+import StudentForm2 from './StudentFormStep2'
+import StudentForm3 from './StudentFormStep3'
+import useStudentRegisterPage from '../../../Hooks/useStudentRegisterForm'
 
 const StudentForm = ({ animation }) => {
-  const firstTimeAnimation = useRef(true);
+  const firstTimeAnimation = useRef(true)
   const { handleComplete, handleReset, handleBack, steps, activeStep } =
-    useStepper(firstTimeAnimation);
+    useStepper(firstTimeAnimation)
   const {
     department,
     gender,
@@ -27,7 +27,8 @@ const StudentForm = ({ animation }) => {
     passwordRef,
     email,
     sendRequest,
-  } = useStudentRegisterPage();
+    error,
+  } = useStudentRegisterPage()
 
   return (
     <Stack
@@ -78,10 +79,11 @@ const StudentForm = ({ animation }) => {
           passwordRef={passwordRef}
           email={email}
           sendRequest={sendRequest}
+          finalError={error}
         />
       )}
     </Stack>
-  );
-};
+  )
+}
 
-export default StudentForm;
+export default StudentForm

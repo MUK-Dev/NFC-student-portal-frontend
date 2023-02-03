@@ -1,18 +1,26 @@
-import axios from 'axios';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react'
+
+import { getUserRequest } from '../Services/API/getUser'
+import { registerStudentRequest } from '../Services/API/registerStudent'
+import useAuth from '../Hooks/useAuth'
+import { useNavigate } from 'react-router'
 
 export default function useStudentRegisterPage() {
-  const [gender, setGender] = useState('');
-  const [department, setDepartment] = useState('');
-  const [email, setEmail] = useState('@undergrad.nfciet.edu.pk');
-  const sessionRef = useRef('');
-  const programRef = useRef('');
-  const rollNoRef = useRef('');
-  const sectionRef = useRef('');
-  const nameRef = useRef('');
-  const phoneNoRef = useRef('');
-  const passwordRef = useRef('');
-  const confirmRef = useRef('');
+  const [gender, setGender] = useState('')
+  const [department, setDepartment] = useState('')
+  const [email, setEmail] = useState('@undergrad.nfciet.edu.pk')
+  const [error, setError] = useState(null)
+  const sessionRef = useRef('')
+  const programRef = useRef('')
+  const rollNoRef = useRef('')
+  const sectionRef = useRef('')
+  const nameRef = useRef('')
+  const phoneNoRef = useRef('')
+  const passwordRef = useRef('')
+  const confirmRef = useRef('')
+  const navigate = useNavigate()
+
+  const { setToken, setUser, setAccessToken } = useAuth()
 
   const emailDependents = useMemo(
     () => ({
@@ -21,10 +29,10 @@ export default function useStudentRegisterPage() {
       rollNo: rollNoRef.current.toLowerCase(),
     }),
     [sessionRef.current, programRef.current, rollNoRef.current]
-  );
+  )
 
   const sendRequest = async () => {
-    console.log(email);
+    setError(null)
     const d = {
       session: sessionRef.current.toLowerCase(),
       program: programRef.current.toLowerCase(),
@@ -37,25 +45,25 @@ export default function useStudentRegisterPage() {
       password: passwordRef.current,
       confirm: confirmRef.current,
       email,
-    };
-    try {
-      const { data } = await axios({
-        url: 'http://localhost:6000/api/student/register',
-        method: 'POST',
-        data: d,
-        withCredentials: true,
-      });
-      console.log(data);
-    } catch (e) {
-      console.error(e);
     }
-  };
+    try {
+      const { token } = await registerStudentRequest(d)
+      const user = await getUserRequest(token)
+      setToken(token)
+      setAccessToken(token)
+      setUser(user)
+      navigate('/student/home')
+    } catch (e) {
+      console.log(e)
+      setError(e.response.data.message)
+    }
+  }
 
   useEffect(() => {
     setEmail(
       `${emailDependents.session}${emailDependents.program}${emailDependents.rollNo}@undergrad.nfciet.edu.pk`
-    );
-  }, [emailDependents]);
+    )
+  }, [emailDependents])
 
   return {
     nameRef,
@@ -72,5 +80,6 @@ export default function useStudentRegisterPage() {
     confirmRef,
     email,
     sendRequest,
-  };
+    error,
+  }
 }

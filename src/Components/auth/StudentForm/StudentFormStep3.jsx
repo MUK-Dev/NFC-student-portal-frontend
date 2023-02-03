@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
+import { useState } from 'react'
 import {
   Divider,
   IconButton,
@@ -13,14 +13,13 @@ import {
   Typography,
   useTheme,
   FormHelperText,
-} from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { ArrowBackIos } from '@mui/icons-material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+} from '@mui/material'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowBackIos } from '@mui/icons-material'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
 
 const StudentForm3 = ({
   animation,
@@ -29,31 +28,31 @@ const StudentForm3 = ({
   confirmRef,
   email,
   sendRequest,
+  finalError,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const theme = useTheme();
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false)
+  const theme = useTheme()
   const [v, setV] = useState({
     showPassword: false,
     showConfirmPassword: false,
-  });
+  })
 
   const handleClickShowPassword = () => {
     setV({
       ...v,
       showPassword: !v.showPassword,
-    });
-  };
+    })
+  }
 
   const handleClickShowConfirmPassword = () => {
     setV({
       ...v,
       showConfirmPassword: !v.showConfirmPassword,
-    });
-  };
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+    })
+  }
+  const handleMouseDownPassword = event => {
+    event.preventDefault()
+  }
 
   const opacityAnimate = {
     initial: {
@@ -65,7 +64,7 @@ const StudentForm3 = ({
     exit: {
       // opacity: 0,
     },
-  };
+  }
 
   const opacityAnimateDivider = {
     initial: {
@@ -77,7 +76,7 @@ const StudentForm3 = ({
     exit: {
       background: 'rgb(200,171,169)',
     },
-  };
+  }
 
   const arrowAnimation = {
     initial: {
@@ -92,27 +91,26 @@ const StudentForm3 = ({
     exit: {
       opacity: 0,
     },
-  };
+  }
 
   const submitForm = async (
     values,
     { setErrors, setStatus, setSubmitting }
   ) => {
-    console.log('Test');
-    setIsLoading(true);
+    setIsLoading(true)
     if (values.password !== values.confirm) {
       setErrors({
         confirm: "Passwords don't match",
         password: "Passwords don't match",
-      });
-      setIsLoading(false);
-      return;
+      })
+      setIsLoading(false)
+      return
     }
-    passwordRef.current = values.password;
-    confirmRef.current = values.confirm;
-    await sendRequest();
-    setIsLoading(false);
-  };
+    passwordRef.current = values.password
+    confirmRef.current = values.confirm
+    await sendRequest()
+    setIsLoading(false)
+  }
 
   const formikOptions = {
     initialValues: {
@@ -130,7 +128,7 @@ const StudentForm3 = ({
         .required('Confirm Password is required'),
     }),
     onSubmit: submitForm,
-  };
+  }
 
   return (
     <Formik {...formikOptions}>
@@ -302,6 +300,11 @@ const StudentForm3 = ({
                 <ArrowBackIos />
               </IconButton>
             </motion.div>
+            {!!finalError && (
+              <Typography color='error' gutterBottom>
+                {finalError}
+              </Typography>
+            )}
 
             <Button variant='contained' type='submit'>
               Register
@@ -310,7 +313,7 @@ const StudentForm3 = ({
         </form>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default StudentForm3;
+export default StudentForm3

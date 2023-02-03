@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import {
   Divider,
   IconButton,
@@ -8,12 +7,12 @@ import {
   Typography,
   useTheme,
   CircularProgress,
-} from '@mui/material';
-import { motion } from 'framer-motion';
-import { useSearchParams } from 'react-router-dom';
-import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+} from '@mui/material'
+import { motion } from 'framer-motion'
+import { useSearchParams } from 'react-router-dom'
+import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
 
 const StudentForm1 = ({
   animation,
@@ -24,8 +23,8 @@ const StudentForm1 = ({
   rollNoRef,
   sectionRef,
 }) => {
-  const theme = useTheme();
-  const [_, setSearchParams] = useSearchParams();
+  const theme = useTheme()
+  const [_, setSearchParams] = useSearchParams()
   const arrowAnimation = {
     initial: {
       opacity: 0,
@@ -39,20 +38,20 @@ const StudentForm1 = ({
     exit: {
       opacity: 0,
     },
-  };
+  }
 
   const submitForm = async (
     values,
     { setErrors, setStatus, setSubmitting }
   ) => {
-    setSubmitting(true);
-    sessionRef.current = values.session;
-    programRef.current = values.program;
-    rollNoRef.current = values.rollNo;
-    sectionRef.current = values.section;
-    handleNext();
-    setSubmitting(false);
-  };
+    setSubmitting(true)
+    sessionRef.current = values.session
+    programRef.current = values.program
+    rollNoRef.current = values.rollNo
+    sectionRef.current = values.section
+    handleNext()
+    setSubmitting(false)
+  }
 
   const formikOptions = {
     initialValues: {
@@ -71,7 +70,7 @@ const StudentForm1 = ({
       section: Yup.string().required('Section is required'),
     }),
     onSubmit: submitForm,
-  };
+  }
 
   return (
     <Formik {...formikOptions}>
@@ -192,8 +191,8 @@ const StudentForm1 = ({
                 color='primary'
                 sx={{ position: 'absolute', top: -140, left: 10 }}
                 onClick={() => {
-                  reset();
-                  setSearchParams({ role: null });
+                  reset()
+                  setSearchParams({ role: null })
                 }}
               >
                 <ArrowBackIos />
@@ -207,7 +206,7 @@ const StudentForm1 = ({
         </form>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default StudentForm1;
+export default StudentForm1
