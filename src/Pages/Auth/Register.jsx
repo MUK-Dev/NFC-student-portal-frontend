@@ -21,7 +21,6 @@ const Register = () => {
       alignItems='center'
       width='100%'
       minHeight='100vh'
-      overflow='hidden'
       paddingTop='40%'
     >
       <img

@@ -6,11 +6,28 @@ import useStepper from '../../../Hooks/useStepper';
 import StudentForm1 from './StudentFormStep1';
 import StudentForm2 from './StudentFormStep2';
 import StudentForm3 from './StudentFormStep3';
+import useStudentRegisterPage from '../../../Hooks/useStudentRegisterForm';
 
 const StudentForm = ({ animation }) => {
   const firstTimeAnimation = useRef(true);
   const { handleComplete, handleReset, handleBack, steps, activeStep } =
     useStepper(firstTimeAnimation);
+  const {
+    department,
+    gender,
+    setDepartment,
+    setGender,
+    programRef,
+    rollNoRef,
+    sectionRef,
+    sessionRef,
+    nameRef,
+    phoneNoRef,
+    confirmRef,
+    passwordRef,
+    email,
+    sendRequest,
+  } = useStudentRegisterPage();
 
   return (
     <Stack
@@ -35,13 +52,34 @@ const StudentForm = ({ animation }) => {
           reset={handleReset}
           handleNext={handleComplete}
           animation={firstTimeAnimation.current && animation}
+          programRef={programRef}
+          rollNoRef={rollNoRef}
+          sectionRef={sectionRef}
+          sessionRef={sessionRef}
         />
       )}
       {activeStep === 1 && (
-        <StudentForm2 handleNext={handleComplete} handleBack={handleBack} />
+        <StudentForm2
+          handleNext={handleComplete}
+          handleBack={handleBack}
+          department={department}
+          setDepartment={setDepartment}
+          gender={gender}
+          setGender={setGender}
+          nameRef={nameRef}
+          phoneNoRef={phoneNoRef}
+        />
       )}
 
-      {activeStep === 2 && <StudentForm3 handleBack={handleBack} />}
+      {activeStep === 2 && (
+        <StudentForm3
+          handleBack={handleBack}
+          confirmRef={confirmRef}
+          passwordRef={passwordRef}
+          email={email}
+          sendRequest={sendRequest}
+        />
+      )}
     </Stack>
   );
 };

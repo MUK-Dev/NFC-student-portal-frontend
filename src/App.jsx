@@ -25,6 +25,7 @@ import ISubject from './Pages/IG-HeadForms/ISubject';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import StudentDetailProgress from './Pages/StudentProgress/StudentDetailProgress';
+import AuthProvider from './Contexts/AuthContext';
 
 const App = () => {
   // #dcdfca
@@ -45,51 +46,56 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterMoment}>
-        <BrowserRouter>
-          <CssBaseline />
-          <Routes>
-            <Route element={<AuthLayout />}>
-              <Route path='/' element={<Login />} />
-              <Route path='/register' element={<Register />} />
-            </Route>
-            <Route element={<DashboardLayout />}>
-              <Route path='/student/home' element={<StudentDashboard />} />
-              <Route
-                path='/student/attendance'
-                element={<StudentAttendance />}
-              />
-              <Route
-                path='/head/register/department'
-                element={<RDepartment />}
-              />
-              <Route path='/head/register/subject' element={<RSubject />} />
-              <Route path='/head/register/students' element={<RStudents />} />
-              <Route path='/head/register/teachers' element={<RTeachers />} />
-              <Route path='/head/register/program' element={<RProgram />} />
-              <Route path='/head/register/session' element={<RSession />} />
-              <Route path='/head/register/semester' element={<RSemester />} />
-              <Route path='/student/progress' element={<StudentProgress />} />
-              <Route
-                path='/student/detail-progress'
-                element={<StudentDetailProgress />}
-              />
-              <Route
-                path='/head/register/i-department'
-                element={<IDepartment />}
-              />
-              <Route path='/head/register/i-program' element={<IProgram />} />
-              <Route path='/head/register/i-semester' element={<ISemester />} />
-              <Route path='/head/register/i-session' element={<ISession />} />
-              <Route path='/head/register/i-subject' element={<ISubject />} />
-              <Route
-                path='/student/certificate'
-                element={<StudentCertificate />}
-              />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </LocalizationProvider>
+      <AuthProvider>
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+          <BrowserRouter>
+            <CssBaseline />
+            <Routes>
+              <Route element={<AuthLayout />}>
+                <Route path='/' element={<Login />} />
+                <Route path='/register' element={<Register />} />
+              </Route>
+              <Route element={<DashboardLayout />}>
+                <Route path='/student/home' element={<StudentDashboard />} />
+                <Route
+                  path='/student/attendance'
+                  element={<StudentAttendance />}
+                />
+                <Route
+                  path='/head/register/department'
+                  element={<RDepartment />}
+                />
+                <Route path='/head/register/subject' element={<RSubject />} />
+                <Route path='/head/register/students' element={<RStudents />} />
+                <Route path='/head/register/teachers' element={<RTeachers />} />
+                <Route path='/head/register/program' element={<RProgram />} />
+                <Route path='/head/register/session' element={<RSession />} />
+                <Route path='/head/register/semester' element={<RSemester />} />
+                <Route path='/student/progress' element={<StudentProgress />} />
+                <Route
+                  path='/student/detail-progress'
+                  element={<StudentDetailProgress />}
+                />
+                <Route
+                  path='/head/register/i-department'
+                  element={<IDepartment />}
+                />
+                <Route path='/head/register/i-program' element={<IProgram />} />
+                <Route
+                  path='/head/register/i-semester'
+                  element={<ISemester />}
+                />
+                <Route path='/head/register/i-session' element={<ISession />} />
+                <Route path='/head/register/i-subject' element={<ISubject />} />
+                <Route
+                  path='/student/certificate'
+                  element={<StudentCertificate />}
+                />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </LocalizationProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'
 import {
   Button,
   Divider,
@@ -12,37 +12,37 @@ import {
   OutlinedInput,
   InputAdornment,
   useTheme,
-} from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowBackIos } from '@mui/icons-material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+} from '@mui/material'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { ArrowBackIos } from '@mui/icons-material'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
 const ParentForm = ({ animation }) => {
-  const theme = useTheme();
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const [, setSearchParams] = useSearchParams();
+  const theme = useTheme()
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+  const [, setSearchParams] = useSearchParams()
   const [values, setValues, _, setdepart] = useState({
     password: '',
     showPassword: false,
-  });
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  })
+  const handleMouseDownPassword = event => {
+    event.preventDefault()
+  }
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-    setdepart(event.target.value);
-  };
+  const handleChange = prop => event => {
+    setValues({ ...values, [prop]: event.target.value })
+    setdepart(event.target.value)
+  }
 
   const handleClickShowPassword = () => {
     setValues({
       ...values,
       showPassword: !values.showPassword,
-    });
-  };
+    })
+  }
 
   const opacityAnimate = {
     initial: {
@@ -54,7 +54,7 @@ const ParentForm = ({ animation }) => {
     exit: {
       // opacity: 0,
     },
-  };
+  }
 
   const opacityAnimateDivider = {
     initial: {
@@ -66,7 +66,7 @@ const ParentForm = ({ animation }) => {
     exit: {
       background: 'rgb(200,171,169)',
     },
-  };
+  }
 
   return (
     <Stack
@@ -199,7 +199,7 @@ const ParentForm = ({ animation }) => {
         </IconButton>
       </Stack>
     </Stack>
-  );
-};
+  )
+}
 
-export default ParentForm;
+export default ParentForm
