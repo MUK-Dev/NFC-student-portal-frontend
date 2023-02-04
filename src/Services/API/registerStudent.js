@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const registerStudentRequest = async registerDTO => {
   const { data } = await axios({
-    url: 'http://localhost:6000/api/student/register',
+    url: `${import.meta.env.VITE_API_URL}/student/register`,
     method: 'POST',
     data: registerDTO,
   })

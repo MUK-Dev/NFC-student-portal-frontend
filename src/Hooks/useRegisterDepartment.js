@@ -16,7 +16,7 @@ export default function useRegisterDepartment() {
     }
     try {
       const { data } = await axios({
-        url: 'http://localhost:6000/api/departments',
+        url: `${import.meta.env.VITE_API_URL}/departments`,
         method: 'POST',
         data: d,
       })

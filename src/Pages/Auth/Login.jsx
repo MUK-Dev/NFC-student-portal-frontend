@@ -14,10 +14,12 @@ import * as Yup from 'yup'
 import NFCLogo from '../../Assets/Images/NFC Iet Logo.png'
 import useLogin from '../../Hooks/useLogin'
 import { Formik } from 'formik'
+import { useNavigate } from 'react-router'
 
 const Login = () => {
   const theme = useTheme()
   const { submitForm } = useLogin()
+  const navigate = useNavigate()
 
   const opacityAnimate = {
     initial: {

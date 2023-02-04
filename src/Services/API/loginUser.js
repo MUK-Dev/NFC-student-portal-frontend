@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const loginRequest = async loginDTO => {
   const { data } = await axios({
-    url: 'http://localhost:6000/api/login',
+    url: `${import.meta.env.VITE_API_URL}/login`,
     method: 'POST',
     data: loginDTO,
   })
