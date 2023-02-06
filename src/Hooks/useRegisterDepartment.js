@@ -18,7 +18,7 @@ export default function useRegisterDepartment() {
       description: values.description,
     }
     try {
-      const data = registerDepartmentRequest(token, d)
+      const data = await registerDepartmentRequest(token, d)
       setSubmitting(false)
       console.log(data)
     } catch (err) {
