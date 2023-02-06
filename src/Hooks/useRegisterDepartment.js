@@ -1,6 +1,9 @@
-import axios from 'axios'
+import { registerDepartmentRequest } from '../Services/API/registerDepartment'
+
+import useAuth from './useAuth'
 
 export default function useRegisterDepartment() {
+  const { token } = useAuth()
   const submitForm = async (
     values,
     { setErrors, setStatus, setSubmitting },
@@ -15,11 +18,7 @@ export default function useRegisterDepartment() {
       description: values.description,
     }
     try {
-      const { data } = await axios({
-        url: `${import.meta.env.VITE_API_URL}/departments`,
-        method: 'POST',
-        data: d,
-      })
+      const data = registerDepartmentRequest(token, d)
       setSubmitting(false)
       console.log(data)
     } catch (err) {
