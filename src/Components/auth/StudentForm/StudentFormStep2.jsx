@@ -1,22 +1,22 @@
-import { useState } from 'react';
+import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 import {
+  Button,
+  Divider,
+  FormControl,
+  FormHelperText,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
   Stack,
   TextField,
-  InputLabel,
-  FormControl,
-  Select,
-  MenuItem,
-  Button,
   Typography,
-  Divider,
   useTheme,
-  FormHelperText,
-} from '@mui/material';
-import { motion } from 'framer-motion';
-import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+} from '@mui/material'
+import { Formik } from 'formik'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
+import * as Yup from 'yup'
 
 const StudentForm2 = ({
   animation,
@@ -29,7 +29,7 @@ const StudentForm2 = ({
   nameRef,
   phoneNoRef,
 }) => {
-  const theme = useTheme();
+  const theme = useTheme()
 
   const arrowAnimation = {
     initial: {
@@ -44,28 +44,28 @@ const StudentForm2 = ({
     exit: {
       opacity: 0,
     },
-  };
+  }
 
   const submitForm = async (
     values,
-    { setErrors, setStatus, setSubmitting }
+    { setErrors, setStatus, setSubmitting },
   ) => {
-    setSubmitting(true);
-    nameRef.current = values.name;
-    phoneNoRef.current = values.phoneNo;
+    setSubmitting(true)
+    nameRef.current = values.name
+    phoneNoRef.current = values.phoneNo
     if (gender === '') {
-      setErrors({ gender: 'Gender is required' });
-      setSubmitting(false);
-      return;
+      setErrors({ gender: 'Gender is required' })
+      setSubmitting(false)
+      return
     }
     if (department === '') {
-      setErrors({ department: 'Department is required' });
-      setSubmitting(false);
-      return;
+      setErrors({ department: 'Department is required' })
+      setSubmitting(false)
+      return
     }
-    handleNext();
-    setSubmitting(false);
-  };
+    handleNext()
+    setSubmitting(false)
+  }
 
   const formikOptions = {
     initialValues: {
@@ -79,7 +79,7 @@ const StudentForm2 = ({
       phoneNo: Yup.string().required('Program is required'),
     }),
     onSubmit: submitForm,
-  };
+  }
 
   return (
     <Formik {...formikOptions}>
@@ -159,7 +159,7 @@ const StudentForm2 = ({
                     value={gender}
                     label='Gender'
                     required
-                    onChange={(e) => setGender(e.target.value)}
+                    onChange={e => setGender(e.target.value)}
                   >
                     <MenuItem value='male'>Male</MenuItem>
                     <MenuItem value='female'>Female</MenuItem>
@@ -180,7 +180,7 @@ const StudentForm2 = ({
                     value={department}
                     label='Department'
                     required
-                    onChange={(e) => setDepartment(e.target.value)}
+                    onChange={e => setDepartment(e.target.value)}
                   >
                     <MenuItem value='Computer Science'>
                       Computer Science
@@ -225,7 +225,7 @@ const StudentForm2 = ({
         </form>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default StudentForm2;
+export default StudentForm2

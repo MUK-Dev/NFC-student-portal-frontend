@@ -1,12 +1,12 @@
-import House from '@mui/icons-material/House';
-import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
-import HomeIcon from '@mui/icons-material/Home';
-import FactCheckIcon from '@mui/icons-material/FactCheck';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import GradingIcon from '@mui/icons-material/Grading';
-import GradeIcon from '@mui/icons-material/Grade';
+import FactCheckIcon from '@mui/icons-material/FactCheck'
+import GradeIcon from '@mui/icons-material/Grade'
+import GradingIcon from '@mui/icons-material/Grading'
+import HolidayVillageIcon from '@mui/icons-material/HolidayVillage'
+import HomeIcon from '@mui/icons-material/Home'
+import House from '@mui/icons-material/House'
+import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 
-export const getLinks = (theme) => {
+export const getLinks = theme => {
   return [
     {
       title: 'Home',
@@ -162,5 +162,5 @@ export const getLinks = (theme) => {
         />
       ),
     },
-  ];
-};
+  ]
+}

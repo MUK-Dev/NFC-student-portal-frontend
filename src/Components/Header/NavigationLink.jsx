@@ -1,5 +1,3 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
 import {
   ListItem,
   ListItemButton,
@@ -7,10 +5,12 @@ import {
   ListItemText,
   Tooltip,
   useTheme,
-} from '@mui/material';
+} from '@mui/material'
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 const NavigationLink = ({ path, title, icon }) => {
-  const theme = useTheme();
+  const theme = useTheme()
   return (
     <Tooltip title={title} placement='right'>
       <ListItem disablePadding>
@@ -38,7 +38,7 @@ const NavigationLink = ({ path, title, icon }) => {
         </NavLink>
       </ListItem>
     </Tooltip>
-  );
-};
+  )
+}
 
-export default NavigationLink;
+export default NavigationLink

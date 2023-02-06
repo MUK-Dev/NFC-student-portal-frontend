@@ -1,21 +1,21 @@
-import React from 'react';
+import { CheckBox, CheckBoxOutlineBlank } from '@mui/icons-material'
 import {
-  Button,
-  Grid,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Autocomplete,
-  TextField,
-  Checkbox,
   Avatar,
-} from '@mui/material';
-import { CheckBox, CheckBoxOutlineBlank } from '@mui/icons-material';
+  Button,
+  Checkbox,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from '@mui/material'
+import React from 'react'
 
-const icon = <CheckBoxOutlineBlank fontSize='small' />;
-const checkedIcon = <CheckBox fontSize='small' />;
+const icon = <CheckBoxOutlineBlank fontSize='small' />
+const checkedIcon = <CheckBox fontSize='small' />
 
 const RStudents = () => {
   return (
@@ -32,11 +32,11 @@ const RStudents = () => {
                 <Autocomplete
                   multiple
                   disableCloseOnSelect
-                  options={Array.from(Array(20).keys()).map((i) => ({
+                  options={Array.from(Array(20).keys()).map(i => ({
                     title: `Student ${i}`,
                   }))}
                   fullWidth
-                  getOptionLabel={(option) => option.title}
+                  getOptionLabel={option => option.title}
                   renderOption={(props, option, { selected }) => (
                     <li {...props}>
                       <Checkbox
@@ -53,7 +53,7 @@ const RStudents = () => {
                       {option.title}
                     </li>
                   )}
-                  renderInput={(params) => (
+                  renderInput={params => (
                     <TextField {...params} label='Students' />
                   )}
                 />
@@ -126,7 +126,7 @@ const RStudents = () => {
         </Grid>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default RStudents;
+export default RStudents

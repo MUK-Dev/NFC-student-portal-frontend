@@ -1,29 +1,30 @@
-import { useState } from 'react'
-import { styled, useTheme } from '@mui/material/styles'
-
-import MuiDrawer from '@mui/material/Drawer'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import LogoutIcon from '@mui/icons-material/Logout'
+import MenuIcon from '@mui/icons-material/Menu'
+import { Drawer, useMediaQuery } from '@mui/material'
 import MuiAppBar from '@mui/material/AppBar'
-import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
+import MuiDrawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
-import Toolbar from '@mui/material/Toolbar'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import { styled, useTheme } from '@mui/material/styles'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
 
-import MenuIcon from '@mui/icons-material/Menu'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import LogoutIcon from '@mui/icons-material/Logout'
+import useAuth from '../../Hooks/useAuth'
+
+import { getLinks } from '../../Services/NavigationLinks'
+
+import NFCLogo from '../../Assets/Images/NFC Iet Logo.png'
 
 import NavigationLink from './NavigationLink'
-import { getLinks } from '../../Services/NavigationLinks'
-import { useNavigate } from 'react-router'
-import { Drawer, useMediaQuery } from '@mui/material'
-import NFCLogo from '../../Assets/Images/NFC Iet Logo.png'
-import useAuth from '../../Hooks/useAuth'
 
 const drawerWidth = 270
 
@@ -158,7 +159,7 @@ export default function MiniDrawer() {
               <ListItemIcon>
                 <LogoutIcon
                   htmlColor={theme.palette.getContrastText(
-                    theme.palette.grey[400]
+                    theme.palette.grey[400],
                   )}
                 />
               </ListItemIcon>
@@ -207,7 +208,7 @@ export default function MiniDrawer() {
               <ListItemIcon>
                 <LogoutIcon
                   htmlColor={theme.palette.getContrastText(
-                    theme.palette.grey[400]
+                    theme.palette.grey[400],
                   )}
                 />
               </ListItemIcon>

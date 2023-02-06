@@ -1,12 +1,13 @@
-import { useRef } from 'react'
 import { Stack, Step, StepButton, Stepper } from '@mui/material'
 import { motion } from 'framer-motion'
+import { useRef } from 'react'
 
 import useStepper from '../../../Hooks/useStepper'
+import useStudentRegisterPage from '../../../Hooks/useStudentRegisterForm'
+
 import StudentForm1 from './StudentFormStep1'
 import StudentForm2 from './StudentFormStep2'
 import StudentForm3 from './StudentFormStep3'
-import useStudentRegisterPage from '../../../Hooks/useStudentRegisterForm'
 
 const StudentForm = ({ animation }) => {
   const firstTimeAnimation = useRef(true)

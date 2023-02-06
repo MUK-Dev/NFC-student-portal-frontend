@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useNavigate } from 'react-router'
+
+import useAuth from '../Hooks/useAuth'
 
 import { getUserRequest } from '../Services/API/getUser'
 import { registerStudentRequest } from '../Services/API/registerStudent'
-import useAuth from '../Hooks/useAuth'
-import { useNavigate } from 'react-router'
 
 export default function useStudentRegisterPage() {
   const [gender, setGender] = useState('')
@@ -28,7 +29,7 @@ export default function useStudentRegisterPage() {
       program: programRef.current.toLowerCase(),
       rollNo: rollNoRef.current.toLowerCase(),
     }),
-    [sessionRef.current, programRef.current, rollNoRef.current]
+    [sessionRef.current, programRef.current, rollNoRef.current],
   )
 
   const sendRequest = async () => {
@@ -61,7 +62,7 @@ export default function useStudentRegisterPage() {
 
   useEffect(() => {
     setEmail(
-      `${emailDependents.session}${emailDependents.program}${emailDependents.rollNo}@undergrad.nfciet.edu.pk`
+      `${emailDependents.session}${emailDependents.program}${emailDependents.rollNo}@undergrad.nfciet.edu.pk`,
     )
   }, [emailDependents])
 

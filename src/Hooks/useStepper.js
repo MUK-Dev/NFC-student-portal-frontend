@@ -1,25 +1,25 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 export default function useStepper(firstTimeAnimation) {
-  const [activeStep, setActiveStep] = useState(0);
-  const [completed, setCompleted] = useState({});
-  const steps = ['Step 1', 'Step 2', 'Step 3'];
+  const [activeStep, setActiveStep] = useState(0)
+  const [completed, setCompleted] = useState({})
+  const steps = ['Step 1', 'Step 2', 'Step 3']
 
   const totalSteps = () => {
-    return steps.length;
-  };
+    return steps.length
+  }
 
   const completedSteps = () => {
-    return Object.keys(completed).length;
-  };
+    return Object.keys(completed).length
+  }
 
   const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
-  };
+    return activeStep === totalSteps() - 1
+  }
 
   const allStepsCompleted = () => {
-    return completedSteps() === totalSteps();
-  };
+    return completedSteps() === totalSteps()
+  }
 
   const handleNext = () => {
     const newActiveStep =
@@ -27,27 +27,27 @@ export default function useStepper(firstTimeAnimation) {
         ? // It's the last step, but not all steps have been completed,
           // find the first step that has been completed
           steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1;
-    setActiveStep(newActiveStep);
-  };
+        : activeStep + 1
+    setActiveStep(newActiveStep)
+  }
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+    setActiveStep(prevActiveStep => prevActiveStep - 1)
+  }
 
   const handleReset = () => {
-    firstTimeAnimation.current = false;
-    setActiveStep(0);
-    setCompleted({});
-  };
+    firstTimeAnimation.current = false
+    setActiveStep(0)
+    setCompleted({})
+  }
 
   const handleComplete = () => {
-    firstTimeAnimation.current = false;
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
+    firstTimeAnimation.current = false
+    const newCompleted = completed
+    newCompleted[activeStep] = true
+    setCompleted(newCompleted)
+    handleNext()
+  }
 
   return {
     handleComplete,
@@ -56,5 +56,5 @@ export default function useStepper(firstTimeAnimation) {
     steps,
     completed,
     activeStep,
-  };
+  }
 }

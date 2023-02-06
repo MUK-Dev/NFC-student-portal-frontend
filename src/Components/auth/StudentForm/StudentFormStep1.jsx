@@ -1,17 +1,17 @@
+import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 import {
+  Button,
+  CircularProgress,
   Divider,
   IconButton,
   Stack,
   TextField,
-  Button,
   Typography,
   useTheme,
-  CircularProgress,
 } from '@mui/material'
+import { Formik } from 'formik'
 import { motion } from 'framer-motion'
 import { useSearchParams } from 'react-router-dom'
-import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
-import { Formik } from 'formik'
 import * as Yup from 'yup'
 
 const StudentForm1 = ({
@@ -42,7 +42,7 @@ const StudentForm1 = ({
 
   const submitForm = async (
     values,
-    { setErrors, setStatus, setSubmitting }
+    { setErrors, setStatus, setSubmitting },
   ) => {
     setSubmitting(true)
     sessionRef.current = values.session

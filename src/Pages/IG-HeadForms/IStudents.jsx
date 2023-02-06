@@ -1,13 +1,13 @@
-import React from 'react';
 import {
   Button,
-  Grid,
-  Typography,
   FormControl,
+  Grid,
   InputLabel,
-  Select,
   MenuItem,
-} from '@mui/material';
+  Select,
+  Typography,
+} from '@mui/material'
+import React from 'react'
 
 const IStudents = () => {
   return (
@@ -97,7 +97,7 @@ const IStudents = () => {
         </Grid>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default IStudents;
+export default IStudents

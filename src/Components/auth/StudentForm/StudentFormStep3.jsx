@@ -1,24 +1,24 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
-import {
-  Divider,
-  IconButton,
-  LinearProgress,
-  Stack,
-  OutlinedInput,
-  InputAdornment,
-  InputLabel,
-  FormControl,
-  Button,
-  Typography,
-  useTheme,
-  FormHelperText,
-} from '@mui/material'
-import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowBackIos } from '@mui/icons-material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import {
+  Button,
+  Divider,
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  LinearProgress,
+  OutlinedInput,
+  Stack,
+  Typography,
+  useTheme,
+} from '@mui/material'
 import { Formik } from 'formik'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
 import * as Yup from 'yup'
 
 const StudentForm3 = ({
@@ -95,7 +95,7 @@ const StudentForm3 = ({
 
   const submitForm = async (
     values,
-    { setErrors, setStatus, setSubmitting }
+    { setErrors, setStatus, setSubmitting },
   ) => {
     setIsLoading(true)
     if (values.password !== values.confirm) {

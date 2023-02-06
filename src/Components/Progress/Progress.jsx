@@ -1,13 +1,13 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import LinearProgress from '@mui/material/LinearProgress';
-import { Typography, useMediaQuery, useTheme } from '@mui/material';
-import { Stack } from '@mui/system';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { Typography, useMediaQuery, useTheme } from '@mui/material'
+import Box from '@mui/material/Box'
+import LinearProgress from '@mui/material/LinearProgress'
+import Step from '@mui/material/Step'
+import StepLabel from '@mui/material/StepLabel'
+import Stepper from '@mui/material/Stepper'
+import { Stack } from '@mui/system'
+import * as React from 'react'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 const steps = [
   'Semester 1',
@@ -18,52 +18,52 @@ const steps = [
   'Semester 6',
   'Semester 7',
   'Semester 8',
-];
+]
 
-const maxVal = 65;
+const maxVal = 65
 
 const Progress = () => {
-  const [activeStep, setActiveStep] = useState(-1);
-  const [value, setValue] = useState(0);
-  const [bufferValue, setBufferValue] = useState(10);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [activeStep, setActiveStep] = useState(-1)
+  const [value, setValue] = useState(0)
+  const [bufferValue, setBufferValue] = useState(10)
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   const increaseValue = () => {
-    setActiveStep((prev) => {
-      if (prev >= 6) return prev;
+    setActiveStep(prev => {
+      if (prev >= 6) return prev
       else {
-        setTimeout(increaseValue, 500);
-        return (prev += 1);
+        setTimeout(increaseValue, 500)
+        return (prev += 1)
       }
-    });
-  };
+    })
+  }
 
   const increaseProgressValue = () => {
-    setValue((prev) => {
-      if (prev >= maxVal) return prev;
+    setValue(prev => {
+      if (prev >= maxVal) return prev
       else {
-        setTimeout(increaseProgressValue, 15);
-        return (prev += 1);
+        setTimeout(increaseProgressValue, 15)
+        return (prev += 1)
       }
-    });
-  };
+    })
+  }
 
   const increaseBufferValue = () => {
-    setBufferValue((prev) => {
-      if (prev >= maxVal + 2) return prev;
+    setBufferValue(prev => {
+      if (prev >= maxVal + 2) return prev
       else {
-        setTimeout(increaseBufferValue, 15);
-        return (prev += 1);
+        setTimeout(increaseBufferValue, 15)
+        return (prev += 1)
       }
-    });
-  };
+    })
+  }
 
   useEffect(() => {
-    increaseValue();
-    increaseProgressValue();
-    increaseBufferValue();
-  }, []);
+    increaseValue()
+    increaseProgressValue()
+    increaseBufferValue()
+  }, [])
 
   return (
     <Stack
@@ -119,7 +119,7 @@ const Progress = () => {
           activeStep={activeStep}
           alternativeLabel
         >
-          {steps.map((label) => (
+          {steps.map(label => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
             </Step>
@@ -127,7 +127,7 @@ const Progress = () => {
         </Stepper>
       </Box>
     </Stack>
-  );
-};
+  )
+}
 
-export default Progress;
+export default Progress

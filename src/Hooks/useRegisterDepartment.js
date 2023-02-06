@@ -3,7 +3,7 @@ import axios from 'axios'
 export default function useRegisterDepartment() {
   const submitForm = async (
     values,
-    { setErrors, setStatus, setSubmitting }
+    { setErrors, setStatus, setSubmitting },
   ) => {
     setSubmitting(true)
     const d = {

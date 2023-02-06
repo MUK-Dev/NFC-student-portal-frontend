@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
+
 import { getUserRequest } from '../Services/API/getUser'
 
 export const AuthContext = createContext(null)

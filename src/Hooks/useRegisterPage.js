@@ -1,20 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
-import ParentForm from '../Components/auth/ParentForm';
-import StudentForm from '../Components/auth/StudentForm/StudentForm';
-import RegisterOptions from '../Components/auth/RegisterOptions';
+import ParentForm from '../Components/auth/ParentForm'
+import RegisterOptions from '../Components/auth/RegisterOptions'
+import StudentForm from '../Components/auth/StudentForm/StudentForm'
 
 export default function useRegisterPage() {
-  const [form, setForm] = useState(null);
-  const [xAxis, setXAxis] = useState(0);
-  const [exitXAxis, setExitXAxis] = useState('-100vw');
-  const [searchParams] = useSearchParams();
+  const [form, setForm] = useState(null)
+  const [xAxis, setXAxis] = useState(0)
+  const [exitXAxis, setExitXAxis] = useState('-100vw')
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
-    setXAxis('100vw');
-  }, []);
+    setXAxis('100vw')
+  }, [])
 
   const formAnimation = {
     initial: {
@@ -29,24 +28,24 @@ export default function useRegisterPage() {
     exit: {
       x: exitXAxis,
     },
-  };
+  }
 
   useEffect(() => {
-    const role = searchParams.get('role');
+    const role = searchParams.get('role')
     if (role === 'parent') {
-      setForm(0);
-      setXAxis('-100vw');
-      setExitXAxis('-100vw');
+      setForm(0)
+      setXAxis('-100vw')
+      setExitXAxis('-100vw')
     } else if (role === 'student') {
-      setForm(1);
-      setXAxis('-100vw');
-      setExitXAxis('-100vw');
+      setForm(1)
+      setXAxis('-100vw')
+      setExitXAxis('-100vw')
     } else {
-      setForm(2);
-      setXAxis('100vw');
-      setExitXAxis('100vw');
+      setForm(2)
+      setXAxis('100vw')
+      setExitXAxis('100vw')
     }
-  }, [searchParams]);
+  }, [searchParams])
 
-  return { form, formAnimation };
+  return { form, formAnimation }
 }

@@ -1,5 +1,5 @@
 const StudentCertificate = () => {
-  return <div>Student Certificate</div>;
-};
+  return <div>Student Certificate</div>
+}
 
-export default StudentCertificate;
+export default StudentCertificate

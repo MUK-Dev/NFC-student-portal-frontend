@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { ArrowForwardIos } from '@mui/icons-material'
 import {
   Box,
   Button,
@@ -13,9 +13,10 @@ import {
   Typography,
   useTheme,
 } from '@mui/material'
-import { ArrowForwardIos } from '@mui/icons-material'
 import { Formik } from 'formik'
+import React, { useState } from 'react'
 import * as Yup from 'yup'
+
 import useRegisterDepartment from '../../Hooks/useRegisterDepartment'
 
 /* 

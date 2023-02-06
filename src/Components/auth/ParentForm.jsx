@@ -1,23 +1,23 @@
-import { useState } from 'react'
-import {
-  Button,
-  Divider,
-  IconButton,
-  LinearProgress,
-  TextField,
-  Typography,
-  FormControl,
-  Stack,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  useTheme,
-} from '@mui/material'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ArrowBackIos } from '@mui/icons-material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import {
+  Button,
+  Divider,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  LinearProgress,
+  OutlinedInput,
+  Stack,
+  TextField,
+  Typography,
+  useTheme,
+} from '@mui/material'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const ParentForm = ({ animation }) => {
   const theme = useTheme()

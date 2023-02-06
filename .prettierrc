@@ -1,0 +1,28 @@
+{
+  "importOrder": [
+    "^(.*)(/*)Pages/(.*)$",
+    "^(.*)(/*)Components/(.*)$",
+    "^(.*)(/*)Contexts/(.*)$",
+    "^(.*)(/*)Hooks/(.*)$",
+    "^(.*)(/*)Services/(.*)$",
+    "^(.*)(/*)Utils/(.*)$",
+    "^(.*)(/*)Assets/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "arrowParens": "avoid",
+  "htmlWhitespaceSensitivity": "css",
+  "insertPragma": false,
+  "jsxBracketSameLine": false,
+  "jsxSingleQuote": true,
+  "printWidth": 80,
+  "proseWrap": "always",
+  "quoteProps": "as-needed",
+  "requirePragma": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "useTabs": false,
+  "semi": false
+}
