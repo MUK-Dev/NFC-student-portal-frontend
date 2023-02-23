@@ -8,6 +8,8 @@ import StudentForm from '../../Components/auth/StudentForm/StudentForm'
 
 import useRegisterPage from '../../Hooks/useRegisterPage'
 
+import AuthGuard from '../../Utils/AuthGuard'
+
 import NFCLogo from '../../Assets/Images/NFC Iet Logo.png'
 
 const Register = () => {
@@ -18,23 +20,25 @@ const Register = () => {
   else if (form === 2) f = <RegisterOptions animation={formAnimation} />
 
   return (
-    <Stack
-      direction='column'
-      alignItems='center'
-      width='100%'
-      minHeight='100vh'
-      paddingTop='40%'
-    >
-      <img
-        src={NFCLogo}
-        style={{
-          width: 100,
-          height: 90,
-        }}
-        alt='Logo'
-      />
-      <AnimatePresence mode='wait'>{f}</AnimatePresence>
-    </Stack>
+    <AuthGuard path='/register'>
+      <Stack
+        direction='column'
+        alignItems='center'
+        width='100%'
+        minHeight='100vh'
+        paddingTop='40%'
+      >
+        <img
+          src={NFCLogo}
+          style={{
+            width: 100,
+            height: 90,
+          }}
+          alt='Logo'
+        />
+        <AnimatePresence mode='wait'>{f}</AnimatePresence>
+      </Stack>
+    </AuthGuard>
   )
 }
 

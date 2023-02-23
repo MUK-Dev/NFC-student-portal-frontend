@@ -13,13 +13,13 @@ const AuthProvider = ({ children }) => {
 
   const setAccessToken = token => localStorage.setItem('token', token)
   const getAccessToken = () => localStorage.getItem('token')
+  const deleteAccessToken = () => localStorage.removeItem('token')
 
   const reAuthenticate = async () => {
     setIsAuthLoading(prev => true)
     const t = getAccessToken()
     if (!t) {
       setIsAuthLoading(prev => false)
-      navigate('/')
       return
     }
     try {
@@ -31,6 +31,12 @@ const AuthProvider = ({ children }) => {
       navigate('/')
       setIsAuthLoading(prev => false)
     }
+  }
+
+  const logout = () => {
+    setToken(null)
+    setUser(null)
+    deleteAccessToken()
   }
 
   useEffect(() => {
@@ -47,6 +53,7 @@ const AuthProvider = ({ children }) => {
         setAccessToken,
         getAccessToken,
         isAuthLoading,
+        logout,
       }}
     >
       {children}
