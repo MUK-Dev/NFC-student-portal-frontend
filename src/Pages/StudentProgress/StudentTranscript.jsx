@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Typography } from '@mui/material';
+import { Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 
 const StudentsTranscript = () => {
-  return <Typography>Transcript</Typography>;
-};
+  return <Typography>Transcript</Typography>
+}
 
-export default StudentsTranscript;
+export default StudentsTranscript

@@ -6,11 +6,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import Login from './Pages/Auth/Login'
 import Register from './Pages/Auth/Register'
-import IDepartment from './Pages/IG-HeadForms/IDepartment'
-import IProgram from './Pages/IG-HeadForms/IProgram'
-import ISemester from './Pages/IG-HeadForms/ISemester'
-import ISession from './Pages/IG-HeadForms/ISession'
-import ISubject from './Pages/IG-HeadForms/ISubject'
+import RDepartment from './Pages/HeadForms/RDepartment'
+import RProgram from './Pages/HeadForms/RProgram'
+import RSemester from './Pages/HeadForms/RSemester'
+import RSession from './Pages/HeadForms/RSession'
+import RStudents from './Pages/HeadForms/RStudents'
+import RSubject from './Pages/HeadForms/RSubject'
+import RTeachers from './Pages/HeadForms/RTeachers'
 import AuthLayout from './Pages/Layouts/AuthLayout'
 import DashboardLayout from './Pages/Layouts/DashboardLayout'
 import StudentAttendance from './Pages/StudentAttendance/StudentAttendance'
@@ -18,13 +20,7 @@ import StudentCertificate from './Pages/StudentCertificate/StudentCertificate'
 import StudentDashboard from './Pages/StudentDashboard/StudentDashboard'
 import StudentDetailProgress from './Pages/StudentProgress/StudentDetailProgress'
 import StudentProgress from './Pages/StudentProgress/StudentProgress'
-import RDepartment from './Pages/UG-HeadForms/RDepartment'
-import RProgram from './Pages/UG-HeadForms/RProgram'
-import RSemester from './Pages/UG-HeadForms/RSemester'
-import RSession from './Pages/UG-HeadForms/RSession'
-import RStudents from './Pages/UG-HeadForms/RStudents'
-import RSubject from './Pages/UG-HeadForms/RSubject'
-import RTeachers from './Pages/UG-HeadForms/RTeachers'
+import StudentsTranscript from './Pages/StudentProgress/StudentTranscript'
 
 import AuthProvider from './Contexts/AuthContext'
 
@@ -74,20 +70,13 @@ const App = () => {
                 <Route path='/head/register/semester' element={<RSemester />} />
                 <Route path='/student/progress' element={<StudentProgress />} />
                 <Route
+                  path='/student/transcript'
+                  element={<StudentsTranscript />}
+                />
+                <Route
                   path='/student/detail-progress'
                   element={<StudentDetailProgress />}
                 />
-                <Route
-                  path='/head/register/i-department'
-                  element={<IDepartment />}
-                />
-                <Route path='/head/register/i-program' element={<IProgram />} />
-                <Route
-                  path='/head/register/i-semester'
-                  element={<ISemester />}
-                />
-                <Route path='/head/register/i-session' element={<ISession />} />
-                <Route path='/head/register/i-subject' element={<ISubject />} />
                 <Route
                   path='/student/certificate'
                   element={<StudentCertificate />}

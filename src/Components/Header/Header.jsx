@@ -30,10 +30,10 @@ const drawerWidth = 270
 
 export default function MiniDrawer() {
   const theme = useTheme()
-  const links = getLinks(theme)
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
   const { user } = useAuth()
+  const links = getLinks(theme, user.role)
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
