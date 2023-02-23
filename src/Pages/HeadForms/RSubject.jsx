@@ -33,11 +33,11 @@ const RSubject = () => {
       <Box sx={{ width: 250 }}>
         <List>
           {[
-            'Student Name',
-            'Student Name',
-            'Student Name',
-            'Student Name',
-            'Student Name',
+            'Subject 1',
+            'Subject 2',
+            'Subject 3',
+            'Subject 4',
+            'Subject 5',
           ].map((text, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton>
@@ -179,7 +179,7 @@ const RSubject = () => {
               writingMode: 'vertical-rl',
             }}
           >
-            Students Enrolled
+            Show Subjects
           </Typography>
           <ArrowForwardIos htmlColor={theme.palette.warning.main} />
         </Stack>

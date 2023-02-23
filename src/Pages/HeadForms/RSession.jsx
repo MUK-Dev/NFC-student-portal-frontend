@@ -34,11 +34,11 @@ const RSession = () => {
       <Box sx={{ width: 250 }}>
         <List>
           {[
-            'Untitled Semester',
-            'Untitled Semester',
-            'Untitled Semester',
-            'Untitled Semester',
-            'Untitled Semester',
+            'Session 1',
+            'Session 2',
+            'Session 3',
+            'Session 4',
+            'Session 5',
           ].map((text, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton>
@@ -142,7 +142,7 @@ const RSession = () => {
               writingMode: 'vertical-rl',
             }}
           >
-            Semesters
+            Show Sessions
           </Typography>
           <ArrowForwardIos htmlColor={theme.palette.warning.main} />
         </Stack>

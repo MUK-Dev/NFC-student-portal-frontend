@@ -1,9 +1,15 @@
+import AccessibilityIcon from '@mui/icons-material/Accessibility'
+import ApartmentIcon from '@mui/icons-material/Apartment'
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import FactCheckIcon from '@mui/icons-material/FactCheck'
 import GradeIcon from '@mui/icons-material/Grade'
 import GradingIcon from '@mui/icons-material/Grading'
-import HolidayVillageIcon from '@mui/icons-material/HolidayVillage'
 import HomeIcon from '@mui/icons-material/Home'
 import House from '@mui/icons-material/House'
+import LayersIcon from '@mui/icons-material/Layers'
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
+import MenuBookIcon from '@mui/icons-material/MenuBook'
+import SchoolIcon from '@mui/icons-material/School'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 
 export const getLinks = (theme, role) => {
@@ -73,7 +79,7 @@ export const getLinks = (theme, role) => {
         title: 'Department',
         path: '/head/register/department',
         icon: (
-          <House
+          <ApartmentIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),
@@ -82,7 +88,7 @@ export const getLinks = (theme, role) => {
         title: 'Program',
         path: '/head/register/program',
         icon: (
-          <House
+          <LayersIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),
@@ -91,7 +97,7 @@ export const getLinks = (theme, role) => {
         title: 'Session',
         path: '/head/register/session',
         icon: (
-          <House
+          <CalendarTodayIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),
@@ -100,7 +106,7 @@ export const getLinks = (theme, role) => {
         title: 'Semester',
         path: '/head/register/semester',
         icon: (
-          <House
+          <MenuBookIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),
@@ -109,7 +115,7 @@ export const getLinks = (theme, role) => {
         title: 'Subject',
         path: '/head/register/subject',
         icon: (
-          <House
+          <LibraryBooksIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),
@@ -118,7 +124,7 @@ export const getLinks = (theme, role) => {
         title: 'Students',
         path: '/head/register/students',
         icon: (
-          <House
+          <AccessibilityIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),
@@ -127,7 +133,7 @@ export const getLinks = (theme, role) => {
         title: 'Teachers',
         path: '/head/register/teachers',
         icon: (
-          <House
+          <SchoolIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),
