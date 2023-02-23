@@ -1,35 +1,35 @@
-import React, { useState } from 'react';
+import { ArrowForwardIos } from '@mui/icons-material'
 import {
   Box,
   Button,
   Drawer,
+  FormControl,
   Grid,
+  InputLabel,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Typography,
   useTheme,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from '@mui/material';
-import { ArrowForwardIos } from '@mui/icons-material';
-import { MobileDatePicker } from '@mui/x-date-pickers';
-import moment from 'moment';
+} from '@mui/material'
+import { MobileDatePicker } from '@mui/x-date-pickers'
+import moment from 'moment'
+import React, { useState } from 'react'
 
 const RSession = () => {
-  const [showDrawer, setShowDrawer] = useState(false);
-  const theme = useTheme();
+  const [showDrawer, setShowDrawer] = useState(false)
+  const theme = useTheme()
 
   const drawer = (
     <Drawer
       anchor='right'
       open={showDrawer}
-      onClose={() => setShowDrawer((prev) => !prev)}
+      onClose={() => setShowDrawer(prev => !prev)}
     >
       <Box sx={{ width: 250 }}>
         <List>
@@ -49,7 +49,7 @@ const RSession = () => {
         </List>
       </Box>
     </Drawer>
-  );
+  )
 
   return (
     <Grid container flexWrap='nowrap'>
@@ -90,7 +90,7 @@ const RSession = () => {
                   label='Starting Date'
                   inputFormat='MM/DD/YYYY'
                   value={moment()}
-                  renderInput={(params) => <TextField {...params} fullWidth />}
+                  renderInput={params => <TextField {...params} fullWidth />}
                 />
               </Grid>
 
@@ -99,7 +99,7 @@ const RSession = () => {
                   label='Ending Date'
                   inputFormat='MM/DD/YYYY'
                   value={moment()}
-                  renderInput={(params) => <TextField {...params} fullWidth />}
+                  renderInput={params => <TextField {...params} fullWidth />}
                 />
               </Grid>
 
@@ -146,7 +146,7 @@ const RSession = () => {
           alignItems='center'
           justifyContent='center'
           height='100%'
-          onClick={() => setShowDrawer((prev) => !prev)}
+          onClick={() => setShowDrawer(prev => !prev)}
           sx={{
             cursor: 'pointer',
           }}
@@ -164,7 +164,7 @@ const RSession = () => {
       </Grid>
       {drawer}
     </Grid>
-  );
-};
+  )
+}
 
-export default RSession;
+export default RSession

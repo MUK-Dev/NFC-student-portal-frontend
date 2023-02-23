@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
+import { ArrowForwardIos } from '@mui/icons-material'
 import {
   Box,
   Button,
   Drawer,
+  FormControl,
   Grid,
+  InputLabel,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
+  MenuItem,
+  Select,
+  Slider,
   Stack,
   TextField,
   Typography,
   useTheme,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Slider,
-} from '@mui/material';
-import { ArrowForwardIos } from '@mui/icons-material';
+} from '@mui/material'
+import React, { useState } from 'react'
 
 const RSubject = () => {
-  const [showDrawer, setShowDrawer] = useState(false);
-  const theme = useTheme();
+  const [showDrawer, setShowDrawer] = useState(false)
+  const theme = useTheme()
 
   const drawer = (
     <Drawer
       anchor='right'
       open={showDrawer}
-      onClose={() => setShowDrawer((prev) => !prev)}
+      onClose={() => setShowDrawer(prev => !prev)}
     >
       <Box sx={{ width: 250 }}>
         <List>
@@ -48,7 +48,7 @@ const RSubject = () => {
         </List>
       </Box>
     </Drawer>
-  );
+  )
 
   return (
     <Grid container flexWrap='nowrap'>
@@ -168,7 +168,7 @@ const RSubject = () => {
           alignItems='center'
           justifyContent='center'
           height='100%'
-          onClick={() => setShowDrawer((prev) => !prev)}
+          onClick={() => setShowDrawer(prev => !prev)}
           sx={{
             cursor: 'pointer',
           }}
@@ -186,7 +186,7 @@ const RSubject = () => {
       </Grid>
       {drawer}
     </Grid>
-  );
-};
+  )
+}
 
-export default RSubject;
+export default RSubject

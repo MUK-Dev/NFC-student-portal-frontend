@@ -1,15 +1,16 @@
-import { Button, Grid, Paper, useMediaQuery, useTheme } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import BarChart from '../../Components/Charts/BarChart';
+import { Button, Grid, Paper, useMediaQuery, useTheme } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+
+import BarChart from '../../Components/Charts/BarChart'
 // import Scheduler from 'react-mui-scheduler';
 // import { useState } from 'react';
-import Progress from '../../Components/Progress/Progress';
-import SemesterDetailTable from '../../Components/Progress/SemesterDetailTable';
+import Progress from '../../Components/Progress/Progress'
+import SemesterDetailTable from '../../Components/Progress/SemesterDetailTable'
 
 const StudentProgress = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const navigate = useNavigate();
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const navigate = useNavigate()
   return (
     <Grid container direction='column' width='100%' gap='1em'>
       <Grid item>
@@ -90,7 +91,7 @@ const StudentProgress = () => {
         </Grid>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default StudentProgress;
+export default StudentProgress

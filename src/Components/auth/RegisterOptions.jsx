@@ -1,11 +1,11 @@
-import { Button, Divider, Stack, Typography, useTheme } from '@mui/material';
-import { motion } from 'framer-motion';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Button, Divider, Stack, Typography, useTheme } from '@mui/material'
+import { motion } from 'framer-motion'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const RegisterOptions = ({ animation }) => {
-  const theme = useTheme();
-  const navigate = useNavigate();
-  const [, setSearchParams] = useSearchParams();
+  const theme = useTheme()
+  const navigate = useNavigate()
+  const [, setSearchParams] = useSearchParams()
 
   return (
     <Stack
@@ -61,7 +61,7 @@ const RegisterOptions = ({ animation }) => {
         </Typography>
       </Stack>
     </Stack>
-  );
-};
+  )
+}
 
-export default RegisterOptions;
+export default RegisterOptions

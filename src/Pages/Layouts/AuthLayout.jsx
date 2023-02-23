@@ -1,7 +1,7 @@
-import { Grid } from '@mui/material';
-import { Outlet } from 'react-router-dom';
+import { Grid } from '@mui/material'
+import { Outlet } from 'react-router-dom'
 
-import AuthLeftImage from '../../Assets/Images/auth-left-image.jpg';
+import AuthLeftImage from '../../Assets/Images/auth-left-image.jpg'
 
 const AuthLayout = ({ children }) => {
   return (
@@ -25,7 +25,7 @@ const AuthLayout = ({ children }) => {
         <Outlet />
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default AuthLayout;
+export default AuthLayout

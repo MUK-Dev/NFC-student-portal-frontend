@@ -1,16 +1,35 @@
-import { useRef } from 'react';
-import { Stack, Step, StepButton, Stepper } from '@mui/material';
-import { motion } from 'framer-motion';
+import { Stack, Step, StepButton, Stepper } from '@mui/material'
+import { motion } from 'framer-motion'
+import { useRef } from 'react'
 
-import useStepper from '../../../Hooks/useStepper';
-import StudentForm1 from './StudentFormStep1';
-import StudentForm2 from './StudentFormStep2';
-import StudentForm3 from './StudentFormStep3';
+import useStepper from '../../../Hooks/useStepper'
+import useStudentRegisterPage from '../../../Hooks/useStudentRegisterForm'
+
+import StudentForm1 from './StudentFormStep1'
+import StudentForm2 from './StudentFormStep2'
+import StudentForm3 from './StudentFormStep3'
 
 const StudentForm = ({ animation }) => {
-  const firstTimeAnimation = useRef(true);
+  const firstTimeAnimation = useRef(true)
   const { handleComplete, handleReset, handleBack, steps, activeStep } =
-    useStepper(firstTimeAnimation);
+    useStepper(firstTimeAnimation)
+  const {
+    department,
+    gender,
+    setDepartment,
+    setGender,
+    programRef,
+    rollNoRef,
+    sectionRef,
+    sessionRef,
+    nameRef,
+    phoneNoRef,
+    confirmRef,
+    passwordRef,
+    email,
+    sendRequest,
+    error,
+  } = useStudentRegisterPage()
 
   return (
     <Stack
@@ -35,15 +54,37 @@ const StudentForm = ({ animation }) => {
           reset={handleReset}
           handleNext={handleComplete}
           animation={firstTimeAnimation.current && animation}
+          programRef={programRef}
+          rollNoRef={rollNoRef}
+          sectionRef={sectionRef}
+          sessionRef={sessionRef}
         />
       )}
       {activeStep === 1 && (
-        <StudentForm2 handleNext={handleComplete} handleBack={handleBack} />
+        <StudentForm2
+          handleNext={handleComplete}
+          handleBack={handleBack}
+          department={department}
+          setDepartment={setDepartment}
+          gender={gender}
+          setGender={setGender}
+          nameRef={nameRef}
+          phoneNoRef={phoneNoRef}
+        />
       )}
 
-      {activeStep === 2 && <StudentForm3 handleBack={handleBack} />}
+      {activeStep === 2 && (
+        <StudentForm3
+          handleBack={handleBack}
+          confirmRef={confirmRef}
+          passwordRef={passwordRef}
+          email={email}
+          sendRequest={sendRequest}
+          finalError={error}
+        />
+      )}
     </Stack>
-  );
-};
+  )
+}
 
-export default StudentForm;
+export default StudentForm

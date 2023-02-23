@@ -1,8 +1,8 @@
-import { Box } from '@mui/material';
-import { Outlet } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
+import { Box } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import { Outlet } from 'react-router-dom'
 
-import Header from '../../Components/Header/Header';
+import Header from '../../Components/Header/Header'
 
 const DashboardLayout = () => {
   const DrawerHeader = styled('div')(({ theme }) => ({
@@ -12,7 +12,7 @@ const DashboardLayout = () => {
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-  }));
+  }))
 
   return (
     <Box
@@ -30,7 +30,7 @@ const DashboardLayout = () => {
         <Outlet />
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default DashboardLayout;
+export default DashboardLayout

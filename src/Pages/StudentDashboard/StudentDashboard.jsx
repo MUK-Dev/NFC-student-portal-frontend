@@ -1,10 +1,11 @@
-import { Grid, Paper, useTheme, useMediaQuery } from '@mui/material';
-import AreaChart from '../../Components/Charts/AreaChart';
-import Progress from '../../Components/Progress/Progress';
+import { Grid, Paper, useMediaQuery, useTheme } from '@mui/material'
+
+import AreaChart from '../../Components/Charts/AreaChart'
+import Progress from '../../Components/Progress/Progress'
 
 const Dashboard = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
     <Grid container direction='column' width='100%' gap='1em'>
@@ -46,7 +47,7 @@ const Dashboard = () => {
         </Grid>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

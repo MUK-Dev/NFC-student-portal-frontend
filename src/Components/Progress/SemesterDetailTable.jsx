@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell, { tableCellClasses } from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import { styled } from '@mui/material/styles'
+import * as React from 'react'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -15,7 +15,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     fontSize: 12,
   },
-}));
+}))
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -25,10 +25,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:last-child td, &:last-child th': {
     border: 0,
   },
-}));
+}))
 
 function createData(subject, teacher, hours) {
-  return { subject, teacher, hours };
+  return { subject, teacher, hours }
 }
 
 const rows = [
@@ -39,12 +39,7 @@ const rows = [
   createData('Gingerbread', 356, 16.0),
   createData('Frozen yoghurt', 159, 6.0),
   createData('Desin and Analysis of Algorithm', "Ma'am Ujala Saleem", '3 + 1'),
-];
-
-
-
-
-
+]
 
 export default function SemesterDetailTable() {
   return (
@@ -67,7 +62,7 @@ export default function SemesterDetailTable() {
           </TableRow>
         </TableHead>
         <TableBody sx={{ overflowY: 'auto' }}>
-          {rows.map((row) => (
+          {rows.map(row => (
             <StyledTableRow key={row.subject}>
               <StyledTableCell align='left' sx={{ padding: '1%' }}>
                 {row.subject}
@@ -83,6 +78,5 @@ export default function SemesterDetailTable() {
         </TableBody>
       </Table>
     </TableContainer>
-  );
+  )
 }
-

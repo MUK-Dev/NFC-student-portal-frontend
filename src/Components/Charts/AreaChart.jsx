@@ -1,8 +1,8 @@
-import { useTheme } from '@mui/material';
-import Chart from 'react-apexcharts';
+import { useTheme } from '@mui/material'
+import Chart from 'react-apexcharts'
 
 const AreaChart = ({ series }) => {
-  const theme = useTheme();
+  const theme = useTheme()
   return (
     <Chart
       options={{
@@ -34,7 +34,7 @@ const AreaChart = ({ series }) => {
       height='95%'
       width='100%'
     />
-  );
-};
+  )
+}
 
-export default AreaChart;
+export default AreaChart

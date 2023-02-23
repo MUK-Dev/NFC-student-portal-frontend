@@ -1,8 +1,8 @@
-import { useTheme } from '@mui/material';
-import Chart from 'react-apexcharts';
+import { useTheme } from '@mui/material'
+import Chart from 'react-apexcharts'
 
 const BarChart = ({ series }) => {
-  const theme = useTheme();
+  const theme = useTheme()
   return (
     <Chart
       options={{
@@ -36,7 +36,7 @@ const BarChart = ({ series }) => {
       height='80%'
       width='100%'
     />
-  );
-};
+  )
+}
 
-export default BarChart;
+export default BarChart

@@ -1,38 +1,41 @@
-import { useState } from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import LogoutIcon from '@mui/icons-material/Logout'
+import MenuIcon from '@mui/icons-material/Menu'
+import { Drawer, useMediaQuery } from '@mui/material'
+import MuiAppBar from '@mui/material/AppBar'
+import Divider from '@mui/material/Divider'
+import MuiDrawer from '@mui/material/Drawer'
+import IconButton from '@mui/material/IconButton'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import { styled, useTheme } from '@mui/material/styles'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
 
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import useAuth from '../../Hooks/useAuth'
 
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { getLinks } from '../../Services/NavigationLinks'
 
-import NavigationLink from './NavigationLink';
-import { getLinks } from '../../Services/NavigationLinks';
-import { useNavigate } from 'react-router';
-import { Drawer, useMediaQuery } from '@mui/material';
-import NFCLogo from '../../Assets/Images/NFC Iet Logo.png';
+import NFCLogo from '../../Assets/Images/NFC Iet Logo.png'
 
-const drawerWidth = 270;
+import NavigationLink from './NavigationLink'
+
+const drawerWidth = 270
 
 export default function MiniDrawer() {
-  const theme = useTheme();
-  const links = getLinks(theme);
-  const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
+  const theme = useTheme()
+  const links = getLinks(theme)
+  const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
+  const { user } = useAuth()
 
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   // const openedMixin = (theme) => ({
   //   width: drawerWidth,
@@ -43,7 +46,7 @@ export default function MiniDrawer() {
   //   overflowX: 'hidden',
   // });
 
-  const closedMixin = (theme) => ({
+  const closedMixin = theme => ({
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -53,7 +56,7 @@ export default function MiniDrawer() {
     [theme.breakpoints.up('sm')]: {
       width: `calc(${theme.spacing(8)} + 1px)`,
     },
-  });
+  })
 
   const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -63,10 +66,10 @@ export default function MiniDrawer() {
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-  }));
+  }))
 
   const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
+    shouldForwardProp: prop => prop !== 'open',
   })(({ theme, open }) => ({
     // zIndex: isMobile ? theme.zIndex.drawer - 1 : theme.zIndex.drawer + 1,
     zIndex: theme.zIndex.drawer - 1,
@@ -82,10 +85,10 @@ export default function MiniDrawer() {
     //     duration: theme.transitions.duration.enteringScreen,
     //   }),
     // }),
-  }));
+  }))
 
   const DesktopDrawer = styled(MuiDrawer, {
-    shouldForwardProp: (prop) => prop !== 'open',
+    shouldForwardProp: prop => prop !== 'open',
   })(({ theme, open }) => ({
     width: drawerWidth,
     flexShrink: 0,
@@ -99,19 +102,19 @@ export default function MiniDrawer() {
 
     ...closedMixin(theme),
     '& .MuiDrawer-paper': closedMixin(theme),
-  }));
+  }))
 
   const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleDrawerClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   const logout = () => {
-    navigate('/');
-  };
+    navigate('/')
+  }
 
   const desktopDrawer = (
     <DesktopDrawer
@@ -156,7 +159,7 @@ export default function MiniDrawer() {
               <ListItemIcon>
                 <LogoutIcon
                   htmlColor={theme.palette.getContrastText(
-                    theme.palette.grey[400]
+                    theme.palette.grey[400],
                   )}
                 />
               </ListItemIcon>
@@ -166,7 +169,7 @@ export default function MiniDrawer() {
         ))}
       </List>
     </DesktopDrawer>
-  );
+  )
 
   const mobileDrawer = (
     <Drawer open={open} onClose={handleDrawerClose}>
@@ -205,7 +208,7 @@ export default function MiniDrawer() {
               <ListItemIcon>
                 <LogoutIcon
                   htmlColor={theme.palette.getContrastText(
-                    theme.palette.grey[400]
+                    theme.palette.grey[400],
                   )}
                 />
               </ListItemIcon>
@@ -215,7 +218,7 @@ export default function MiniDrawer() {
         ))}
       </List>
     </Drawer>
-  );
+  )
 
   return (
     <>
@@ -229,7 +232,7 @@ export default function MiniDrawer() {
           <IconButton
             color='inherit'
             aria-label='open drawer'
-            onClick={() => setOpen((prev) => !prev)}
+            onClick={() => setOpen(prev => !prev)}
             edge='start'
             sx={{
               marginRight: { xs: 0, md: 5 },
@@ -250,10 +253,13 @@ export default function MiniDrawer() {
           <Typography variant='h6' noWrap component='div'>
             NFC IET Student Portal
           </Typography>
+          <Typography variant='h6' noWrap component='div'>
+            {user?.name}
+          </Typography>
         </Toolbar>
       </AppBar>
       {mobileDrawer}
       {!isMobile && desktopDrawer}
     </>
-  );
+  )
 }
