@@ -55,7 +55,18 @@ export const getLinks = (theme, role) => {
         ),
       },
     ]
-  // else if (role === 'Parent') return []
+  else if (role === 'Parent')
+    return [
+      {
+        title: 'Attendance',
+        path: '/student/attendance',
+        icon: (
+          <FactCheckIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+    ]
   else if (role === 'Admin')
     return [
       {

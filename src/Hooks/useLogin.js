@@ -21,7 +21,14 @@ export default function useLogin() {
       setToken(token)
       setAccessToken(token)
       setUser(user)
-      navigate('/student/home')
+      if (user.role === 'Student') {
+        navigate('/student/home')
+      } else if (user.role === 'Parent') {
+        navigate('/student/attendance')
+      } else if (user.role === 'Admin') {
+        navigate('/head/register/department')
+      }
+      // else if(user.role === "Teacher")
     } catch (err) {
       setErrors({ [err.response.data.type]: err.response.data.message })
     }
