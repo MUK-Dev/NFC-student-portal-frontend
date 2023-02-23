@@ -25,6 +25,7 @@ import ISubject from './Pages/IG-HeadForms/ISubject';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import StudentDetailProgress from './Pages/StudentProgress/StudentDetailProgress';
+import StudentTranscript from './Pages/StudentProgress/StudentTranscript';
 
 const App = () => {
   // #dcdfca
@@ -85,6 +86,10 @@ const App = () => {
               <Route
                 path='/student/certificate'
                 element={<StudentCertificate />}
+              />
+              <Route
+                path='/student/transcript'
+                element={<StudentTranscript />}
               />
             </Route>
           </Routes>
