@@ -6,7 +6,12 @@ import HomeIcon from '@mui/icons-material/Home'
 import House from '@mui/icons-material/House'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 
-export const getLinks = theme => {
+export const getLinks = (theme, role) => {
+  // if(role === 'Student') return []
+  // else if (role === 'Parent') return []
+  // else if (role === 'Admin') return []
+  // else if (role === 'Teacher') return []
+
   return [
     {
       title: 'Home',

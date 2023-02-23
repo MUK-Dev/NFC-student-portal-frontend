@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { getUserRequest } from '../Services/API/getUser'
@@ -9,7 +10,7 @@ export default function useLogin() {
   const navigate = useNavigate()
   const { setToken, setUser, setAccessToken } = useAuth()
 
-  const submitForm = async (values, { setSubmitting }) => {
+  const submitForm = async (values, { setSubmitting, setErrors }) => {
     const d = {
       email: values.email,
       password: values.password,
@@ -22,7 +23,7 @@ export default function useLogin() {
       setUser(user)
       navigate('/student/home')
     } catch (err) {
-      console.log(err)
+      setErrors({ [err.response.data.type]: err.response.data.message })
     }
   }
 

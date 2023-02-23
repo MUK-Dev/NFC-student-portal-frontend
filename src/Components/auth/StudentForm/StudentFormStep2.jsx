@@ -15,8 +15,9 @@ import {
 } from '@mui/material'
 import { Formik } from 'formik'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
 import * as Yup from 'yup'
+
+import useAuth from '../../../Hooks/useAuth'
 
 const StudentForm2 = ({
   animation,
@@ -30,6 +31,9 @@ const StudentForm2 = ({
   phoneNoRef,
 }) => {
   const theme = useTheme()
+  const { user, token } = useAuth()
+
+  console.log(user, token)
 
   const arrowAnimation = {
     initial: {
