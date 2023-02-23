@@ -134,4 +134,5 @@ export const getLinks = (theme, role) => {
       },
     ]
   // else if (role === 'Teacher') return []
+  else return []
 }
