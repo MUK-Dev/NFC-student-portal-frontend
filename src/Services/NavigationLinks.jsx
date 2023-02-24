@@ -162,5 +162,14 @@ export const getLinks = theme => {
         />
       ),
     },
+    {
+      title: 'Parent-Home',
+      path: '/student/parent/home',
+      icon: (
+        <HolidayVillageIcon
+          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+        />
+      ),
+    },
   ]
 }

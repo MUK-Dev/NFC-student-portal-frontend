@@ -25,7 +25,7 @@ import RSession from './Pages/UG-HeadForms/RSession'
 import RStudents from './Pages/UG-HeadForms/RStudents'
 import RSubject from './Pages/UG-HeadForms/RSubject'
 import RTeachers from './Pages/UG-HeadForms/RTeachers'
-
+import ParentHome from './Pages/Parent-Home/Parent_Home'
 import AuthProvider from './Contexts/AuthContext'
 
 const App = () => {
@@ -92,6 +92,8 @@ const App = () => {
                   path='/student/certificate'
                   element={<StudentCertificate />}
                 />
+                <Route path='/student/parent/home' element={<ParentHome />} />
+
               </Route>
             </Routes>
           </LocalizationProvider>
