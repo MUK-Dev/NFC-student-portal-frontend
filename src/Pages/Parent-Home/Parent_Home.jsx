@@ -111,31 +111,15 @@ export default function Parent_Home() {
               <ListItemAvatar>
                 <Avatar alt='Cindy Baker' src='/static/images/avatar/3.jpg' />
               </ListItemAvatar>
-              <ListItemText
-                primary='Name'
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component='span'
-                      variant='body2'
-                      color='text.primary'
-                    >
-                      Roll No.
-                    </Typography>
-                  </React.Fragment>
-                }
-              />
+              <ListItemText primary='Name' secondary='Roll No.' />
             </ListItem>
           </List>
         </Stack>
       </Grid>
       <Grid item md={3} xs={12}>
         <Paper>
-          <center>
-            {' '}
-            <Typography>History</Typography>
-          </center>
+          {/* No html tags */}
+          <Typography align='center'>History</Typography>
           <List
             sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
           >
