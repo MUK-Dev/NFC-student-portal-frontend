@@ -2,7 +2,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
-import { Drawer, useMediaQuery } from '@mui/material'
+import { Avatar, Drawer, Stack, useMediaQuery } from '@mui/material'
 import MuiAppBar from '@mui/material/AppBar'
 import Divider from '@mui/material/Divider'
 import MuiDrawer from '@mui/material/Drawer'
@@ -30,21 +30,13 @@ const drawerWidth = 270
 
 export default function MiniDrawer() {
   const theme = useTheme()
-  const links = getLinks(theme)
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
+
+  const links = getLinks(theme, user?.role)
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-
-  // const openedMixin = (theme) => ({
-  //   width: drawerWidth,
-  //   transition: theme.transitions.create('width', {
-  //     easing: theme.transitions.easing.sharp,
-  //     duration: theme.transitions.duration.enteringScreen,
-  //   }),
-  //   overflowX: 'hidden',
-  // });
 
   const closedMixin = theme => ({
     transition: theme.transitions.create('width', {
@@ -64,27 +56,17 @@ export default function MiniDrawer() {
     justifyContent: 'flex-end',
     borderTop: 'none',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   }))
 
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: prop => prop !== 'open',
   })(({ theme, open }) => ({
-    // zIndex: isMobile ? theme.zIndex.drawer - 1 : theme.zIndex.drawer + 1,
     zIndex: theme.zIndex.drawer - 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    // ...(open && {
-    //   marginLeft: drawerWidth,
-    //   width: isMobile ? 'calc(100%)' : `calc(100% - ${drawerWidth}px)`,
-    //   transition: theme.transitions.create(['width', 'margin'], {
-    //     easing: theme.transitions.easing.sharp,
-    //     duration: theme.transitions.duration.enteringScreen,
-    //   }),
-    // }),
   }))
 
   const DesktopDrawer = styled(MuiDrawer, {
@@ -95,11 +77,6 @@ export default function MiniDrawer() {
     whiteSpace: 'nowrap',
     zIndex: theme.zIndex.drawer - 2,
     boxSizing: 'border-box',
-    // ...(open && {
-    //   ...openedMixin(theme),
-    //   '& .MuiDrawer-paper': openedMixin(theme),
-    // }),
-
     ...closedMixin(theme),
     '& .MuiDrawer-paper': closedMixin(theme),
   }))
@@ -112,7 +89,8 @@ export default function MiniDrawer() {
     setOpen(false)
   }
 
-  const logout = () => {
+  const handleLogout = async () => {
+    await logout()
     navigate('/')
   }
 
@@ -144,7 +122,7 @@ export default function MiniDrawer() {
         {['Log Out'].map((text, index) => (
           <ListItem key={text} disablePadding sx={{ display: 'block' }}>
             <ListItemButton
-              onClick={logout}
+              onClick={handleLogout}
               sx={{
                 backgroundColor: 'rgba(0,0,0,0)',
                 color: 'black',
@@ -193,7 +171,7 @@ export default function MiniDrawer() {
         {['Log Out'].map((text, index) => (
           <ListItem key={text} disablePadding sx={{ display: 'block' }}>
             <ListItemButton
-              onClick={logout}
+              onClick={handleLogout}
               sx={{
                 backgroundColor: 'rgba(0,0,0,0)',
                 color: 'black',
@@ -250,12 +228,20 @@ export default function MiniDrawer() {
             }}
             alt='Logo'
           />
-          <Typography variant='h6' noWrap component='div'>
+          <Typography variant='h6' width='300px'>
             NFC IET Student Portal
           </Typography>
-          <Typography variant='h6' noWrap component='div'>
-            {user?.name}
-          </Typography>
+          <Stack
+            direction='row'
+            width='100%'
+            height='100%'
+            justifyContent='flex-end'
+            alignItems='center'
+            gap='1em'
+          >
+            <Avatar src={user?.avatar} alt={user?.name} />
+            <Typography variant='h6'>{user?.name}</Typography>
+          </Stack>
         </Toolbar>
       </AppBar>
       {mobileDrawer}

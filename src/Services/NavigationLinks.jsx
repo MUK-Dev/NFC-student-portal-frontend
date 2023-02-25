@@ -1,175 +1,145 @@
+import { HolidayVillage } from '@mui/icons-material'
+import AccessibilityIcon from '@mui/icons-material/Accessibility'
+import ApartmentIcon from '@mui/icons-material/Apartment'
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import FactCheckIcon from '@mui/icons-material/FactCheck'
 import GradeIcon from '@mui/icons-material/Grade'
 import GradingIcon from '@mui/icons-material/Grading'
-import HolidayVillageIcon from '@mui/icons-material/HolidayVillage'
 import HomeIcon from '@mui/icons-material/Home'
 import House from '@mui/icons-material/House'
+import LayersIcon from '@mui/icons-material/Layers'
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
+import MenuBookIcon from '@mui/icons-material/MenuBook'
+import SchoolIcon from '@mui/icons-material/School'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 
-export const getLinks = theme => {
-  return [
-    {
-      title: 'Home',
-      path: '/student/home',
-      icon: (
-        <HomeIcon
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'Attendance',
-      path: '/student/attendance',
-      icon: (
-        <FactCheckIcon
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'Progress',
-      path: '/student/progress',
-      icon: (
-        <TrendingUpIcon
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'Transcript',
-      path: '/student/transcript',
-      icon: (
-        <GradingIcon
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'Certificate',
-      path: '/student/certificate',
-      icon: (
-        <GradeIcon
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'UG-Department',
-      path: '/head/register/department',
-      icon: (
-        <House
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'UG-Program',
-      path: '/head/register/program',
-      icon: (
-        <House
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'UG-Session',
-      path: '/head/register/session',
-      icon: (
-        <House
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'UG-Semester',
-      path: '/head/register/semester',
-      icon: (
-        <House
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'UG-Subject',
-      path: '/head/register/subject',
-      icon: (
-        <House
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'UG-Students',
-      path: '/head/register/students',
-      icon: (
-        <House
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'UG-Teachers',
-      path: '/head/register/teachers',
-      icon: (
-        <House
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'IG-Departpent',
-      path: '/head/register/i-department',
-      icon: (
-        <HolidayVillageIcon
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-
-    {
-      title: 'IG-Program',
-      path: '/head/register/i-program',
-      icon: (
-        <HolidayVillageIcon
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'IG-Session',
-      path: '/head/register/i-session',
-      icon: (
-        <HolidayVillageIcon
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'IG-Semester',
-      path: '/head/register/i-semester',
-      icon: (
-        <HolidayVillageIcon
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'IG-Subject',
-      path: '/head/register/i-subject',
-      icon: (
-        <HolidayVillageIcon
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-    {
-      title: 'Parent-Home',
-      path: '/student/parent/home',
-      icon: (
-        <HolidayVillageIcon
-          htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-        />
-      ),
-    },
-  ]
+export const getLinks = (theme, role) => {
+  if (role === 'Student')
+    return [
+      {
+        title: 'Home',
+        path: '/student/home',
+        icon: (
+          <HomeIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Attendance',
+        path: '/student/attendance',
+        icon: (
+          <FactCheckIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Progress',
+        path: '/student/progress',
+        icon: (
+          <TrendingUpIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Transcript',
+        path: '/student/transcript',
+        icon: (
+          <GradingIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Certificate',
+        path: '/student/certificate',
+        icon: (
+          <GradeIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+    ]
+  else if (role === 'Parent')
+    return [
+      {
+        title: 'Home',
+        path: '/parent/home',
+        icon: (
+          <HolidayVillage
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+    ]
+  else if (role === 'Admin')
+    return [
+      {
+        title: 'Department',
+        path: '/head/register/department',
+        icon: (
+          <ApartmentIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Program',
+        path: '/head/register/program',
+        icon: (
+          <LayersIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Session',
+        path: '/head/register/session',
+        icon: (
+          <CalendarTodayIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Semester',
+        path: '/head/register/semester',
+        icon: (
+          <MenuBookIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Subject',
+        path: '/head/register/subject',
+        icon: (
+          <LibraryBooksIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Students',
+        path: '/head/register/students',
+        icon: (
+          <AccessibilityIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Teachers',
+        path: '/head/register/teachers',
+        icon: (
+          <SchoolIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+    ]
+  // else if (role === 'Teacher') return []
+  else return []
 }

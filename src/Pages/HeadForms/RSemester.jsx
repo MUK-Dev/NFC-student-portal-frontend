@@ -17,9 +17,11 @@ import {
   Typography,
   useTheme,
 } from '@mui/material'
+import { MobileDatePicker } from '@mui/x-date-pickers'
+import moment from 'moment'
 import React, { useState } from 'react'
 
-const ISession = () => {
+const RSession = () => {
   const [showDrawer, setShowDrawer] = useState(false)
   const theme = useTheme()
 
@@ -32,11 +34,11 @@ const ISession = () => {
       <Box sx={{ width: 250 }}>
         <List>
           {[
-            'Session 1',
-            'Session 2',
-            'Session 3',
-            'Session 4',
-            'Session 5',
+            'Semester 1',
+            'Semester 2',
+            'Semester 3',
+            'Semester 4',
+            'Semester 5',
           ].map((text, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton>
@@ -54,94 +56,87 @@ const ISession = () => {
       <Grid item flexGrow={1}>
         <Grid container direction='column' width='100%'>
           <Grid item width='100%'>
-            <Typography variant='h4'>Register Session</Typography>
-            <Typography gutterBottom>Enter the Session details</Typography>
+            <Typography variant='h4'>Register Semester</Typography>
+            <Typography gutterBottom>Enter the Semester details</Typography>
           </Grid>
           <Grid item width='100%'>
             <Grid container width='100%'>
               <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                <TextField
-                  variant='outlined'
-                  label='Session Title'
-                  type='text'
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                 <FormControl fullWidth>
-                  <InputLabel>Session Type</InputLabel>
-                  <Select label='Session Type'>
-                    <MenuItem value={10}>Spring</MenuItem>
-                    <MenuItem value={20}>Fall</MenuItem>
+                  <InputLabel>Semester Title</InputLabel>
+                  <Select label='Semester Title'>
+                    <MenuItem value={10}>1</MenuItem>
+                    <MenuItem value={20}>2</MenuItem>
+                    <MenuItem value={30}>3</MenuItem>
+                    <MenuItem value={40}>4</MenuItem>
+                    <MenuItem value={50}>5</MenuItem>
+                    <MenuItem value={60}>6</MenuItem>
+                    <MenuItem value={70}>7</MenuItem>
+                    <MenuItem value={80}>8</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
               <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                <TextField
-                  variant='outlined'
-                  label='Starting Year'
-                  type='text'
-                  placeholder='YYYY'
-                  fullWidth
-                />
-              </Grid>
-
-              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                <TextField
-                  variant='outlined'
-                  label='Ending  Year'
-                  type='text'
-                  fullWidth
-                  placeholder='YYYY'
-                />
-              </Grid>
-              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                 <FormControl fullWidth>
-                  <InputLabel>Select Program</InputLabel>
-                  <Select label='Select Program'>
-                    <MenuItem value={10}>BS</MenuItem>
-                    <MenuItem value={20}>MS</MenuItem>
+                  <InputLabel>Semester Type</InputLabel>
+                  <Select label='Semester Type'>
+                    <MenuItem value={10}>Summer</MenuItem>
+                    <MenuItem value={20}>Winter</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <MobileDatePicker
+                  label='Starting Date'
+                  inputFormat='MM/DD/YYYY'
+                  value={moment()}
+                  renderInput={params => <TextField {...params} fullWidth />}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <MobileDatePicker
+                  label='Ending Date'
+                  inputFormat='MM/DD/YYYY'
+                  value={moment()}
+                  renderInput={params => <TextField {...params} fullWidth />}
+                />
+              </Grid>
 
               <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                 <FormControl fullWidth>
-                  <InputLabel>Select Department</InputLabel>
-                  <Select label='Select Department'>
+                  <InputLabel>Department</InputLabel>
+                  <Select label='Department'>
                     <MenuItem value={10}>Computer Science</MenuItem>
                     <MenuItem value={20}>Mechanical Engineering</MenuItem>
                     <MenuItem value={20}>Electrical Engineering</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <FormControl fullWidth>
+                  <InputLabel>Program</InputLabel>
+                  <Select label='Program'>
+                    <MenuItem value={10}>BS</MenuItem>
+                    <MenuItem value={20}>MS</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <FormControl fullWidth>
+                  <InputLabel>Session</InputLabel>
+                  <Select label='Session'>
+                    <MenuItem value={10}>2k19</MenuItem>
+                    <MenuItem value={20}>2k20</MenuItem>
+                    <MenuItem value={20}>2k21</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
             </Grid>
 
-            <Grid
-              container
-              width='100%'
-              direction='row'
-              justifyContent='space-between'
-            >
-              <Button
-                variant='contained'
-                sx={{ margin: '.5em .5em .5em 0', minWidth: '15%' }}
-              >
-                {'<'}= Program
-              </Button>
-              <Button
-                variant='contained'
-                sx={{ margin: '.5em .5em .5em 0', minWidth: '15%' }}
-              >
-                Register
-              </Button>
-              <Button
-                variant='contained'
-                sx={{ margin: '.5em .5em .5em 0', minWidth: '15%' }}
-              >
-                Semester ={'>'}
-              </Button>
-            </Grid>
+            <Button variant='contained' sx={{ margin: '.5em .5em .5em 0' }}>
+              Register
+            </Button>
           </Grid>
         </Grid>
       </Grid>
@@ -162,7 +157,7 @@ const ISession = () => {
               writingMode: 'vertical-rl',
             }}
           >
-            Show Sessions
+            Show Semesters
           </Typography>
           <ArrowForwardIos htmlColor={theme.palette.warning.main} />
         </Stack>
@@ -172,4 +167,4 @@ const ISession = () => {
   )
 }
 
-export default ISession
+export default RSession

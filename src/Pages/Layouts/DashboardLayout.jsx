@@ -4,6 +4,8 @@ import { Outlet } from 'react-router-dom'
 
 import Header from '../../Components/Header/Header'
 
+import AuthGuard from '../../Utils/AuthGuard'
+
 const DashboardLayout = () => {
   const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -15,21 +17,23 @@ const DashboardLayout = () => {
   }))
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        width: '100%',
-        maxWidth: '100vw',
-        minHeight: '100vh',
-        overflowX: 'hidden',
-      }}
-    >
-      <Header />
-      <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        <Outlet />
+    <AuthGuard>
+      <Box
+        sx={{
+          display: 'flex',
+          width: '100%',
+          maxWidth: '100vw',
+          minHeight: '100vh',
+          overflowX: 'hidden',
+        }}
+      >
+        <Header />
+        <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+          <DrawerHeader />
+          <Outlet />
+        </Box>
       </Box>
-    </Box>
+    </AuthGuard>
   )
 }
 

@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react'
+
 import { registerDepartmentRequest } from '../Services/API/registerDepartment'
 
 import useAuth from './useAuth'
 
 export default function useRegisterDepartment() {
   const { token } = useAuth()
+
   const submitForm = async (
     values,
     { setErrors, setStatus, setSubmitting },
@@ -18,7 +21,7 @@ export default function useRegisterDepartment() {
       description: values.description,
     }
     try {
-      const data = await registerDepartmentRequest(token, d)
+      const data = registerDepartmentRequest(token, d)
       setSubmitting(false)
       console.log(data)
     } catch (err) {

@@ -21,7 +21,7 @@ import { MobileDatePicker } from '@mui/x-date-pickers'
 import moment from 'moment'
 import React, { useState } from 'react'
 
-const RSession = () => {
+const RProgram = () => {
   const [showDrawer, setShowDrawer] = useState(false)
   const theme = useTheme()
 
@@ -34,11 +34,11 @@ const RSession = () => {
       <Box sx={{ width: 250 }}>
         <List>
           {[
-            'Untitled Semester',
-            'Untitled Semester',
-            'Untitled Semester',
-            'Untitled Semester',
-            'Untitled Semester',
+            'Program 1',
+            'Program 2',
+            'Program 3',
+            'Program 4',
+            'Program 5',
           ].map((text, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton>
@@ -56,48 +56,11 @@ const RSession = () => {
       <Grid item flexGrow={1}>
         <Grid container direction='column' width='100%'>
           <Grid item width='100%'>
-            <Typography variant='h4'>Register Session</Typography>
-            <Typography gutterBottom>Enter the Session details</Typography>
+            <Typography variant='h4'>Register Program</Typography>
+            <Typography gutterBottom>Enter the Program details</Typography>
           </Grid>
           <Grid item width='100%'>
             <Grid container width='100%'>
-              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                <TextField
-                  variant='outlined'
-                  label='Session Title'
-                  type='text'
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                <FormControl fullWidth>
-                  <InputLabel>Session Type</InputLabel>
-                  <Select label='Session Type'>
-                    <MenuItem value={10}>Spring</MenuItem>
-                    <MenuItem value={20}>Fall</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                <MobileDatePicker
-                  views={['year']}
-                  label='Starting Year'
-                  inputFormat='YYYY'
-                  value={moment()}
-                  renderInput={params => <TextField {...params} fullWidth />}
-                />
-              </Grid>
-
-              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                <MobileDatePicker
-                  views={['year']}
-                  label='Ending Year'
-                  inputFormat='YYYY'
-                  value={moment().add(4, 'years')}
-                  renderInput={params => <TextField {...params} fullWidth />}
-                />
-              </Grid>
-
               <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                 <FormControl fullWidth>
                   <InputLabel>Department</InputLabel>
@@ -109,14 +72,44 @@ const RSession = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <TextField
+                  variant='outlined'
+                  label='Program Title'
+                  type='text'
+                  placeholder='BSCS'
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                 <FormControl fullWidth>
-                  <InputLabel>Program</InputLabel>
-                  <Select label='Program'>
-                    <MenuItem value={10}>BS</MenuItem>
-                    <MenuItem value={20}>MS</MenuItem>
+                  <InputLabel>Program Type</InputLabel>
+                  <Select label='Program Type'>
+                    <MenuItem value={10}>1 Year</MenuItem>
+                    <MenuItem value={20}>2 Year</MenuItem>
+                    <MenuItem value={20}>3 Year</MenuItem>
+                    <MenuItem value={20}>4 Year</MenuItem>
+                    <MenuItem value={20}>5 Year</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <MobileDatePicker
+                  label='Starting Date'
+                  inputFormat='MM/DD/YYYY'
+                  value={moment()}
+                  renderInput={params => <TextField {...params} fullWidth />}
+                />
+              </Grid>
+
+              {/* <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <TextField
+                  variant='outlined'
+                  label='Ending  Date'
+                  type='text'
+                  fullWidth
+                  placeholder='mm/dd/yyyy'
+                />
+              </Grid> */}
             </Grid>
 
             <Button variant='contained' sx={{ margin: '.5em .5em .5em 0' }}>
@@ -142,7 +135,7 @@ const RSession = () => {
               writingMode: 'vertical-rl',
             }}
           >
-            Semesters
+            Show Programs
           </Typography>
           <ArrowForwardIos htmlColor={theme.palette.warning.main} />
         </Stack>
@@ -152,4 +145,4 @@ const RSession = () => {
   )
 }
 
-export default RSession
+export default RProgram

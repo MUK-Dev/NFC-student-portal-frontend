@@ -44,11 +44,11 @@ const RDepartment = () => {
       <Box sx={{ width: 250 }}>
         <List>
           {[
-            'Registered Program',
-            'Registered Program',
-            'Registered Program',
-            'Registered Program',
-            'Registered Program',
+            'Department 1',
+            'Department 2',
+            'Department 3',
+            'Department 4',
+            'Department 5',
           ].map((text, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton>
@@ -236,7 +236,7 @@ const RDepartment = () => {
                     writingMode: 'vertical-rl',
                   }}
                 >
-                  Show Programs
+                  Show Departments
                 </Typography>
                 <ArrowForwardIos htmlColor={theme.palette.warning.main} />
               </Stack>

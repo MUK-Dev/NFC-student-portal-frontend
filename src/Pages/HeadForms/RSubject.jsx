@@ -12,6 +12,7 @@ import {
   ListItemText,
   MenuItem,
   Select,
+  Slider,
   Stack,
   TextField,
   Typography,
@@ -19,7 +20,7 @@ import {
 } from '@mui/material'
 import React, { useState } from 'react'
 
-const ISubject = () => {
+const RSubject = () => {
   const [showDrawer, setShowDrawer] = useState(false)
   const theme = useTheme()
 
@@ -87,11 +88,21 @@ const ISubject = () => {
                   </Select>
                 </FormControl>
               </Grid>
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <FormControl fullWidth>
+                  <InputLabel>Department</InputLabel>
+                  <Select label='Department'>
+                    <MenuItem value={10}>Computer Science</MenuItem>
+                    <MenuItem value={20}>Mechanical Engineering</MenuItem>
+                    <MenuItem value={20}>Electrical Engineering</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
 
               <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                 <FormControl fullWidth>
-                  <InputLabel>Select Program</InputLabel>
-                  <Select label='Select Program'>
+                  <InputLabel>Program</InputLabel>
+                  <Select label='Program'>
                     <MenuItem value={10}>BS</MenuItem>
                     <MenuItem value={20}>MS</MenuItem>
                   </Select>
@@ -100,45 +111,27 @@ const ISubject = () => {
 
               <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                 <FormControl fullWidth>
-                  <InputLabel>Select Department</InputLabel>
-                  <Select label='Select Department'>
-                    <MenuItem value={10}>Computer Science</MenuItem>
-                    <MenuItem value={20}>Mechanical Engineering</MenuItem>
-                    <MenuItem value={20}>Electrical Engineering</MenuItem>
+                  <InputLabel>Session</InputLabel>
+                  <Select label='Session'>
+                    <MenuItem value={10}>2k19</MenuItem>
+                    <MenuItem value={20}>2k20</MenuItem>
+                    <MenuItem value={20}>2k21</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
               <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                <FormControl fullWidth>
-                  <InputLabel>Select Session</InputLabel>
-                  <Select label='Select Session'>
-                    <MenuItem value={10}>2k19 - 2k23</MenuItem>
-                    <MenuItem value={20}>2k20 - 2k24</MenuItem>
-                    <MenuItem value={20}>2k21 - 2k25</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} md={3} padding='.5em .5em .5em 0'>
-                <TextField
-                  variant='outlined'
-                  label='Theory Credit Hours'
-                  type='number'
-                  placeholder='3'
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} md={3} padding='.5em .5em .5em 0'>
-                <TextField
-                  variant='outlined'
-                  label='Lab Credit Hours'
-                  type='number'
-                  placeholder='1'
-                  fullWidth
+                <Typography gutterBottom>Theory Credit Hours</Typography>
+                <Slider
+                  aria-label='Theory Credit Hours'
+                  valueLabelDisplay='auto'
+                  marks
+                  min={1}
+                  max={5}
                 />
               </Grid>
               <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                 <FormControl fullWidth>
-                  <InputLabel>Select Semester</InputLabel>
+                  <InputLabel>Semester Type</InputLabel>
                   <Select label='Semester Type'>
                     <MenuItem value={10}>1</MenuItem>
                     <MenuItem value={20}>2</MenuItem>
@@ -151,28 +144,21 @@ const ISubject = () => {
                   </Select>
                 </FormControl>
               </Grid>
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <Typography gutterBottom>Lab Credit Hours</Typography>
+                <Slider
+                  aria-label='Theory Credit Hours'
+                  valueLabelDisplay='auto'
+                  marks
+                  min={1}
+                  max={5}
+                />
+              </Grid>
             </Grid>
 
-            <Grid
-              container
-              width='100%'
-              direction='row'
-              justifyContent='space-between'
-            >
-              <Button
-                variant='contained'
-                sx={{ margin: '.5em .5em .5em 0', minWidth: '15%' }}
-              >
-                {'<'}= Semester
-              </Button>
-              <Button
-                variant='contained'
-                sx={{ margin: '.5em .5em .5em 0', minWidth: '15%' }}
-              >
-                Register
-              </Button>
-              <Typography sx={{ width: '15%' }}></Typography>
-            </Grid>
+            <Button variant='contained' sx={{ margin: '.5em .5em .5em 0' }}>
+              Register
+            </Button>
           </Grid>
         </Grid>
       </Grid>
@@ -203,4 +189,4 @@ const ISubject = () => {
   )
 }
 
-export default ISubject
+export default RSubject
