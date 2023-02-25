@@ -28,6 +28,9 @@ const AuthGuard = ({ children, path = '/' }) => {
         } else if (user.role === 'Admin') {
           navigate('/head/register/department', { replace: true })
           setIsChecking(prev => false)
+        } else if (user.role === 'Teacher') {
+          navigate('/student/home', { replace: true })
+          setIsChecking(prev => false)
         }
       }
     }
