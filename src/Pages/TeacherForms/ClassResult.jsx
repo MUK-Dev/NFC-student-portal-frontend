@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material'
+import { Grid, Paper, TextField } from '@mui/material'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell, { tableCellClasses } from '@mui/material/TableCell'
@@ -34,7 +34,7 @@ function createData(sRoll, sName) {
 
 const rows = [
   createData('2K19-BSCS-301', 'Ahsan Farooq'),
-  createData('2K19-BSCS-302', 'bu Bakar Asif'),
+  createData('2K19-BSCS-302', 'Abu Bakar Asif'),
   createData('2K19-BSCS-303', 'Fasheeh Tahir'),
   createData('2K19-BSCS-304', 'Maaz Amajd'),
   createData('2K19-BSCS-305', 'Waseem Saleem'),
@@ -47,61 +47,78 @@ const rows = [
 
 export default function ClassResult() {
   return (
-    <TableContainer>
-      <Table stickyHeader aria-label='customized table'>
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align='left' sx={{ padding: '2%', width: '20%' }}>
-              Student Roll No.
-            </StyledTableCell>
-            <StyledTableCell align='left' sx={{ padding: '2%', width: '20%' }}>
-              Student Name
-            </StyledTableCell>
-            <StyledTableCell align='left' sx={{ padding: '2%', width: '20%' }}>
-              Mid Marks
-            </StyledTableCell>
-            <StyledTableCell align='left' sx={{ padding: '2%', width: '20%' }}>
-              Final MArks
-            </StyledTableCell>
-            <StyledTableCell align='left' sx={{ padding: '2%', width: '20%' }}>
-              Sessional Marks
-            </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody sx={{ overflowY: 'auto' }}>
-          {rows.map(row => (
-            <StyledTableRow key={row.sRoll}>
-              <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                {row.sRoll}
+    <Paper sx={{ height: '83vh' }}>
+      <TableContainer sx={{ height: '100%' }}>
+        <Table stickyHeader aria-label='customized table'>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell
+                align='left'
+                sx={{ padding: '2%', width: '20%' }}
+              >
+                Student Roll No.
               </StyledTableCell>
-              <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                {row.sName}
+              <StyledTableCell
+                align='left'
+                sx={{ padding: '2%', width: '20%' }}
+              >
+                Student Name
               </StyledTableCell>
-              <StyledTableCell align='center' sx={{ padding: '1%' }}>
-                <TextField
-                  id='outlined-basic'
-                  label='Mid Marks'
-                  variant='outlined'
-                />
+              <StyledTableCell
+                align='left'
+                sx={{ padding: '2%', width: '20%' }}
+              >
+                Mid Marks
               </StyledTableCell>
-              <StyledTableCell align='center' sx={{ padding: '1%' }}>
-                <TextField
-                  id='outlined-basic'
-                  label='Final Marks'
-                  variant='outlined'
-                />
+              <StyledTableCell
+                align='left'
+                sx={{ padding: '2%', width: '20%' }}
+              >
+                Final MArks
               </StyledTableCell>
-              <StyledTableCell align='center' sx={{ padding: '1%' }}>
-                <TextField
-                  id='outlined-basic'
-                  label='Sessional Marks'
-                  variant='outlined'
-                />
+              <StyledTableCell
+                align='left'
+                sx={{ padding: '2%', width: '20%' }}
+              >
+                Sessional Marks
               </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            </TableRow>
+          </TableHead>
+          <TableBody sx={{ overflowY: 'auto' }}>
+            {rows.map(row => (
+              <StyledTableRow key={row.sRoll}>
+                <StyledTableCell align='left' sx={{ padding: '1%' }}>
+                  {row.sRoll}
+                </StyledTableCell>
+                <StyledTableCell align='left' sx={{ padding: '1%' }}>
+                  {row.sName}
+                </StyledTableCell>
+                <StyledTableCell align='center' sx={{ padding: '1%' }}>
+                  <TextField
+                    id='outlined-basic'
+                    label='Mid Marks'
+                    variant='outlined'
+                  />
+                </StyledTableCell>
+                <StyledTableCell align='center' sx={{ padding: '1%' }}>
+                  <TextField
+                    id='outlined-basic'
+                    label='Final Marks'
+                    variant='outlined'
+                  />
+                </StyledTableCell>
+                <StyledTableCell align='center' sx={{ padding: '1%' }}>
+                  <TextField
+                    id='outlined-basic'
+                    label='Sessional Marks'
+                    variant='outlined'
+                  />
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
   )
 }
