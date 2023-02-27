@@ -61,6 +61,15 @@ export const getLinks = (theme, role) => {
           />
         ),
       },
+      {
+        title: 'Result Form',
+        path: '/teacher/result-form',
+        icon: (
+          <SchoolIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
     ]
   else if (role === 'Parent')
     return [
@@ -140,6 +149,17 @@ export const getLinks = (theme, role) => {
         ),
       },
     ]
-  // else if (role === 'Teacher') return []
+  else if (role === 'Teacher')
+    return [
+      {
+        title: 'Result Form',
+        path: '/teacher/result-form',
+        icon: (
+          <SchoolIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+    ]
   else return []
 }
