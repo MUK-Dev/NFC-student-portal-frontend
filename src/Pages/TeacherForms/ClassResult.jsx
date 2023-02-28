@@ -7,6 +7,12 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { styled } from '@mui/material/styles'
 import * as React from 'react'
+import { useQuery } from 'react-query'
+import { useSearchParams } from 'react-router-dom'
+
+import useAuth from '../../Hooks/useAuth'
+
+import { getMarksSheet } from '../../Services/API/marksSheetRequest'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -46,6 +52,22 @@ const rows = [
 ]
 
 export default function ClassResult() {
+  let [searchParams, setSearchParams] = useSearchParams()
+  const section = searchParams.get('section')
+  const subject = searchParams.get('subject')
+
+  const { token } = useAuth()
+
+  const { data } = useQuery(
+    ['marks-sheet', searchParams.get('section'), searchParams.get('subject')],
+    () => getMarksSheet(token, { section, subject }),
+    {
+      enabled: !!token,
+    },
+  )
+
+  console.log(data)
+
   return (
     <Grid>
       <Paper sx={{ height: '77vh' }}>
@@ -86,13 +108,13 @@ export default function ClassResult() {
               </TableRow>
             </TableHead>
             <TableBody sx={{ overflowY: 'auto' }}>
-              {rows.map(row => (
-                <StyledTableRow key={row.sRoll}>
+              {data?.map(row => (
+                <StyledTableRow key={row._id}>
                   <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                    {row.sRoll}
+                    {section} {row.rollNo}
                   </StyledTableCell>
                   <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                    {row.sName}
+                    {row.name}
                   </StyledTableCell>
                   <StyledTableCell align='center' sx={{ padding: '1%' }}>
                     <TextField

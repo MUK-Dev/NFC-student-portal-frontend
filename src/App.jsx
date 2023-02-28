@@ -46,21 +46,6 @@ const App = () => {
     },
   })
 
-  const userArray = [
-    { name: 'Usman', rollNo: 313 },
-    { name: 'Ahmer', rollNo: 314 },
-    { name: 'Zain', rollNo: 315 },
-  ]
-
-  const modifiedUserArray = userArray.map(user => ({
-    ...user,
-    mids: '',
-    sessional: '',
-    finals: '',
-  }))
-
-  console.log(modifiedUserArray)
-
   const queryClient = new QueryClient()
 
   return (
