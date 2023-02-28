@@ -25,7 +25,6 @@ import StudentProgress from './Pages/StudentProgress/StudentProgress'
 import StudentsTranscript from './Pages/StudentProgress/StudentTranscript'
 import TeacherDashboard from './Pages/TeacherDashboard/TeacherDashboard'
 import ClassResult from './Pages/TeacherForms/ClassResult'
-import TeacherDashboard from './Pages/TeacherForms/TeacherDashboard'
 
 import AuthProvider from './Contexts/AuthContext'
 
