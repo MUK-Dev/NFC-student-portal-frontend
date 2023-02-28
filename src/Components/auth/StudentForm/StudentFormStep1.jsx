@@ -20,7 +20,10 @@ import { useQuery } from 'react-query'
 import { useSearchParams } from 'react-router-dom'
 import * as Yup from 'yup'
 
+import { getDepartments } from '../../../Services/API/departmentsRequest'
 import { getPrograms } from '../../../Services/API/programsRequest'
+import { getSections } from '../../../Services/API/sectionsRequest'
+import { getSessions } from '../../../Services/API/sessionsRequest'
 
 const StudentForm1 = ({
   animation,
@@ -28,7 +31,7 @@ const StudentForm1 = ({
   reset,
   sessionRef,
   programRef,
-  rollNoRef,
+  departmentRef,
   sectionRef,
 }) => {
   const theme = useTheme()
@@ -48,19 +51,37 @@ const StudentForm1 = ({
     },
   }
 
-  const { isError, isLoading, data } = useQuery(
-    'programs',
-    () => getPrograms(),
-    {
-      staleTime: 1000 * 60 * 60 * 24,
-    },
-  )
+  const {
+    isError: isDepartmentError,
+    isLoading: areDepartmentsLoading,
+    data: departmentsData,
+  } = useQuery('departments', () => getDepartments(), {
+    staleTime: 1000 * 60 * 60 * 24,
+  })
 
-  console.log(isError)
+  const {
+    isError: isProgramsError,
+    isLoading: areProgramsLoading,
+    data: programsData,
+  } = useQuery('programs', () => getPrograms(), {
+    staleTime: 1000 * 60 * 60 * 24,
+  })
 
-  console.log(isLoading)
+  const {
+    isError: isSessionsError,
+    isLoading: areSessionsLoading,
+    data: sessionsData,
+  } = useQuery('sessions', () => getSessions(), {
+    staleTime: 1000 * 60 * 60 * 24,
+  })
 
-  console.log(data)
+  const {
+    isError: isSectionsError,
+    isLoading: areSectionsLoading,
+    data: sectionsData,
+  } = useQuery('sections', () => getSections(), {
+    staleTime: 1000 * 60 * 60 * 24,
+  })
 
   const submitForm = async (
     values,
@@ -69,7 +90,7 @@ const StudentForm1 = ({
     setSubmitting(true)
     sessionRef.current = values.session
     programRef.current = values.program
-    rollNoRef.current = values.rollNo
+    departmentRef.current = values.department
     sectionRef.current = values.section
     handleNext()
     setSubmitting(false)
@@ -79,16 +100,13 @@ const StudentForm1 = ({
     initialValues: {
       session: sessionRef.current,
       program: programRef.current,
-      rollNo: rollNoRef.current,
+      department: departmentRef.current,
       section: sectionRef.current,
     },
     validationSchema: Yup.object().shape({
       session: Yup.string().required('Session is required'),
       program: Yup.string().required('Program is required'),
-      rollNo: Yup.number('Roll No must be a number')
-        .required('Roll No is required')
-        .integer('Roll No should a number')
-        .positive('Roll No should be positive'),
+      department: Yup.string().required('Department is required'),
       section: Yup.string().required('Section is required'),
     }),
     onSubmit: submitForm,
@@ -140,22 +158,34 @@ const StudentForm1 = ({
                 width='100%'
                 gap='1em'
               >
-                <TextField
-                  variant='outlined'
-                  label='Session'
-                  placeholder='eg. 2k19'
-                  fullWidth
-                  onBlur={handleBlur('session')}
-                  value={values.session}
-                  onChange={handleChange('session')}
-                  error={touched.session && errors.session}
-                  helperText={
-                    touched.session && errors.session ? errors.session : ''
-                  }
-                />
                 <FormControl
                   fullWidth
-                  error={touched.program && errors.program}
+                  error={!!touched.department && !!errors.department}
+                >
+                  <InputLabel>Department</InputLabel>
+                  <Select
+                    labelId='department'
+                    id='department'
+                    value={values.department}
+                    label='Departments'
+                    required
+                    onBlur={handleBlur('department')}
+                    onChange={handleChange('department')}
+                  >
+                    {departmentsData?.map(d => (
+                      <MenuItem value={d._id} key={d._id}>
+                        {d.department_name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {!!touched.department && !!errors.department && (
+                    <FormHelperText error>{errors.department}</FormHelperText>
+                  )}
+                </FormControl>
+
+                <FormControl
+                  fullWidth
+                  error={!!touched.program && !!errors.program}
                 >
                   <InputLabel>Programs</InputLabel>
                   <Select
@@ -164,16 +194,17 @@ const StudentForm1 = ({
                     value={values.program}
                     label='Programs'
                     required
-                    disabled={isLoading || isError}
+                    disabled={areProgramsLoading || isProgramsError}
+                    onBlur={handleBlur('program')}
                     onChange={handleChange('program')}
                   >
-                    {data?.map(p => (
-                      <MenuItem key={p.id} value={p.id}>
-                        {p.program_title}
+                    {programsData?.map(p => (
+                      <MenuItem key={p._id} value={p._id}>
+                        {p.program_abbreviation}
                       </MenuItem>
                     ))}
                   </Select>
-                  {touched.program && errors.program && (
+                  {!!touched.program && !!errors.program && (
                     <FormHelperText error>{errors.program}</FormHelperText>
                   )}
                 </FormControl>
@@ -185,32 +216,54 @@ const StudentForm1 = ({
                 width='100%'
                 gap='1em'
               >
-                <TextField
-                  variant='outlined'
-                  label='Class Roll No.'
-                  placeholder='eg. 301'
+                <FormControl
                   fullWidth
-                  onBlur={handleBlur('rollNo')}
-                  value={values.rollNo}
-                  onChange={handleChange('rollNo')}
-                  error={touched.rollNo && errors.rollNo}
-                  helperText={
-                    touched.rollNo && errors.rollNo ? errors.rollNo : ''
-                  }
-                />
-                <TextField
-                  variant='outlined'
-                  label='Section'
-                  placeholder='eg. Red'
+                  error={!!touched.session && !!errors.session}
+                >
+                  <InputLabel>Session</InputLabel>
+                  <Select
+                    labelId='session'
+                    id='session'
+                    value={values.session}
+                    label='Session'
+                    required
+                    onBlur={handleBlur('session')}
+                    onChange={handleChange('session')}
+                  >
+                    {sessionsData?.map(s => (
+                      <MenuItem key={s._id} value={s._id}>
+                        {s.session_title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {!!touched.session && !!errors.session && (
+                    <FormHelperText error>{errors.session}</FormHelperText>
+                  )}
+                </FormControl>
+                <FormControl
                   fullWidth
-                  onBlur={handleBlur('section')}
-                  value={values.section}
-                  onChange={handleChange('section')}
-                  error={touched.section && errors.section}
-                  helperText={
-                    touched.section && errors.section ? errors.section : ''
-                  }
-                />
+                  error={!!touched.section && !!errors.section}
+                >
+                  <InputLabel htmlFor='section'>Section</InputLabel>
+                  <Select
+                    id='section'
+                    value={values.section}
+                    label='Section'
+                    required
+                    disabled={areSectionsLoading || isSectionsError}
+                    onChange={handleChange('section')}
+                    onBlur={handleBlur('section')}
+                  >
+                    {sectionsData?.map(s => (
+                      <MenuItem value={s._id} key={s._id}>
+                        {s.section_title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {!!touched.section && !!errors.section && (
+                    <FormHelperText error>{errors.section}</FormHelperText>
+                  )}
+                </FormControl>
               </Stack>
             </Stack>
             <motion.div

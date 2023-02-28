@@ -21,8 +21,11 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import * as Yup from 'yup'
 
+import EndStudentRegisterModal from '../../Modal/EndStudentRegisterModal'
+
 const StudentForm3 = ({
-  animation,
+  setShowEmailModal,
+  showEmailModal,
   handleBack,
   passwordRef,
   confirmRef,
@@ -152,12 +155,6 @@ const StudentForm3 = ({
             <Typography variant='h5' gutterBottom>
               Almost Done 👨‍🎓
             </Typography>
-            <Typography gutterBottom>
-              This will be your Email. Save it
-            </Typography>
-            <Typography gutterBottom fontWeight={600}>
-              {email}
-            </Typography>
             <AnimatePresence mode='wait'>
               {isLoading ? (
                 <motion.div
@@ -208,7 +205,7 @@ const StudentForm3 = ({
                 <FormControl
                   variant='outlined'
                   fullWidth
-                  error={touched.password && errors.password}
+                  error={!!touched.password && !!errors.password}
                 >
                   <InputLabel htmlFor='outlined-adornment-password'>
                     Password
@@ -227,7 +224,7 @@ const StudentForm3 = ({
                           onMouseDown={handleMouseDownPassword}
                           edge='end'
                           color={
-                            touched.password && errors.password
+                            !!touched.password && !!errors.password
                               ? 'error'
                               : 'default'
                           }
@@ -238,14 +235,14 @@ const StudentForm3 = ({
                     }
                     label='Password'
                   />
-                  {touched.password && errors.password && (
+                  {!!touched.password && !!errors.password && (
                     <FormHelperText error>{errors.password}</FormHelperText>
                   )}
                 </FormControl>
                 <FormControl
                   variant='outlined'
                   fullWidth
-                  error={touched.confirm && errors.confirm}
+                  error={!!touched.confirm && !!errors.confirm}
                 >
                   <InputLabel htmlFor='outlined-adornment-confirm-password'>
                     Confirm Password
@@ -264,7 +261,7 @@ const StudentForm3 = ({
                           onMouseDown={handleMouseDownPassword}
                           edge='end'
                           color={
-                            touched.confirm && errors.confirm
+                            !!touched.confirm && !!errors.confirm
                               ? 'error'
                               : 'default'
                           }
@@ -279,7 +276,7 @@ const StudentForm3 = ({
                     }
                     label='Confirm Password'
                   />
-                  {touched.confirm && errors.confirm && (
+                  {!!touched.confirm && !!errors.confirm && (
                     <FormHelperText error>{errors.confirm}</FormHelperText>
                   )}
                 </FormControl>
@@ -310,6 +307,7 @@ const StudentForm3 = ({
               Register
             </Button>
           </Stack>
+          <EndStudentRegisterModal open={showEmailModal} email={email} />
         </form>
       )}
     </Formik>
