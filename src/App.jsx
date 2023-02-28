@@ -23,6 +23,7 @@ import StudentDetailProgress from './Pages/StudentProgress/StudentDetailProgress
 import StudentProgress from './Pages/StudentProgress/StudentProgress'
 import StudentsTranscript from './Pages/StudentProgress/StudentTranscript'
 import ClassResult from './Pages/TeacherForms/ClassResult'
+import TeacherDashboard from './Pages/TeacherForms/TeacherDashboard'
 
 import AuthProvider from './Contexts/AuthContext'
 
@@ -85,6 +86,10 @@ const App = () => {
                 />
                 <Route path='/parent/home' element={<ParentHome />} />
                 <Route path='/teacher/result-form' element={<ClassResult />} />
+                <Route
+                  path='/teacher/dashboard'
+                  element={<TeacherDashboard />}
+                />
               </Route>
             </Routes>
           </LocalizationProvider>

@@ -35,12 +35,12 @@ function createData(sRoll, sName) {
 const rows = [
   createData('2K19-BSCS-301', 'Ahsan Farooq'),
   createData('2K19-BSCS-302', 'Abu Bakar Asif'),
-  createData('2K19-BSCS-303', 'Fasheeh Tahir'),
+  createData('2K19-BSCS-303', 'Faseeh Tahir'),
   createData('2K19-BSCS-304', 'Maaz Amajd'),
   createData('2K19-BSCS-305', 'Waseem Saleem'),
   createData('2K19-BSCS-306', 'Laiba Raees'),
   createData('2K19-BSCS-307', 'Areesh Ahmad'),
-  createData('2K19-BSCS-308', 'Daninal Sabir'),
+  createData('2K19-BSCS-308', 'Daniyal Sabir'),
   createData('2K19-BSCS-309', 'Komal Irshad'),
   createData('2K19-BSCS-310', 'Tamoor Ghani'),
 ]
