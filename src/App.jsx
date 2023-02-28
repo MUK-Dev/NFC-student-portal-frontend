@@ -88,16 +88,10 @@ const App = () => {
                 />
                 <Route path='/parent/home' element={<ParentHome />} />
                 <Route path='/teacher/result-form' element={<ClassResult />} />
-<<<<<<< HEAD
                 <Route path='/teacher/home' element={<TeacherDashboard />} />
                 <Route
                   path='/teacher/mark-attandence'
                   element={<MarkAttandence />}
-=======
-                <Route
-                  path='/teacher/dashboard'
-                  element={<TeacherDashboard />}
->>>>>>> d83823880f93952c437a3796d37092916bcf91a0
                 />
               </Route>
             </Routes>
