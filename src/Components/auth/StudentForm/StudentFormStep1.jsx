@@ -3,7 +3,12 @@ import {
   Button,
   CircularProgress,
   Divider,
+  FormControl,
+  FormHelperText,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -11,8 +16,11 @@ import {
 } from '@mui/material'
 import { Formik } from 'formik'
 import { motion } from 'framer-motion'
+import { useQuery } from 'react-query'
 import { useSearchParams } from 'react-router-dom'
 import * as Yup from 'yup'
+
+import { getPrograms } from '../../../Services/API/programsRequest'
 
 const StudentForm1 = ({
   animation,
@@ -39,6 +47,20 @@ const StudentForm1 = ({
       opacity: 0,
     },
   }
+
+  const { isError, isLoading, data } = useQuery(
+    'programs',
+    () => getPrograms(),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+    },
+  )
+
+  console.log(isError)
+
+  console.log(isLoading)
+
+  console.log(data)
 
   const submitForm = async (
     values,
@@ -131,19 +153,30 @@ const StudentForm1 = ({
                     touched.session && errors.session ? errors.session : ''
                   }
                 />
-                <TextField
-                  variant='outlined'
-                  label='Program'
-                  placeholder='eg. BSCS'
+                <FormControl
                   fullWidth
-                  onBlur={handleBlur('program')}
-                  value={values.program}
-                  onChange={handleChange('program')}
                   error={touched.program && errors.program}
-                  helperText={
-                    touched.program && errors.program ? errors.program : ''
-                  }
-                />
+                >
+                  <InputLabel>Programs</InputLabel>
+                  <Select
+                    labelId='Programs'
+                    id='programs'
+                    value={values.program}
+                    label='Programs'
+                    required
+                    disabled={isLoading || isError}
+                    onChange={handleChange('program')}
+                  >
+                    {data?.map(p => (
+                      <MenuItem key={p.id} value={p.id}>
+                        {p.program_title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {touched.program && errors.program && (
+                    <FormHelperText error>{errors.program}</FormHelperText>
+                  )}
+                </FormControl>
               </Stack>
 
               <Stack

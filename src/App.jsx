@@ -2,6 +2,7 @@ import { CssBaseline } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import Login from './Pages/Auth/Login'
@@ -45,59 +46,93 @@ const App = () => {
     },
   })
 
+  const userArray = [
+    { name: 'Usman', rollNo: 313 },
+    { name: 'Ahmer', rollNo: 314 },
+    { name: 'Zain', rollNo: 315 },
+  ]
+
+  const modifiedUserArray = userArray.map(user => ({
+    ...user,
+    mids: '',
+    sessional: '',
+    finals: '',
+  }))
+
+  console.log(modifiedUserArray)
+
+  const queryClient = new QueryClient()
+
   return (
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <AuthProvider>
-          <LocalizationProvider dateAdapter={AdapterMoment}>
-            <CssBaseline />
-            <Routes>
-              <Route element={<AuthLayout />}>
-                <Route path='/' element={<Login />} />
-                <Route path='/register' element={<Register />} />
-              </Route>
-              <Route element={<DashboardLayout />}>
-                <Route path='/student/home' element={<StudentDashboard />} />
-                <Route
-                  path='/student/attendance'
-                  element={<StudentAttendance />}
-                />
-                <Route
-                  path='/head/register/department'
-                  element={<RDepartment />}
-                />
-                <Route path='/head/register/subject' element={<RSubject />} />
-                <Route path='/head/register/students' element={<RStudents />} />
-                <Route path='/head/register/teachers' element={<RTeachers />} />
-                <Route path='/head/register/program' element={<RProgram />} />
-                <Route path='/head/register/session' element={<RSession />} />
-                <Route path='/head/register/semester' element={<RSemester />} />
-                <Route path='/student/progress' element={<StudentProgress />} />
-                <Route
-                  path='/student/transcript'
-                  element={<StudentsTranscript />}
-                />
-                <Route
-                  path='/student/detail-progress'
-                  element={<StudentDetailProgress />}
-                />
-                <Route
-                  path='/student/certificate'
-                  element={<StudentCertificate />}
-                />
-                <Route path='/parent/home' element={<ParentHome />} />
-                <Route path='/teacher/result-form' element={<ClassResult />} />
-                <Route path='/teacher/home' element={<TeacherDashboard />} />
-                <Route
-                  path='/teacher/mark-attandence'
-                  element={<MarkAttandence />}
-                />
-              </Route>
-            </Routes>
-          </LocalizationProvider>
-        </AuthProvider>
-      </ThemeProvider>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <AuthProvider>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <CssBaseline />
+              <Routes>
+                <Route element={<AuthLayout />}>
+                  <Route path='/' element={<Login />} />
+                  <Route path='/register' element={<Register />} />
+                </Route>
+                <Route element={<DashboardLayout />}>
+                  <Route path='/student/home' element={<StudentDashboard />} />
+                  <Route
+                    path='/student/attendance'
+                    element={<StudentAttendance />}
+                  />
+                  <Route
+                    path='/head/register/department'
+                    element={<RDepartment />}
+                  />
+                  <Route path='/head/register/subject' element={<RSubject />} />
+                  <Route
+                    path='/head/register/students'
+                    element={<RStudents />}
+                  />
+                  <Route
+                    path='/head/register/teachers'
+                    element={<RTeachers />}
+                  />
+                  <Route path='/head/register/program' element={<RProgram />} />
+                  <Route path='/head/register/session' element={<RSession />} />
+                  <Route
+                    path='/head/register/semester'
+                    element={<RSemester />}
+                  />
+                  <Route
+                    path='/student/progress'
+                    element={<StudentProgress />}
+                  />
+                  <Route
+                    path='/student/transcript'
+                    element={<StudentsTranscript />}
+                  />
+                  <Route
+                    path='/student/detail-progress'
+                    element={<StudentDetailProgress />}
+                  />
+                  <Route
+                    path='/student/certificate'
+                    element={<StudentCertificate />}
+                  />
+                  <Route path='/parent/home' element={<ParentHome />} />
+                  <Route
+                    path='/teacher/result-form'
+                    element={<ClassResult />}
+                  />
+                  <Route path='/teacher/home' element={<TeacherDashboard />} />
+                  <Route
+                    path='/teacher/mark-attandence'
+                    element={<MarkAttandence />}
+                  />
+                </Route>
+              </Routes>
+            </LocalizationProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
   )
 }
 
