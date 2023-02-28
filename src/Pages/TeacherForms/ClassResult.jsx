@@ -75,7 +75,7 @@ export default function ClassResult() {
                   align='left'
                   sx={{ padding: '2%', width: '20%' }}
                 >
-                  Final MArks
+                  Final Marks
                 </StyledTableCell>
                 <StyledTableCell
                   align='left'

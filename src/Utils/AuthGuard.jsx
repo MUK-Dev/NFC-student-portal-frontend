@@ -29,7 +29,7 @@ const AuthGuard = ({ children, path = '/' }) => {
           navigate('/head/register/department', { replace: true })
           setIsChecking(prev => false)
         } else if (user.role === 'Teacher') {
-          navigate('/student/home', { replace: true })
+          navigate('/teacher/home', { replace: true })
           setIsChecking(prev => false)
         }
       }

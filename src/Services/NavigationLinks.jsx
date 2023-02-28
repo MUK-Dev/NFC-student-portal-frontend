@@ -152,6 +152,24 @@ export const getLinks = (theme, role) => {
   else if (role === 'Teacher')
     return [
       {
+        title: 'Dashboard',
+        path: '/teacher/home',
+        icon: (
+          <HomeIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Mark Attendance',
+        path: '/teacher/mark-attandence',
+        icon: (
+          <FactCheckIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
         title: 'Result Form',
         path: '/teacher/result-form',
         icon: (

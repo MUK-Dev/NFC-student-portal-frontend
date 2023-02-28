@@ -15,6 +15,7 @@ import RSubject from './Pages/HeadForms/RSubject'
 import RTeachers from './Pages/HeadForms/RTeachers'
 import AuthLayout from './Pages/Layouts/AuthLayout'
 import DashboardLayout from './Pages/Layouts/DashboardLayout'
+import MarkAttandence from './Pages/MarkAttandence/MarkAttandence'
 import ParentHome from './Pages/Parent-Home/Parent_Home'
 import StudentAttendance from './Pages/StudentAttendance/StudentAttendance'
 import StudentCertificate from './Pages/StudentCertificate/StudentCertificate'
@@ -22,6 +23,7 @@ import StudentDashboard from './Pages/StudentDashboard/StudentDashboard'
 import StudentDetailProgress from './Pages/StudentProgress/StudentDetailProgress'
 import StudentProgress from './Pages/StudentProgress/StudentProgress'
 import StudentsTranscript from './Pages/StudentProgress/StudentTranscript'
+import TeacherDashboard from './Pages/TeacherDashboard/TeacherDashboard'
 import ClassResult from './Pages/TeacherForms/ClassResult'
 
 import AuthProvider from './Contexts/AuthContext'
@@ -85,6 +87,11 @@ const App = () => {
                 />
                 <Route path='/parent/home' element={<ParentHome />} />
                 <Route path='/teacher/result-form' element={<ClassResult />} />
+                <Route path='/teacher/home' element={<TeacherDashboard />} />
+                <Route
+                  path='/teacher/mark-attandence'
+                  element={<MarkAttandence />}
+                />
               </Route>
             </Routes>
           </LocalizationProvider>

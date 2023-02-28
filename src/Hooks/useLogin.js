@@ -28,7 +28,7 @@ export default function useLogin() {
       } else if (user.role === 'Admin') {
         navigate('/head/register/department')
       } else if (user.role === 'Teacher') {
-        navigate('/student/home')
+        navigate('/teacher/home')
       }
       // else if(user.role === "Teacher")
     } catch (err) {
