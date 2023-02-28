@@ -10,7 +10,7 @@ function createData(session, program, section, subject) {
 const rows = [
   createData('2K19', 'bscs', 'Blue', 'Information Security'),
   createData('2K19', 'bscs', 'Red', 'Information Security'),
-  createData('2K19', 'bscs', 'Red', 'Information Security'),
+  createData('2K19', 'bscs', 'Green', 'Information Security'),
   createData('2K20', 'bscs', 'Blue', 'Digital Image Processing'),
   createData('2K20', 'bscs', 'Red', 'Digital Image Processing'),
   createData('2K20', 'bscs', 'Green', 'Digital Image Processing'),
