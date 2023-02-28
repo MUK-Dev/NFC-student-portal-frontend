@@ -3,17 +3,17 @@ import { Grid, Paper, useMediaQuery, useTheme } from '@mui/material'
 import TeacherSubject from '../../Components/Cards/TeacherSubject'
 import AreaChart from '../../Components/Charts/AreaChart'
 
-function createData(section, subject) {
-  return { section, subject }
+function createData(session, program, section, subject) {
+  return { session, program, section, subject }
 }
 
 const rows = [
-  createData('2K19 Blue', 'Information Security'),
-  createData('2K19 Red', 'Information Security'),
-  createData('2K19 Red', 'Information Security'),
-  createData('2K20 Blue', 'Digital Image Processing'),
-  createData('2K20 Red', 'Digital Image Processing'),
-  createData('2K20 Green', 'Digital Image Processing'),
+  createData('2K19', 'bscs', 'Blue', 'Information Security'),
+  createData('2K19', 'bscs', 'Red', 'Information Security'),
+  createData('2K19', 'bscs', 'Red', 'Information Security'),
+  createData('2K20', 'bscs', 'Blue', 'Digital Image Processing'),
+  createData('2K20', 'bscs', 'Red', 'Digital Image Processing'),
+  createData('2K20', 'bscs', 'Green', 'Digital Image Processing'),
 ]
 
 const TeacherDashboard = () => {
@@ -26,7 +26,12 @@ const TeacherDashboard = () => {
         <Paper sx={{ padding: '1em' }}>
           <Grid container gap='1em'>
             {rows.map(row => (
-              <TeacherSubject section={row.section} subject={row.subject} />
+              <TeacherSubject
+                session={row.session}
+                program={row.program}
+                section={row.section}
+                subject={row.subject}
+              />
             ))}
           </Grid>
         </Paper>

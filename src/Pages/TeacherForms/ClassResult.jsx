@@ -53,20 +53,25 @@ const rows = [
 
 export default function ClassResult() {
   let [searchParams, setSearchParams] = useSearchParams()
-  const section = searchParams.get('section')
-  const subject = searchParams.get('subject')
+  const session = searchParams.get('session').toLowerCase()
+  const program = searchParams.get('program').toLowerCase()
+  const section = searchParams.get('section').toLowerCase()
+  const subject = searchParams.get('subject').toLowerCase()
 
   const { token } = useAuth()
-
   const { data } = useQuery(
     ['marks-sheet', searchParams.get('section'), searchParams.get('subject')],
-    () => getMarksSheet(token, { section, subject }),
+    () => getMarksSheet(token, { session, program, section }),
     {
       enabled: !!token,
     },
   )
 
-  console.log(data)
+  // console.log(data)
+  const Session = session.toUpperCase()
+  const Program = program.toUpperCase()
+  const Section = section.toUpperCase()
+  const Subject = subject.toUpperCase()
 
   return (
     <Grid>
@@ -111,7 +116,7 @@ export default function ClassResult() {
               {data?.map(row => (
                 <StyledTableRow key={row._id}>
                   <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                    {section} {row.rollNo}
+                    {Session}-{Program}-{row.rollNo}
                   </StyledTableCell>
                   <StyledTableCell align='left' sx={{ padding: '1%' }}>
                     {row.name}
