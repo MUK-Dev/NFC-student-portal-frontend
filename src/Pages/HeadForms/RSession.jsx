@@ -66,6 +66,7 @@ const RSession = () => {
                   variant='outlined'
                   label='Session Title'
                   type='text'
+                  placeholder='2K19'
                   fullWidth
                 />
               </Grid>

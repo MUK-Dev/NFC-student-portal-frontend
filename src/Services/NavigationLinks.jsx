@@ -62,15 +62,6 @@ export const getLinks = (theme, role) => {
           />
         ),
       },
-      {
-        title: 'Result Form',
-        path: '/teacher/result-form',
-        icon: (
-          <SchoolIcon
-            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-          />
-        ),
-      },
     ]
   else if (role === 'Parent')
     return [
