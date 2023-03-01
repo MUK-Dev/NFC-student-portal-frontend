@@ -91,9 +91,8 @@ const RProgram = () => {
       program_abbreviation: Yup.string().required(
         'Program Abbreviation is required',
       ),
-      // type: Yup.string().required('Program Type is required'),
-      // starting: Yup.date().required('Starting Date is required'),
-      department: Yup.string().required('Description is required'),
+      type: Yup.string().required('Program Type is required'),
+      department: Yup.string().required('Department is required'),
     }),
     onSubmit: (values, { setErrors, setStatus, setSubmitting }) =>
       submitForm(value, values, { setErrors, setStatus, setSubmitting }),
@@ -123,7 +122,10 @@ const RProgram = () => {
                 <Grid item width='100%'>
                   <Grid container width='100%'>
                     <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <FormControl fullWidth error={!!errors.department}>
+                      <FormControl
+                        fullWidth
+                        error={!!touched.department && !!errors.department}
+                      >
                         <InputLabel>Department</InputLabel>
                         <Select
                           labelId='department'
@@ -191,7 +193,10 @@ const RProgram = () => {
                       />
                     </Grid>
                     <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <FormControl fullWidth error={!!errors.department}>
+                      <FormControl
+                        fullWidth
+                        error={!!touched.type && !!errors.type}
+                      >
                         <InputLabel>Program Type</InputLabel>
                         <Select
                           labelId='type'
