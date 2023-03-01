@@ -131,8 +131,8 @@ const RSubject = () => {
               </Grid>
               <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                 <FormControl fullWidth>
-                  <InputLabel>Semester Type</InputLabel>
-                  <Select label='Semester Type'>
+                  <InputLabel>Semester</InputLabel>
+                  <Select label='Semester'>
                     <MenuItem value={10}>1</MenuItem>
                     <MenuItem value={20}>2</MenuItem>
                     <MenuItem value={30}>3</MenuItem>
