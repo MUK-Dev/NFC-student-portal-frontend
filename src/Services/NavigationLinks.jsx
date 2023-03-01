@@ -1,6 +1,7 @@
 import { HolidayVillage } from '@mui/icons-material'
 import AccessibilityIcon from '@mui/icons-material/Accessibility'
 import ApartmentIcon from '@mui/icons-material/Apartment'
+import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import FactCheckIcon from '@mui/icons-material/FactCheck'
 import GradeIcon from '@mui/icons-material/Grade'
@@ -108,6 +109,15 @@ export const getLinks = (theme, role) => {
         path: '/head/register/session',
         icon: (
           <CalendarTodayIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Section',
+        path: '/head/register/section',
+        icon: (
+          <AutoAwesomeMotionIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),

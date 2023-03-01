@@ -8,6 +8,7 @@ import Login from './Pages/Auth/Login'
 import Register from './Pages/Auth/Register'
 import RDepartment from './Pages/HeadForms/RDepartment'
 import RProgram from './Pages/HeadForms/RProgram'
+import RSection from './Pages/HeadForms/RSection'
 import RSemester from './Pages/HeadForms/RSemester'
 import RSession from './Pages/HeadForms/RSession'
 import RStudents from './Pages/HeadForms/RStudents'
@@ -92,6 +93,7 @@ const App = () => {
                   path='/teacher/mark-attandence'
                   element={<MarkAttandence />}
                 />
+                <Route path='/head/register/section' element={<RSection />} />
               </Route>
             </Routes>
           </LocalizationProvider>
