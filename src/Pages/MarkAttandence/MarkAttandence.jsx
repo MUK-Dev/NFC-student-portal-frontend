@@ -1,4 +1,3 @@
-import { ArrowForwardIos } from '@mui/icons-material'
 import {
   Avatar,
   Box,
@@ -7,6 +6,7 @@ import {
   Drawer,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   Grid,
   InputLabel,
   List,
@@ -22,38 +22,109 @@ import {
   useTheme,
 } from '@mui/material'
 import { MobileDatePicker } from '@mui/x-date-pickers'
+import { Formik } from 'formik'
+import { motion } from 'framer-motion'
 import moment from 'moment'
 import React, { useState } from 'react'
+import { useQuery } from 'react-query'
+import { useSearchParams } from 'react-router-dom'
+import * as Yup from 'yup'
+
+import { getDepartments } from '../../Services/API/departmentsRequest'
+import { getPrograms } from '../../Services/API/programsRequest'
+import { getSections } from '../../Services/API/sectionsRequest'
+import { getSemester } from '../../Services/API/semesterRequest'
+import { getSessions } from '../../Services/API/sessionsRequest'
 
 const MarkAttandence = () => {
   const [showDrawer, setShowDrawer] = useState(false)
   const theme = useTheme()
+  const [_, setSearchParams] = useSearchParams()
+  const [values, setValues] = useState({
+    session: '',
+    program: '',
+    department: '',
+    section: '',
+  })
+  const [errors, setErrors] = useState({
+    session: null,
+    program: null,
+    department: null,
+    section: null,
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [enablePrograms, setEnablePrograms] = useState(false)
+  const [enableSessions, setEnableSessions] = useState(false)
+  const [enableSections, setEnableSections] = useState(false)
+  const [enableSemester, setEnableSemester] = useState(false)
+  const {
+    isError: isDepartmentError,
+    isLoading: areDepartmentsLoading,
+    data: departmentsData,
+  } = useQuery('departments', () => getDepartments(), {
+    staleTime: 1000 * 60 * 60 * 24,
+  })
 
-  const drawer = (
-    <Drawer
-      anchor='right'
-      open={showDrawer}
-      onClose={() => setShowDrawer(prev => !prev)}
-    >
-      <Box sx={{ width: 250 }}>
-        <List>
-          {[
-            'Program 1',
-            'Program 2',
-            'Program 3',
-            'Program 4',
-            'Program 5',
-          ].map((text, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
-    </Drawer>
+  const {
+    isError: isProgramsError,
+    isLoading: areProgramsLoading,
+    data: programsData,
+  } = useQuery(
+    ['programs', values.department],
+    () => getPrograms(values.department),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: enablePrograms,
+    },
   )
+
+  const {
+    isError: isSessionsError,
+    isLoading: areSessionsLoading,
+    data: sessionsData,
+  } = useQuery(
+    ['sessions', values.department, values.program],
+    () => getSessions(values.department, values.program),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: enablePrograms && enableSessions,
+    },
+  )
+
+  const {
+    isError: isSectionsError,
+    isLoading: areSectionsLoading,
+    data: sectionsData,
+  } = useQuery(
+    ['sections', values.department, values.program, values.session],
+    () => getSections(values.department, values.program, values.session),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: enablePrograms && enableSessions && enableSections,
+    },
+  )
+
+  const {
+    isError: isSemestersError,
+    isLoading: areSemestersLoading,
+    data: semestersData,
+  } = useQuery(
+    ['semesters', values.department, values.program, values.session],
+    () => getSemester(values.department, values.program, values.session),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: enablePrograms && enableSessions && enableSections,
+    },
+  )
+
+  console.log(semestersData)
+
+  const handleChange = (key, value) => {
+    setValues(prev => ({
+      ...prev,
+      [key]: value,
+    }))
+  }
 
   return (
     <Grid container flexWrap='nowrap'>
@@ -67,38 +138,138 @@ const MarkAttandence = () => {
             <Grid container width='100%' gap='2em'>
               <Grid item flexGrow={1} padding='.5em .5em .5em 0'>
                 <Stack gap='1em'>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth error={!!errors.department}>
                     <InputLabel>Department</InputLabel>
-                    <Select label='Department'>
-                      <MenuItem value={10}>Computer Science</MenuItem>
-                      <MenuItem value={20}>Mechanical Engineering</MenuItem>
-                      <MenuItem value={20}>Electrical Engineering</MenuItem>
+                    <Select
+                      labelId='department'
+                      id='department'
+                      value={values.department}
+                      label='Departments'
+                      disabled={isDepartmentError || areDepartmentsLoading}
+                      required
+                      onChange={e => {
+                        handleChange('department', e.target.value)
+                        setEnablePrograms(true)
+                      }}
+                    >
+                      {departmentsData?.map(d => (
+                        <MenuItem value={d._id} key={d._id}>
+                          {d.department_name}
+                        </MenuItem>
+                      ))}
                     </Select>
+                    {!!errors.department && (
+                      <FormHelperText error>{errors.department}</FormHelperText>
+                    )}
                   </FormControl>
-                  <FormControl fullWidth>
-                    <InputLabel>Program</InputLabel>
-                    <Select label='Program'>
-                      <MenuItem value={10}>BSCS</MenuItem>
-                      <MenuItem value={20}>BSSE</MenuItem>
-                      <MenuItem value={20}>BBA</MenuItem>
+                  <FormControl fullWidth error={!!errors.program}>
+                    <InputLabel>Programs</InputLabel>
+                    <Select
+                      labelId='Programs'
+                      id='programs'
+                      value={values.program}
+                      label='Programs'
+                      required
+                      disabled={
+                        areProgramsLoading || isProgramsError || !enablePrograms
+                      }
+                      onChange={e => {
+                        handleChange('program', e.target.value)
+                        setEnableSessions(true)
+                      }}
+                    >
+                      {programsData?.map(p => (
+                        <MenuItem key={p._id} value={p._id}>
+                          {p.program_abbreviation}
+                        </MenuItem>
+                      ))}
                     </Select>
+                    {!!errors.program && (
+                      <FormHelperText error>{errors.program}</FormHelperText>
+                    )}
                   </FormControl>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth error={!!errors.session}>
                     <InputLabel>Session</InputLabel>
-                    <Select label='Session'>
-                      <MenuItem value={10}>2k19</MenuItem>
-                      <MenuItem value={20}>2k20</MenuItem>
-                      <MenuItem value={20}>2k21</MenuItem>
+                    <Select
+                      labelId='session'
+                      id='session'
+                      value={values.session}
+                      label='Session'
+                      required
+                      disabled={
+                        isSessionsError ||
+                        areSessionsLoading ||
+                        !enablePrograms ||
+                        !enableSessions
+                      }
+                      onChange={e => {
+                        handleChange('session', e.target.value)
+                        setEnableSections(true)
+                      }}
+                    >
+                      {sessionsData?.map(s => (
+                        <MenuItem key={s._id} value={s._id}>
+                          {s.session_title}
+                        </MenuItem>
+                      ))}
                     </Select>
+                    {!!errors.session && (
+                      <FormHelperText error>{errors.session}</FormHelperText>
+                    )}
                   </FormControl>
-                  <FormControl fullWidth>
-                    <InputLabel>Semester</InputLabel>
-                    <Select label='Semester'>
-                      <MenuItem value={10}>1</MenuItem>
-                      <MenuItem value={20}>2</MenuItem>
-                      <MenuItem value={20}>3</MenuItem>
+                  <FormControl fullWidth error={!!errors.section}>
+                    <InputLabel htmlFor='section'>Section</InputLabel>
+                    <Select
+                      id='section'
+                      value={values.section}
+                      label='Section'
+                      required
+                      disabled={
+                        areSectionsLoading ||
+                        isSectionsError ||
+                        !enablePrograms ||
+                        !enableSections ||
+                        !enableSessions
+                      }
+                      onChange={e => handleChange('section', e.target.value)}
+                    >
+                      {sectionsData?.map(s => (
+                        <MenuItem value={s._id} key={s._id}>
+                          {s.section_title}
+                        </MenuItem>
+                      ))}
                     </Select>
+                    {!!errors.section && (
+                      <FormHelperText error>{errors.section}</FormHelperText>
+                    )}
                   </FormControl>
+                  <FormControl fullWidth error={!!errors.semester}>
+                    <InputLabel htmlFor='section'>Semester</InputLabel>
+                    <Select
+                      id='semester'
+                      value={values.semester}
+                      label='Semester'
+                      required
+                      disabled={
+                        areSemestersLoading ||
+                        isSemestersError ||
+                        !enablePrograms ||
+                        !enableSections ||
+                        !enableSessions
+                      }
+                      onChange={e => handleChange('semester', e.target.value)}
+                    >
+                      {semestersData?.map(s => (
+                        <MenuItem value={s._id} key={s._id}>
+                          {s.semester_title}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {!!errors.semester && (
+                      <FormHelperText error>{errors.semester}</FormHelperText>
+                    )}
+                  </FormControl>
+
                   <FormControl fullWidth>
                     <InputLabel>Subject</InputLabel>
                     <Select label='Subject'>
@@ -146,8 +317,6 @@ const MarkAttandence = () => {
           </Grid>
         </Grid>
       </Grid>
-
-      {drawer}
     </Grid>
   )
 }
