@@ -16,6 +16,7 @@ import {
 } from '@mui/material'
 import { Formik } from 'formik'
 import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useSearchParams } from 'react-router-dom'
 import * as Yup from 'yup'
@@ -36,6 +37,23 @@ const StudentForm1 = ({
 }) => {
   const theme = useTheme()
   const [_, setSearchParams] = useSearchParams()
+  const [values, setValues] = useState({
+    session: sessionRef.current,
+    program: programRef.current,
+    department: departmentRef.current,
+    section: sectionRef.current,
+  })
+  const [errors, setErrors] = useState({
+    session: null,
+    program: null,
+    department: null,
+    section: null,
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [enablePrograms, setEnablePrograms] = useState(false)
+  const [enableSessions, setEnableSessions] = useState(false)
+  const [enableSections, setEnableSections] = useState(false)
+
   const arrowAnimation = {
     initial: {
       opacity: 0,
@@ -63,235 +81,225 @@ const StudentForm1 = ({
     isError: isProgramsError,
     isLoading: areProgramsLoading,
     data: programsData,
-  } = useQuery('programs', () => getPrograms(), {
-    staleTime: 1000 * 60 * 60 * 24,
-  })
+  } = useQuery(
+    ['programs', values.department],
+    () => getPrograms(values.department),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: enablePrograms,
+    },
+  )
 
   const {
     isError: isSessionsError,
     isLoading: areSessionsLoading,
     data: sessionsData,
-  } = useQuery('sessions', () => getSessions(), {
-    staleTime: 1000 * 60 * 60 * 24,
-  })
+  } = useQuery(
+    ['sessions', values.department, values.program],
+    () => getSessions(values.department, values.program),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: enablePrograms && enableSessions,
+    },
+  )
 
   const {
     isError: isSectionsError,
     isLoading: areSectionsLoading,
     data: sectionsData,
-  } = useQuery('sections', () => getSections(), {
-    staleTime: 1000 * 60 * 60 * 24,
-  })
+  } = useQuery(
+    ['sections', values.department, values.program, values.session],
+    () => getSections(values.department, values.program, values.session),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: enablePrograms && enableSessions && enableSections,
+    },
+  )
 
-  const submitForm = async (
-    values,
-    { setErrors, setStatus, setSubmitting },
-  ) => {
-    setSubmitting(true)
+  const submitForm = async e => {
+    e.preventDefault()
+    setIsSubmitting(true)
     sessionRef.current = values.session
     programRef.current = values.program
     departmentRef.current = values.department
     sectionRef.current = values.section
+    setIsSubmitting(false)
     handleNext()
-    setSubmitting(false)
   }
 
-  const formikOptions = {
-    initialValues: {
-      session: sessionRef.current,
-      program: programRef.current,
-      department: departmentRef.current,
-      section: sectionRef.current,
-    },
-    validationSchema: Yup.object().shape({
-      session: Yup.string().required('Session is required'),
-      program: Yup.string().required('Program is required'),
-      department: Yup.string().required('Department is required'),
-      section: Yup.string().required('Section is required'),
-    }),
-    onSubmit: submitForm,
+  const handleChange = (key, value) => {
+    setValues(prev => ({
+      ...prev,
+      [key]: value,
+    }))
   }
 
   return (
-    <Formik {...formikOptions}>
-      {({
-        errors,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        isSubmitting,
-        touched,
-        values,
-      }) => (
-        <form noValidate onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <Stack
-            direction='column'
-            justifyContent='center'
-            alignItems='center'
-            width='100%'
-            component={motion.div}
-            key='StudentForm'
-            variants={animation}
-            initial='initial'
-            animate='animate'
-            exit='exit'
-            sx={{ position: 'relative' }}
-          >
-            <Typography variant='h5' gutterBottom>
-              Enter University Information
-            </Typography>
-            <Divider
-              sx={{
-                background: theme.palette.primary.main,
-                height: '4px',
-                width: '25%',
-                borderRadius: '50px',
-                display: 'flex',
-                justifyContent: 'center',
-                marginBottom: '1em',
-              }}
-            />
-            <Stack gap='1em' padding='1em' width='100%'>
-              <Stack
-                direction='row'
-                alignItems='flex-start'
-                width='100%'
-                gap='1em'
-              >
-                <FormControl
-                  fullWidth
-                  error={!!touched.department && !!errors.department}
-                >
-                  <InputLabel>Department</InputLabel>
-                  <Select
-                    labelId='department'
-                    id='department'
-                    value={values.department}
-                    label='Departments'
-                    required
-                    onBlur={handleBlur('department')}
-                    onChange={handleChange('department')}
-                  >
-                    {departmentsData?.map(d => (
-                      <MenuItem value={d._id} key={d._id}>
-                        {d.department_name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  {!!touched.department && !!errors.department && (
-                    <FormHelperText error>{errors.department}</FormHelperText>
-                  )}
-                </FormControl>
-
-                <FormControl
-                  fullWidth
-                  error={!!touched.program && !!errors.program}
-                >
-                  <InputLabel>Programs</InputLabel>
-                  <Select
-                    labelId='Programs'
-                    id='programs'
-                    value={values.program}
-                    label='Programs'
-                    required
-                    disabled={areProgramsLoading || isProgramsError}
-                    onBlur={handleBlur('program')}
-                    onChange={handleChange('program')}
-                  >
-                    {programsData?.map(p => (
-                      <MenuItem key={p._id} value={p._id}>
-                        {p.program_abbreviation}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  {!!touched.program && !!errors.program && (
-                    <FormHelperText error>{errors.program}</FormHelperText>
-                  )}
-                </FormControl>
-              </Stack>
-
-              <Stack
-                direction='row'
-                alignItems='flex-start'
-                width='100%'
-                gap='1em'
-              >
-                <FormControl
-                  fullWidth
-                  error={!!touched.session && !!errors.session}
-                >
-                  <InputLabel>Session</InputLabel>
-                  <Select
-                    labelId='session'
-                    id='session'
-                    value={values.session}
-                    label='Session'
-                    required
-                    onBlur={handleBlur('session')}
-                    onChange={handleChange('session')}
-                  >
-                    {sessionsData?.map(s => (
-                      <MenuItem key={s._id} value={s._id}>
-                        {s.session_title}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  {!!touched.session && !!errors.session && (
-                    <FormHelperText error>{errors.session}</FormHelperText>
-                  )}
-                </FormControl>
-                <FormControl
-                  fullWidth
-                  error={!!touched.section && !!errors.section}
-                >
-                  <InputLabel htmlFor='section'>Section</InputLabel>
-                  <Select
-                    id='section'
-                    value={values.section}
-                    label='Section'
-                    required
-                    disabled={areSectionsLoading || isSectionsError}
-                    onChange={handleChange('section')}
-                    onBlur={handleBlur('section')}
-                  >
-                    {sectionsData?.map(s => (
-                      <MenuItem value={s._id} key={s._id}>
-                        {s.section_title}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  {!!touched.section && !!errors.section && (
-                    <FormHelperText error>{errors.section}</FormHelperText>
-                  )}
-                </FormControl>
-              </Stack>
-            </Stack>
-            <motion.div
-              key='ArrowBack1'
-              variants={arrowAnimation}
-              initial='initial'
-              animate='animate'
-              exit='exit'
-            >
-              <IconButton
-                color='primary'
-                sx={{ position: 'absolute', top: -140, left: 10 }}
-                onClick={() => {
-                  reset()
-                  setSearchParams({ role: null })
+    <form noValidate onSubmit={submitForm} style={{ width: '100%' }}>
+      <Stack
+        direction='column'
+        justifyContent='center'
+        alignItems='center'
+        width='100%'
+        component={motion.div}
+        key='StudentForm'
+        variants={animation}
+        initial='initial'
+        animate='animate'
+        exit='exit'
+        sx={{ position: 'relative' }}
+      >
+        <Typography variant='h5' gutterBottom>
+          Enter University Information
+        </Typography>
+        <Divider
+          sx={{
+            background: theme.palette.primary.main,
+            height: '4px',
+            width: '25%',
+            borderRadius: '50px',
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: '1em',
+          }}
+        />
+        <Stack gap='1em' padding='1em' width='100%'>
+          <Stack direction='row' alignItems='flex-start' width='100%' gap='1em'>
+            <FormControl fullWidth error={!!errors.department}>
+              <InputLabel>Department</InputLabel>
+              <Select
+                labelId='department'
+                id='department'
+                value={values.department}
+                label='Departments'
+                disabled={isDepartmentError || areDepartmentsLoading}
+                required
+                onChange={e => {
+                  handleChange('department', e.target.value)
+                  setEnablePrograms(true)
                 }}
               >
-                <ArrowBackIos />
-              </IconButton>
-            </motion.div>
+                {departmentsData?.map(d => (
+                  <MenuItem value={d._id} key={d._id}>
+                    {d.department_name}
+                  </MenuItem>
+                ))}
+              </Select>
+              {!!errors.department && (
+                <FormHelperText error>{errors.department}</FormHelperText>
+              )}
+            </FormControl>
 
-            <Button type='submit' variant='contained'>
-              {isSubmitting ? <CircularProgress /> : 'Next'}
-            </Button>
+            <FormControl fullWidth error={!!errors.program}>
+              <InputLabel>Programs</InputLabel>
+              <Select
+                labelId='Programs'
+                id='programs'
+                value={values.program}
+                label='Programs'
+                required
+                disabled={
+                  areProgramsLoading || isProgramsError || !enablePrograms
+                }
+                onChange={e => {
+                  handleChange('program', e.target.value)
+                  setEnableSessions(true)
+                }}
+              >
+                {programsData?.map(p => (
+                  <MenuItem key={p._id} value={p._id}>
+                    {p.program_abbreviation}
+                  </MenuItem>
+                ))}
+              </Select>
+              {!!errors.program && (
+                <FormHelperText error>{errors.program}</FormHelperText>
+              )}
+            </FormControl>
           </Stack>
-        </form>
-      )}
-    </Formik>
+
+          <Stack direction='row' alignItems='flex-start' width='100%' gap='1em'>
+            <FormControl fullWidth error={!!errors.session}>
+              <InputLabel>Session</InputLabel>
+              <Select
+                labelId='session'
+                id='session'
+                value={values.session}
+                label='Session'
+                required
+                disabled={
+                  isSessionsError ||
+                  areSessionsLoading ||
+                  !enablePrograms ||
+                  !enableSessions
+                }
+                onChange={e => {
+                  handleChange('session', e.target.value)
+                  setEnableSections(true)
+                }}
+              >
+                {sessionsData?.map(s => (
+                  <MenuItem key={s._id} value={s._id}>
+                    {s.session_title}
+                  </MenuItem>
+                ))}
+              </Select>
+              {!!errors.session && (
+                <FormHelperText error>{errors.session}</FormHelperText>
+              )}
+            </FormControl>
+            <FormControl fullWidth error={!!errors.section}>
+              <InputLabel htmlFor='section'>Section</InputLabel>
+              <Select
+                id='section'
+                value={values.section}
+                label='Section'
+                required
+                disabled={
+                  areSectionsLoading ||
+                  isSectionsError ||
+                  !enablePrograms ||
+                  !enableSections ||
+                  !enableSessions
+                }
+                onChange={e => handleChange('section', e.target.value)}
+              >
+                {sectionsData?.map(s => (
+                  <MenuItem value={s._id} key={s._id}>
+                    {s.section_title}
+                  </MenuItem>
+                ))}
+              </Select>
+              {!!errors.section && (
+                <FormHelperText error>{errors.section}</FormHelperText>
+              )}
+            </FormControl>
+          </Stack>
+        </Stack>
+        <motion.div
+          key='ArrowBack1'
+          variants={arrowAnimation}
+          initial='initial'
+          animate='animate'
+          exit='exit'
+        >
+          <IconButton
+            color='primary'
+            sx={{ position: 'absolute', top: -140, left: 10 }}
+            onClick={() => {
+              reset()
+              setSearchParams({ role: null })
+            }}
+          >
+            <ArrowBackIos />
+          </IconButton>
+        </motion.div>
+
+        <Button type='submit' variant='contained'>
+          {isSubmitting ? <CircularProgress /> : 'Next'}
+        </Button>
+      </Stack>
+    </form>
   )
 }
 
