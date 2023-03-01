@@ -9,6 +9,7 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null)
   const [user, setUser] = useState(null)
   const [isAuthLoading, setIsAuthLoading] = useState(true)
+  const [disableAuthGuard, setDisableAuthGuard] = useState(false)
   const navigate = useNavigate()
 
   const setAccessToken = token => localStorage.setItem('token', token)
@@ -53,6 +54,8 @@ const AuthProvider = ({ children }) => {
         setAccessToken,
         getAccessToken,
         isAuthLoading,
+        disableAuthGuard,
+        setDisableAuthGuard,
         logout,
       }}
     >

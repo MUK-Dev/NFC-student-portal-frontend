@@ -4,8 +4,16 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
+import { useNavigate } from 'react-router'
 
-export default function TeacherSubject({ section, subject }) {
+export default function TeacherSubject({ session, program, section, subject }) {
+  const navigate = useNavigate()
+
+  const handleClassClick = () => {
+    navigate(
+      `/teacher/result-form?session=${session}&program=${program}&section=${section}&subject=${subject}`,
+    )
+  }
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   return (
@@ -24,7 +32,7 @@ export default function TeacherSubject({ section, subject }) {
           }
         }
       >
-        <CardActionArea>
+        <CardActionArea onClick={handleClassClick}>
           <CardContent>
             <Typography
               gutterBottom
@@ -32,7 +40,7 @@ export default function TeacherSubject({ section, subject }) {
               component='div'
               padding='0 0 0 0.5em'
             >
-              {section}
+              {session} {section}
             </Typography>
             <Typography variant='body2' color='text.secondary' align='center'>
               {subject}

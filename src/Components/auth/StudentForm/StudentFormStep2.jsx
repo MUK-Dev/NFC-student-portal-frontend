@@ -20,20 +20,14 @@ import * as Yup from 'yup'
 import useAuth from '../../../Hooks/useAuth'
 
 const StudentForm2 = ({
-  animation,
   handleNext,
   handleBack,
-  gender,
-  setGender,
-  department,
-  setDepartment,
+  genderRef,
   nameRef,
+  rollNoRef,
   phoneNoRef,
 }) => {
   const theme = useTheme()
-  const { user, token } = useAuth()
-
-  console.log(user, token)
 
   const arrowAnimation = {
     initial: {
@@ -57,16 +51,8 @@ const StudentForm2 = ({
     setSubmitting(true)
     nameRef.current = values.name
     phoneNoRef.current = values.phoneNo
-    if (gender === '') {
-      setErrors({ gender: 'Gender is required' })
-      setSubmitting(false)
-      return
-    }
-    if (department === '') {
-      setErrors({ department: 'Department is required' })
-      setSubmitting(false)
-      return
-    }
+    rollNoRef.current = values.rollNo
+    genderRef.current = values.gender
     handleNext()
     setSubmitting(false)
   }
@@ -75,12 +61,17 @@ const StudentForm2 = ({
     initialValues: {
       name: nameRef.current,
       phoneNo: phoneNoRef.current,
-      gender: '',
-      department: '',
+      gender: genderRef.current,
+      rollNo: rollNoRef.current,
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required('Session is required'),
-      phoneNo: Yup.string().required('Program is required'),
+      phoneNo: Yup.string().required('Phone No is required'),
+      gender: Yup.string().required('Gender is required'),
+      rollNo: Yup.number('Roll No must be a number')
+        .required('Roll No is required')
+        .integer('Roll No should a number')
+        .positive('Roll No should be positive'),
     }),
     onSubmit: submitForm,
   }
@@ -132,8 +123,10 @@ const StudentForm2 = ({
                   onBlur={handleBlur('name')}
                   value={values.name}
                   onChange={handleChange('name')}
-                  error={touched.name && errors.name}
-                  helperText={touched.name && errors.name ? errors.name : ''}
+                  error={!!touched.name && !!errors.name}
+                  helperText={
+                    !!touched.name && !!errors.name ? errors.name : ''
+                  }
                 />
                 <TextField
                   variant='outlined'
@@ -143,9 +136,9 @@ const StudentForm2 = ({
                   onBlur={handleBlur('phoneNo')}
                   value={values.phoneNo}
                   onChange={handleChange('phoneNo')}
-                  error={touched.phoneNo && errors.phoneNo}
+                  error={!!touched.phoneNo && !!errors.phoneNo}
                   helperText={
-                    touched.phoneNo && errors.phoneNo ? errors.phoneNo : ''
+                    !!touched.phoneNo && !!errors.phoneNo ? errors.phoneNo : ''
                   }
                 />
               </Stack>
@@ -155,51 +148,40 @@ const StudentForm2 = ({
                 alignItems='flex-start'
                 sx={{ width: '100%', gap: '1em' }}
               >
-                <FormControl fullWidth error={touched.gender && errors.gender}>
+                <FormControl
+                  fullWidth
+                  error={!!touched.gender && !!errors.gender}
+                >
                   <InputLabel>Gender</InputLabel>
                   <Select
                     labelId='gender'
                     id='gender'
-                    value={gender}
+                    value={values.gender}
                     label='Gender'
                     required
-                    onChange={e => setGender(e.target.value)}
+                    onChange={handleChange('gender')}
                   >
                     <MenuItem value='male'>Male</MenuItem>
                     <MenuItem value='female'>Female</MenuItem>
                     <MenuItem value='other'>Other</MenuItem>
                   </Select>
-                  {touched.gender && errors.gender && (
+                  {!!touched.gender && !!errors.gender && (
                     <FormHelperText error>{errors.gender}</FormHelperText>
                   )}
                 </FormControl>
-                <FormControl
+                <TextField
+                  variant='outlined'
+                  label='Class Roll No.'
+                  placeholder='eg. 301'
                   fullWidth
-                  error={touched.department && errors.department}
-                >
-                  <InputLabel>Department</InputLabel>
-                  <Select
-                    labelId='department'
-                    id='department'
-                    value={department}
-                    label='Department'
-                    required
-                    onChange={e => setDepartment(e.target.value)}
-                  >
-                    <MenuItem value='Computer Science'>
-                      Computer Science
-                    </MenuItem>
-                    <MenuItem value='Mechanical Engineering'>
-                      Mechanical Engineering
-                    </MenuItem>
-                    <MenuItem value='Electrical Engineering'>
-                      Electrical Engineering
-                    </MenuItem>
-                  </Select>
-                  {touched.department && errors.department && (
-                    <FormHelperText error>{errors.department}</FormHelperText>
-                  )}
-                </FormControl>
+                  onBlur={handleBlur('rollNo')}
+                  value={values.rollNo}
+                  onChange={handleChange('rollNo')}
+                  error={!!touched.rollNo && !!errors.rollNo}
+                  helperText={
+                    !!touched.rollNo && !!errors.rollNo ? errors.rollNo : ''
+                  }
+                />
               </Stack>
             </Stack>
             <motion.div

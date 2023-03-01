@@ -24,6 +24,7 @@
     "react-apexcharts": "^1.4.0",
     "react-dom": "^18.2.0",
     "react-mui-event-calendar": "^1.1.9",
+    "react-query": "^3.39.3",
     "react-router": "^6.4.1",
     "react-router-dom": "^6.4.1",
     "yup": "^0.32.11"
