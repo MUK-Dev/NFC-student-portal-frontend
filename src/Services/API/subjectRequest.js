@@ -6,6 +6,6 @@ export const getSubject = async (department, program, session, semester) => {
       import.meta.env.VITE_API_URL
     }/subjects?department=${department}&program=${program}&session=${session}&semester=${semester}`,
   )
-  console.log(data)
+ 
   return data
 }

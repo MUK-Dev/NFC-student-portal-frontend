@@ -117,8 +117,6 @@ const MarkAttandence = () => {
     },
   )
 
-  console.log(semestersData)
-
   const handleChange = (key, value) => {
     setValues(prev => ({
       ...prev,
