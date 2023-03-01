@@ -30,16 +30,20 @@ import { useQuery } from 'react-query'
 import { useSearchParams } from 'react-router-dom'
 import * as Yup from 'yup'
 
+import useAuth from '../../Hooks/useAuth'
+
 import { getDepartments } from '../../Services/API/departmentsRequest'
 import { getPrograms } from '../../Services/API/programsRequest'
 import { getSections } from '../../Services/API/sectionsRequest'
 import { getSemester } from '../../Services/API/semesterRequest'
 import { getSessions } from '../../Services/API/sessionsRequest'
+import { getSubject } from '../../Services/API/subjectRequest'
 
 const MarkAttandence = () => {
   const [showDrawer, setShowDrawer] = useState(false)
   const theme = useTheme()
-  const [_, setSearchParams] = useSearchParams()
+  const { token } = useAuth()
+
   const [values, setValues] = useState({
     session: '',
     program: '',
@@ -57,6 +61,7 @@ const MarkAttandence = () => {
   const [enableSessions, setEnableSessions] = useState(false)
   const [enableSections, setEnableSections] = useState(false)
   const [enableSemester, setEnableSemester] = useState(false)
+  const [enableSubjects, setEnableSubjects] = useState(false)
   const {
     isError: isDepartmentError,
     isLoading: areDepartmentsLoading,
@@ -116,7 +121,36 @@ const MarkAttandence = () => {
       enabled: enablePrograms && enableSessions && enableSections,
     },
   )
-
+  const {
+    isError: isSubjectsError,
+    isLoading: areSubjectsLoading,
+    data: subjectsData,
+  } = useQuery(
+    [
+      'subjects',
+      values.department,
+      values.program,
+      values.session,
+      values.semester,
+    ],
+    () =>
+      getSubject(
+        token,
+        values.department,
+        values.program,
+        values.session,
+        values.semester,
+      ),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled:
+        !!token &&
+        enablePrograms &&
+        enableSessions &&
+        enableSections &&
+        enableSubjects,
+    },
+  )
   const handleChange = (key, value) => {
     setValues(prev => ({
       ...prev,
@@ -255,7 +289,10 @@ const MarkAttandence = () => {
                         !enableSections ||
                         !enableSessions
                       }
-                      onChange={e => handleChange('semester', e.target.value)}
+                      onChange={e => {
+                        handleChange('semester', e.target.value)
+                        setEnableSubjects(true)
+                      }}
                     >
                       {semestersData?.map(s => (
                         <MenuItem value={s._id} key={s._id}>
@@ -268,13 +305,35 @@ const MarkAttandence = () => {
                     )}
                   </FormControl>
 
-                  <FormControl fullWidth>
-                    <InputLabel>Subject</InputLabel>
-                    <Select label='Subject'>
-                      <MenuItem value={10}>Data Warehouse</MenuItem>
-                      <MenuItem value={20}>Wireless Networking</MenuItem>
-                      <MenuItem value={20}>FYP</MenuItem>
+                  <FormControl fullWidth error={!!errors.subject}>
+                    <InputLabel htmlFor='section'>Subject</InputLabel>
+                    <Select
+                      id='semester'
+                      value={values.subject}
+                      label='Subject'
+                      required
+                      disabled={
+                        areSubjectsLoading ||
+                        isSubjectsError ||
+                        !enablePrograms ||
+                        !enableSections ||
+                        !enableSessions ||
+                        !enableSubjects
+                      }
+                      onChange={e => {
+                        handleChange('subject', e.target.value)
+                        setEnableSubjects(true)
+                      }}
+                    >
+                      {subjectsData?.map(s => (
+                        <MenuItem value={s._id} key={s._id}>
+                          {s?.subject_title}
+                        </MenuItem>
+                      ))}
                     </Select>
+                    {!!errors.semester && (
+                      <FormHelperText error>{errors.semester}</FormHelperText>
+                    )}
                   </FormControl>
                 </Stack>
               </Grid>
