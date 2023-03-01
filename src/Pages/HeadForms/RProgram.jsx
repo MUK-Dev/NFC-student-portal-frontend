@@ -67,7 +67,7 @@ const RProgram = () => {
                   <Select label='Department'>
                     <MenuItem value={10}>Computer Science</MenuItem>
                     <MenuItem value={20}>Mechanical Engineering</MenuItem>
-                    <MenuItem value={20}>Electrical Engineering</MenuItem>
+                    <MenuItem value={30}>Electrical Engineering</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -75,6 +75,15 @@ const RProgram = () => {
                 <TextField
                   variant='outlined'
                   label='Program Title'
+                  type='text'
+                  placeholder='Bachelor of Science in Computer Science'
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <TextField
+                  variant='outlined'
+                  label='Program Abbreviation'
                   type='text'
                   placeholder='BSCS'
                   fullWidth
@@ -86,9 +95,9 @@ const RProgram = () => {
                   <Select label='Program Type'>
                     <MenuItem value={10}>1 Year</MenuItem>
                     <MenuItem value={20}>2 Year</MenuItem>
-                    <MenuItem value={20}>3 Year</MenuItem>
-                    <MenuItem value={20}>4 Year</MenuItem>
-                    <MenuItem value={20}>5 Year</MenuItem>
+                    <MenuItem value={30}>3 Year</MenuItem>
+                    <MenuItem value={40}>4 Year</MenuItem>
+                    <MenuItem value={50}>5 Year</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

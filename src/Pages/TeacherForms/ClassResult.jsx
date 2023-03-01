@@ -67,7 +67,7 @@ export default function ClassResult() {
     },
   )
 
-  // console.log(data)
+  console.log(data)
   const Session = session.toUpperCase()
   const Program = program.toUpperCase()
   const Section = section.toUpperCase()
