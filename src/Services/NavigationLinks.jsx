@@ -78,6 +78,15 @@ export const getLinks = (theme, role) => {
   else if (role === 'Admin')
     return [
       {
+        title : 'Department',
+        path : '/head/dashboard',
+        icon: (
+          <ApartmentIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
         title: 'Department',
         path: '/head/register/department',
         icon: (
