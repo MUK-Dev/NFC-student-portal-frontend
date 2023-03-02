@@ -124,7 +124,7 @@ const RProgram = () => {
                     <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                       <FormControl
                         fullWidth
-                        error={!!touched.department && !!errors.department}
+                        error={!!errors.department && !!touched.department}
                       >
                         <InputLabel>Department</InputLabel>
                         <Select
@@ -142,7 +142,7 @@ const RProgram = () => {
                             </MenuItem>
                           ))}
                         </Select>
-                        {!!errors.department && (
+                        {!!errors.department && !!touched.department && (
                           <FormHelperText error>
                             {errors.department}
                           </FormHelperText>
@@ -195,7 +195,7 @@ const RProgram = () => {
                     <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                       <FormControl
                         fullWidth
-                        error={!!touched.type && !!errors.type}
+                        error={!!errors.type && !!touched.type}
                       >
                         <InputLabel>Program Type</InputLabel>
                         <Select
@@ -212,7 +212,7 @@ const RProgram = () => {
                           <MenuItem value={40}>4 Year</MenuItem>
                           <MenuItem value={50}>5 Year</MenuItem>
                         </Select>
-                        {!!errors.type && (
+                        {!!errors.type && !!touched.type && (
                           <FormHelperText error>{errors.type}</FormHelperText>
                         )}
                       </FormControl>
