@@ -17,6 +17,5 @@ export const getSubject = async (
       },
     },
   )
-
   return data
 }
