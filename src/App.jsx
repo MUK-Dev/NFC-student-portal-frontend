@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import Login from './Pages/Auth/Login'
 import Register from './Pages/Auth/Register'
+import HeadDashboard from './Pages/HeadForms/HeadDashboard'
 import RDepartment from './Pages/HeadForms/RDepartment'
 import RProgram from './Pages/HeadForms/RProgram'
 import RSection from './Pages/HeadForms/RSection'
@@ -166,6 +167,7 @@ const App = () => {
                     element={<MarkAttandence />}
                   />
                   <Route path='/head/register/section' element={<RSection />} />
+                  <Route path='/head/dashboard' element = {<HeadDashboard/>}/>
                 </Route>
               </Routes>
             </LocalizationProvider>
