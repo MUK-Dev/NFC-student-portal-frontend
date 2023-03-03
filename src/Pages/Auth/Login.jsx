@@ -174,7 +174,11 @@ const Login = () => {
                 >
                   Register Instead?
                 </Typography>
-                <Button type='submit' variant='contained'>
+                <Button
+                  type='submit'
+                  variant='contained'
+                  disabled={isSubmitting}
+                >
                   Sign In
                 </Button>
               </Stack>

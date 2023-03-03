@@ -1,4 +1,4 @@
-import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
+import { ArrowBackIos } from '@mui/icons-material'
 import {
   Button,
   CircularProgress,
@@ -10,16 +10,13 @@ import {
   MenuItem,
   Select,
   Stack,
-  TextField,
   Typography,
   useTheme,
 } from '@mui/material'
-import { Formik } from 'formik'
 import { motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useSearchParams } from 'react-router-dom'
-import * as Yup from 'yup'
 
 import { getDepartments } from '../../../Services/API/departmentsRequest'
 import { getPrograms } from '../../../Services/API/programsRequest'
@@ -50,9 +47,15 @@ const StudentForm1 = ({
     section: null,
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [enablePrograms, setEnablePrograms] = useState(false)
-  const [enableSessions, setEnableSessions] = useState(false)
-  const [enableSections, setEnableSections] = useState(false)
+  const [enablePrograms, setEnablePrograms] = useState(
+    programRef.current === '' ? false : true,
+  )
+  const [enableSessions, setEnableSessions] = useState(
+    sessionRef.current === '' ? false : true,
+  )
+  const [enableSections, setEnableSections] = useState(
+    sectionRef.current === '' ? false : true,
+  )
 
   const arrowAnimation = {
     initial: {
@@ -116,8 +119,28 @@ const StudentForm1 = ({
     },
   )
 
+  const checkEmpty = (key, value) => {
+    if (value === '') {
+      setErrors(prev => ({
+        ...prev,
+        [key]: 'This is required',
+      }))
+      return true
+    } else return false
+  }
+
   const submitForm = async e => {
     e.preventDefault()
+    setErrors(prev => ({
+      session: null,
+      program: null,
+      department: null,
+      section: null,
+    }))
+    if (checkEmpty('department', values.department)) return
+    if (checkEmpty('program', values.program)) return
+    if (checkEmpty('session', values.session)) return
+    if (checkEmpty('section', values.section)) return
     setIsSubmitting(true)
     sessionRef.current = values.session
     programRef.current = values.program
