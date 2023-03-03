@@ -20,6 +20,7 @@ import AuthLayout from './Pages/Layouts/AuthLayout'
 import DashboardLayout from './Pages/Layouts/DashboardLayout'
 import MarkAttandence from './Pages/MarkAttandence/MarkAttandence'
 import ParentHome from './Pages/Parent-Home/Parent_Home'
+import ScannerAttendance from './Pages/ScannerAttendance/ScannerAttendence'
 import StudentAttendance from './Pages/StudentAttendance/StudentAttendance'
 import StudentCertificate from './Pages/StudentCertificate/StudentCertificate'
 import StudentDashboard from './Pages/StudentDashboard/StudentDashboard'
@@ -156,6 +157,10 @@ const App = () => {
                     path='/student/certificate'
                     element={<StudentCertificate />}
                   />
+                  <Route
+                    path='/student/scanner'
+                    element={<ScannerAttendance />}
+                  />
                   <Route path='/parent/home' element={<ParentHome />} />
                   <Route
                     path='/teacher/result-form'
@@ -166,8 +171,9 @@ const App = () => {
                     path='/teacher/mark-attandence'
                     element={<MarkAttandence />}
                   />
+
                   <Route path='/head/register/section' element={<RSection />} />
-                  <Route path='/head/dashboard' element = {<HeadDashboard/>}/>
+                  <Route path='/head/dashboard' element={<HeadDashboard />} />
                 </Route>
               </Routes>
             </LocalizationProvider>
