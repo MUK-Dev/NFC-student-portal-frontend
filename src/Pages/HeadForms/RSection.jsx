@@ -24,7 +24,6 @@ import { useQuery } from 'react-query'
 import * as Yup from 'yup'
 
 import useRegisterSection from '../../Hooks/useRegisterSection'
-import useRegisterSession from '../../Hooks/useRegisterSession'
 
 import { getDepartments } from '../../Services/API/departmentsRequest'
 import { getPrograms } from '../../Services/API/programsRequest'

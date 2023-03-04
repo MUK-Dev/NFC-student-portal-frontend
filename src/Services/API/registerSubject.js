@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export const registerSemesterRequest = async (token, d) => {
+export const registerSubjectRequest = async (token, d) => {
   const { data } = await axios({
-    url: `${import.meta.env.VITE_API_URL}/semesters`,
+    url: `${import.meta.env.VITE_API_URL}/subjects`,
     method: 'POST',
     data: d,
     headers: {

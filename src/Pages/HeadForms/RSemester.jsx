@@ -26,13 +26,13 @@ import { useQuery } from 'react-query'
 import * as Yup from 'yup'
 
 import useAuth from '../../Hooks/useAuth'
-import useRegisterSemestem from '../../Hooks/useRegisterSemester'
+import useRegisterSemester from '../../Hooks/useRegisterSemester'
 
 import { getDepartments } from '../../Services/API/departmentsRequest'
 import { getPrograms } from '../../Services/API/programsRequest'
 import { getSessions } from '../../Services/API/sessionsRequest'
 
-const RSemestem = () => {
+const RSemester = () => {
   const [showDrawer, setShowDrawer] = useState(false)
   const theme = useTheme()
   const { token } = useAuth()
@@ -103,7 +103,7 @@ const RSemestem = () => {
         program: true,
         session: true,
       }))
-    } else if (key == 'prgram') {
+    } else if (key == 'program') {
       setSubmitErrors(prev => ({
         ...prev,
         [key]: false,
@@ -117,19 +117,19 @@ const RSemestem = () => {
     }
   }
 
-  const [startYear, setStartYear] = useState(moment())
+  const [startDate, setStartDate] = useState(moment())
 
   const dateStartHandeler = newValue => {
-    setStartYear(newValue)
+    setStartDate(newValue)
   }
 
-  const [endYear, setEndYear] = useState(moment())
+  const [endDate, setEndDate] = useState(moment())
 
   const dateEndHandeler = newValue => {
-    setEndYear(newValue)
+    setEndDate(newValue)
   }
 
-  const { submitForm } = useRegisterSemestem()
+  const { submitForm } = useRegisterSemester()
 
   const drawer = (
     <Drawer
@@ -140,11 +140,11 @@ const RSemestem = () => {
       <Box sx={{ width: 250 }}>
         <List>
           {[
-            'Semestem 1',
-            'Semestem 2',
-            'Semestem 3',
-            'Semestem 4',
-            'Semestem 5',
+            'Semester 1',
+            'Semester 2',
+            'Semester 3',
+            'Semester 4',
+            'Semester 5',
           ].map((text, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton>
@@ -159,7 +159,7 @@ const RSemestem = () => {
 
   const formikOptions = {
     initialValues: {
-      semestem_title: '',
+      semester_title: '',
       type: '',
       starting: '',
       ending: '',
@@ -168,8 +168,8 @@ const RSemestem = () => {
       session: '',
     },
     validationSchema: Yup.object().shape({
-      semestem_title: Yup.string().required('Semestem Title is required'),
-      type: Yup.string().required('Semestem Type is required'),
+      semester_title: Yup.string().required('Semester Title is required'),
+      type: Yup.string().required('Semester Type is required'),
     }),
     onSubmit: (values, { setErrors, setStatus, setSubmitting }) => {
       setFormErrors(() => ({
@@ -177,7 +177,7 @@ const RSemestem = () => {
         program: submitErrors.program,
         session: submitErrors.session,
       }))
-      submitForm(values, selectedValue, startYear.toDate(), endYear.toDate(), {
+      submitForm(values, selectedValue, startDate.toDate(), endDate.toDate(), {
         setErrors,
         setStatus,
         setSubmitting,
@@ -201,9 +201,9 @@ const RSemestem = () => {
             <Grid item flexGrow={1}>
               <Grid container direction='column' width='100%'>
                 <Grid item width='100%'>
-                  <Typography variant='h4'>Register Semestem</Typography>
+                  <Typography variant='h4'>Register Semester</Typography>
                   <Typography gutterBottom>
-                    Enter the Semestem details
+                    Enter the Semester details
                   </Typography>
                 </Grid>
                 <Grid item width='100%'>
@@ -212,17 +212,17 @@ const RSemestem = () => {
                       <FormControl
                         fullWidth
                         error={
-                          !!errors.semestem_title && !!touched.semestem_title
+                          !!errors.semester_title && !!touched.semester_title
                         }
                       >
-                        <InputLabel>Semestem Title</InputLabel>
+                        <InputLabel>Semester Title</InputLabel>
                         <Select
-                          labelId='semestem_title'
-                          id='semestem_title'
-                          value={values.semestem_title}
-                          label='Semestem Title'
+                          labelId='semester_title'
+                          id='semester_title'
+                          value={values.semester_title}
+                          label='Semester Title'
                           required
-                          onChange={handleChange('semestem_title')}
+                          onChange={handleChange('semester_title')}
                         >
                           <MenuItem value={'1'}>1</MenuItem>
                           <MenuItem value={'2'}>2</MenuItem>
@@ -235,10 +235,10 @@ const RSemestem = () => {
                           <MenuItem value={'9'}>9</MenuItem>
                           <MenuItem value={'10'}>10</MenuItem>
                         </Select>
-                        {!!errors.semestem_title &&
-                          !!touched.semestem_title && (
+                        {!!errors.semester_title &&
+                          !!touched.semester_title && (
                             <FormHelperText error>
-                              {errors.semestem_title}
+                              {errors.semester_title}
                             </FormHelperText>
                           )}
                       </FormControl>
@@ -248,12 +248,12 @@ const RSemestem = () => {
                         fullWidth
                         error={!!errors.type && !!touched.type}
                       >
-                        <InputLabel>Semestem Type</InputLabel>
+                        <InputLabel>Semester Type</InputLabel>
                         <Select
                           labelId='type'
                           id='type'
                           value={values.type}
-                          label='Semestem Type'
+                          label='Semester Type'
                           required
                           onChange={handleChange('type')}
                         >
@@ -267,9 +267,9 @@ const RSemestem = () => {
                     </Grid>
                     <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                       <MobileDatePicker
-                        label='Starting Year'
+                        label='Starting Date'
                         inputFormat='MM/DD/YYYY'
-                        value={startYear}
+                        value={startDate}
                         onChange={dateStartHandeler}
                         renderInput={params => (
                           <TextField {...params} fullWidth />
@@ -279,9 +279,9 @@ const RSemestem = () => {
 
                     <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                       <MobileDatePicker
-                        label='Ending Year'
+                        label='Ending Date'
                         inputFormat='MM/DD/YYYY'
-                        value={endYear}
+                        value={endDate}
                         onChange={dateEndHandeler}
                         renderInput={params => (
                           <TextField {...params} fullWidth />
@@ -422,7 +422,7 @@ const RSemestem = () => {
                     writingMode: 'vertical-rl',
                   }}
                 >
-                  Show Semestems
+                  Show Semesters
                 </Typography>
                 <ArrowForwardIos htmlColor={theme.palette.warning.main} />
               </Stack>
@@ -435,4 +435,4 @@ const RSemestem = () => {
   )
 }
 
-export default RSemestem
+export default RSemester
