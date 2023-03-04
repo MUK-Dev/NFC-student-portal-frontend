@@ -17,5 +17,11 @@ export const getSubject = async (
       },
     },
   )
+
+  function compareByName(a, b) {
+    return a.subject_title.localeCompare(b.subject_title)
+  }
+  data.sort(compareByName)
+
   return data
 }

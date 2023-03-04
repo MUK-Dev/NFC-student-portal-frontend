@@ -6,5 +6,11 @@ export const getSections = async (department, program, session) => {
       import.meta.env.VITE_API_URL
     }/sections?department=${department}&program=${program}&session=${session}`,
   )
+
+  function compareByName(a, b) {
+    return a.section_title.localeCompare(b.section_title)
+  }
+  data.sort(compareByName)
+
   return data
 }
