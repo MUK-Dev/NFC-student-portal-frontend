@@ -1,11 +1,11 @@
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 
-import { registerSessionRequest } from '../Services/API/registerSession'
+import { registerSemestemRequest } from '../Services/API/registerSemester'
 
 import useAuth from './useAuth'
 
-export default function useRegisterSession() {
+export default function useRegisterSemestem() {
   const { token } = useAuth()
 
   const submitForm = async (
@@ -15,19 +15,25 @@ export default function useRegisterSession() {
     end,
     { setErrors, setStatus, setSubmitting },
   ) => {
-    if (selectedValue.department === '' || selectedValue.program === '') return
+    if (
+      selectedValue.department === '' ||
+      selectedValue.program === '' ||
+      selectedValue.session == ''
+    )
+      return
     setSubmitting(true)
     const d = {
-      session_title: values.session_title,
+      semestem_title: values.semestem_title,
       type: values.type,
-      starting_year: start,
-      ending_year: end,
+      starting: start,
+      ending: end,
       department: selectedValue.department,
       program: selectedValue.program,
+      session: selectedValue.session,
     }
     console.log(d)
     try {
-      const data = await registerSessionRequest(token, d)
+      const data = await registerSemestemRequest(token, d)
       setSubmitting(false)
       console.log(data)
     } catch (err) {

@@ -42,6 +42,10 @@ const RSession = () => {
   })
 
   const [formErrors, setFormErrors] = useState({
+    department: null,
+    program: null,
+  })
+  const [submitErrors, setSubmitErrors] = useState({
     department: true,
     program: true,
   })
@@ -74,6 +78,18 @@ const RSession = () => {
       ...prev,
       [key]: keyName,
     }))
+    if (key == 'department') {
+      setSubmitErrors(prev => ({
+        ...prev,
+        [key]: false,
+        program: true,
+      }))
+    } else {
+      setSubmitErrors(prev => ({
+        ...prev,
+        [key]: false,
+      }))
+    }
   }
 
   const [startYear, setStartYear] = useState(moment())
@@ -119,7 +135,7 @@ const RSession = () => {
   const formikOptions = {
     initialValues: {
       session_title: '',
-      type: 'fall',
+      type: '',
       starting: '',
       ending: '',
       department: '',
@@ -128,15 +144,18 @@ const RSession = () => {
     validationSchema: Yup.object().shape({
       session_title: Yup.string().required('Session Title is required'),
       type: Yup.string().required('Session Type is required'),
-      // department: Yup.string().required('Department is required'),
-      // program: Yup.string().required('Program is required'),
     }),
-    onSubmit: (values, { setErrors, setStatus, setSubmitting }) =>
+    onSubmit: (values, { setErrors, setStatus, setSubmitting }) => {
+      setFormErrors(() => ({
+        department: submitErrors.department,
+        program: submitErrors.program,
+      }))
       submitForm(values, selectedValue, startYear.toDate(), endYear.toDate(), {
         setErrors,
         setStatus,
         setSubmitting,
-      }),
+      })
+    },
   }
 
   return (
@@ -233,7 +252,9 @@ const RSession = () => {
                     <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                       <FormControl
                         fullWidth
-                        error={!!errors.program && !!formErrors.program}
+                        error={
+                          !!formErrors.department && !!submitErrors.department
+                        }
                       >
                         <InputLabel>Department</InputLabel>
                         <Select
@@ -256,7 +277,8 @@ const RSession = () => {
                         </Select>
                         {!!formErrors.department && (
                           <FormHelperText error>
-                            {!!formErrors.department}
+                            {!!submitErrors.department &&
+                              'Department is required'}
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -264,11 +286,11 @@ const RSession = () => {
                     <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                       <FormControl
                         fullWidth
-                        error={!!errors.program && !!formErrors.program}
+                        error={!!formErrors.program && submitErrors.program}
                       >
                         <InputLabel>Programs</InputLabel>
                         <Select
-                          labelId='Programs'
+                          labelId='programs'
                           id='programs'
                           value={selectedValue.program}
                           label='Programs'
@@ -288,9 +310,9 @@ const RSession = () => {
                             </MenuItem>
                           ))}
                         </Select>
-                        {!!errors.program && (
+                        {!!formErrors.program && (
                           <FormHelperText error>
-                            {!!formErrors.program && errors.program}
+                            {!!submitErrors.program && 'Program is required'}
                           </FormHelperText>
                         )}
                       </FormControl>
