@@ -3,14 +3,11 @@ import {
   Box,
   Button,
   Checkbox,
-  Drawer,
   FormControl,
-  FormControlLabel,
   FormHelperText,
   Grid,
   InputLabel,
   LinearProgress,
-  List,
   ListItem,
   ListItemAvatar,
   ListItemButton,
@@ -22,16 +19,13 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useTheme,
 } from '@mui/material'
 import { MobileDatePicker } from '@mui/x-date-pickers'
-import { Formik } from 'formik'
 import { motion } from 'framer-motion'
 import moment from 'moment'
+import QRCode from 'qrcode'
 import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import { useSearchParams } from 'react-router-dom'
-import * as Yup from 'yup'
 
 import AttendanceErrorModal from '../../Components/Modal/AttendanceErrorModal'
 import AttendanceSuccessModal from '../../Components/Modal/AttendanceSuccessModal'
@@ -49,9 +43,25 @@ import { getSubject } from '../../Services/API/subjectRequest'
 
 const MarkAttandence = () => {
   const [studentsList, setStudentsList] = useState([])
-  const [successModal, setSuccessModal] = useState(false)
   const [errorModal, setErrorModal] = useState(false)
+  const [qrCode, setQrCode] = useState('')
   const { token, user } = useAuth()
+
+  const generateQRCode = url => {
+    QRCode.toDataURL(
+      url,
+      {
+        color: {
+          dark: '#551a16',
+        },
+        errorCorrectionLevel: 'H',
+      },
+      (err, url) => {
+        if (err) return console.error(err)
+        setQrCode(url)
+      },
+    )
+  }
 
   const [values, setValues] = useState({
     department: '',
@@ -241,8 +251,8 @@ const MarkAttandence = () => {
     }
 
     try {
-      await postAttendenceRequest(token, dto)
-      setSuccessModal(prev => true)
+      const res = await postAttendenceRequest(token, dto)
+      generateQRCode(`${import.meta.env.VITE_API_URL}/mark-by-qr/${res.sheet}`)
       setIsSubmitting(prev => false)
     } catch (err) {
       setErrors(prev => ({
@@ -284,6 +294,23 @@ const MarkAttandence = () => {
               <Grid container width='100%' gap='2em'>
                 <Grid item flexGrow={1} padding='.5em .5em .5em 0'>
                   <Stack gap='1em'>
+                    {qrCode !== '' && (
+                      <Box
+                        component={motion.div}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        sx={{
+                          border: '9px solid #70231d',
+                          borderRadius: 9,
+                          width: '330px',
+                          height: '340px',
+                          padding: '11px 6px',
+                          margin: '1em 0',
+                        }}
+                      >
+                        <motion.img src={qrCode} width='300px' height='300px' />
+                      </Box>
+                    )}
                     <FormControl fullWidth error={!!errors.department}>
                       <InputLabel>Department</InputLabel>
                       <Select
@@ -533,7 +560,6 @@ const MarkAttandence = () => {
           </Grid>
         </Grid>
       </Grid>
-      <AttendanceSuccessModal open={successModal} />
       <AttendanceErrorModal
         open={!!errorModal}
         text={errorModal}

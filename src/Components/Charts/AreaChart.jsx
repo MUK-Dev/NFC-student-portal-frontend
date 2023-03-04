@@ -25,9 +25,6 @@ const AreaChart = ({ series }) => {
             }
           },
         },
-        stroke: {
-          curve: 'stepline',
-        },
         xaxis: {
           type: 'datetime',
         },
