@@ -1,11 +1,27 @@
 import { Grid, Paper, useMediaQuery, useTheme } from '@mui/material'
+import { useQuery } from 'react-query'
 
 import AreaChart from '../../Components/Charts/AreaChart'
 import Progress from '../../Components/Progress/Progress'
 
+import useAuth from '../../Hooks/useAuth'
+
+import { getStudentChartDataRequest } from '../../Services/API/getStudentChartData'
+
 const Dashboard = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
+  const { token } = useAuth()
+
+  const { data: chartData } = useQuery(
+    ['student-chart-data', token],
+    () => getStudentChartDataRequest(token),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: !!token,
+    },
+  )
 
   return (
     <Grid container direction='column' width='100%' gap='1em'>
@@ -33,7 +49,7 @@ const Dashboard = () => {
                 series={[
                   {
                     name: 'Presents',
-                    data: [3, 0, 2, 6, 4, 0, 1, 1, 0, 1],
+                    data: chartData ?? [],
                   },
                 ]}
               />
