@@ -1,7 +1,5 @@
 import { useState } from 'react'
-
-//import QrReader from 'react-qr-reader'
-import * as QrReader from '/node_modules/.vite/deps/react-qr-reader.js'
+import { QrReader } from 'react-qr-reader'
 
 const ScannerAttendence = () => {
   const [selected, setSelected] = useState('environment')
