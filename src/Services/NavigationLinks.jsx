@@ -1,4 +1,4 @@
-import { HolidayVillage } from '@mui/icons-material'
+import { HolidayVillage, List } from '@mui/icons-material'
 import AccessibilityIcon from '@mui/icons-material/Accessibility'
 import ApartmentIcon from '@mui/icons-material/Apartment'
 import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion'
@@ -184,6 +184,15 @@ export const getLinks = (theme, role) => {
         path: '/teacher/mark-attandence',
         icon: (
           <FactCheckIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Attendance Records',
+        path: '/teacher/sheets',
+        icon: (
+          <List
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),
