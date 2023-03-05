@@ -14,19 +14,34 @@ import Paper from '@mui/material/Paper'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
+import { useState } from 'react'
+
+import useAuth from '../../Hooks/useAuth'
+
+import { searchRequest } from '../../../searchstudent'
 
 const currencies = [
   {
-    value: 'By Name',
+    value: 'name',
     label: 'Name',
   },
   {
-    value: 'By Roll Number',
+    value: 'rollNo',
     label: 'Roll no',
   },
 ]
 
 export default function Parent_Home() {
+  const [type, setType] = useState('name')
+  const [query, setQuery] = useState('')
+
+  const { token } = useAuth()
+  const handlesubmit = async () => {
+    const d = { type, query }
+    const res = await searchRequest(token, d)
+    console.log(res)
+  }
+
   return (
     <Grid container>
       <Grid item flexGrow={1}>
@@ -34,10 +49,11 @@ export default function Parent_Home() {
           {/* <Searchbar/> */}
           <Stack direction='row'>
             <Select
+              onChange={event => setType(event.target.value)}
+              value={type}
               style={{ borderRadius: '0px 0px 0px 0px' }}
               id='outlined-select-currency'
-              defaultValue='By Name'
-              helperText='Name or Roll no.'
+              defaultValue='name'
             >
               {currencies.map(option => (
                 <MenuItem key={option.value} value={option.value}>
@@ -46,6 +62,8 @@ export default function Parent_Home() {
               ))}
             </Select>
             <TextField
+              onChange={event => setQuery(event.target.query)}
+              value={query}
               fullWidth
               placeholder='Name or Roll no'
               sx={{
@@ -57,7 +75,12 @@ export default function Parent_Home() {
                 style: {},
               }}
             />
-            <IconButton type='button' sx={{ p: '10px' }} aria-label='search'>
+            <IconButton
+              type='button'
+              sx={{ p: '10px' }}
+              aria-label='search'
+              onClick={handlesubmit}
+            >
               <SearchIcon />
             </IconButton>
           </Stack>
