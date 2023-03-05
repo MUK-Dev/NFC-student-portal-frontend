@@ -31,7 +31,7 @@ import { getPrograms } from '../../Services/API/programsRequest'
 import { getSemester } from '../../Services/API/semesterRequest'
 import { getSessions } from '../../Services/API/sessionsRequest'
 
-const RSubject = () => {
+const RStudentsInSubject = () => {
   const [showDrawer, setShowDrawer] = useState(false)
   const theme = useTheme()
 
@@ -506,4 +506,4 @@ const RSubject = () => {
   )
 }
 
-export default RSubject
+export default RStudentsInSubject

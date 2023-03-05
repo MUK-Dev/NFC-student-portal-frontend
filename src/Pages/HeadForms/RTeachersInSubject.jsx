@@ -20,7 +20,7 @@ import React, { useState } from 'react'
 const icon = <CheckBoxOutlineBlank fontSize='small' />
 const checkedIcon = <CheckBox fontSize='small' />
 
-const RTeachers = () => {
+const RTeachersInSubject = () => {
   const [theory, setTheory] = useState()
   const [lab, setLab] = useState()
 
@@ -188,4 +188,4 @@ const RTeachers = () => {
   )
 }
 
-export default RTeachers
+export default RTeachersInSubject

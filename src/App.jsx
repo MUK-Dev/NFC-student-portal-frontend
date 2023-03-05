@@ -13,9 +13,9 @@ import RProgram from './Pages/HeadForms/RProgram'
 import RSection from './Pages/HeadForms/RSection'
 import RSemester from './Pages/HeadForms/RSemester'
 import RSession from './Pages/HeadForms/RSession'
-import RStudents from './Pages/HeadForms/RStudents'
-import RSubject from './Pages/HeadForms/RSubject'
-import RTeachers from './Pages/HeadForms/RTeachers'
+import RStudentsInSubject from './Pages/HeadForms/RStudentsInSubject'
+import RSubject from './Pages/HeadForms/RStudentsInSubject'
+import RTeachersInSubject from './Pages/HeadForms/RTeachersInSubject'
 import AuthLayout from './Pages/Layouts/AuthLayout'
 import DashboardLayout from './Pages/Layouts/DashboardLayout'
 import MarkAttandence from './Pages/MarkAttandence/MarkAttandence'
@@ -76,12 +76,12 @@ const App = () => {
                   />
                   <Route path='/head/register/subject' element={<RSubject />} />
                   <Route
-                    path='/head/register/students'
-                    element={<RStudents />}
+                    path='/head/register/students_subject'
+                    element={<RStudentsInSubject />}
                   />
                   <Route
-                    path='/head/register/teachers'
-                    element={<RTeachers />}
+                    path='/head/register/teachers_subject'
+                    element={<RTeachersInSubject />}
                   />
                   <Route path='/head/register/program' element={<RProgram />} />
                   <Route path='/head/register/session' element={<RSession />} />

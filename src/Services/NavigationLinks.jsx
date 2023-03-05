@@ -150,8 +150,8 @@ export const getLinks = (theme, role) => {
         ),
       },
       {
-        title: 'Students',
-        path: '/head/register/students',
+        title: 'Students Subject',
+        path: '/head/register/students_subject',
         icon: (
           <AccessibilityIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
@@ -159,8 +159,8 @@ export const getLinks = (theme, role) => {
         ),
       },
       {
-        title: 'Teachers',
-        path: '/head/register/teachers',
+        title: 'Teachers Subject',
+        path: '/head/register/teachers_subject',
         icon: (
           <SchoolIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
