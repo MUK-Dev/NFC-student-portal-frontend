@@ -15,6 +15,7 @@ import RSemester from './Pages/HeadForms/RSemester'
 import RSession from './Pages/HeadForms/RSession'
 import RStudentsInSubject from './Pages/HeadForms/RStudentsInSubject'
 import RSubject from './Pages/HeadForms/RStudentsInSubject'
+import RTeachers from './Pages/HeadForms/RTeachers'
 import RTeachersInSubject from './Pages/HeadForms/RTeachersInSubject'
 import AuthLayout from './Pages/Layouts/AuthLayout'
 import DashboardLayout from './Pages/Layouts/DashboardLayout'
@@ -88,6 +89,10 @@ const App = () => {
                   <Route
                     path='/head/register/semester'
                     element={<RSemester />}
+                  />
+                  <Route
+                    path='/head/register/teachers'
+                    element={<RTeachers />}
                   />
                   <Route
                     path='/student/progress'
