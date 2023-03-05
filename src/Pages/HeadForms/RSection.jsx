@@ -18,39 +18,40 @@ import {
   Typography,
   useTheme,
 } from '@mui/material'
-import { MobileDatePicker } from '@mui/x-date-pickers'
 import { Formik } from 'formik'
-import moment from 'moment'
 import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import * as Yup from 'yup'
 
-import useAuth from '../../Hooks/useAuth'
-import useRegisterSession from '../../Hooks/useRegisterSession'
+import useRegisterSection from '../../Hooks/useRegisterSection'
 
 import { getDepartments } from '../../Services/API/departmentsRequest'
 import { getPrograms } from '../../Services/API/programsRequest'
+import { getSessions } from '../../Services/API/sessionsRequest'
 
-const RSession = () => {
+const RSection = () => {
   const [showDrawer, setShowDrawer] = useState(false)
   const theme = useTheme()
-  const { token } = useAuth()
 
   const [selectedValue, setSelectedValue] = useState({
     department: '',
     program: '',
+    session: '',
   })
 
   const [formErrors, setFormErrors] = useState({
     department: null,
     program: null,
+    session: null,
   })
   const [submitErrors, setSubmitErrors] = useState({
     department: true,
     program: true,
+    session: true,
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [enablePrograms, setEnablePrograms] = useState(false)
+  const [enableSession, setEnableSession] = useState(false)
 
   const {
     isError: isDepartmentError,
@@ -73,6 +74,19 @@ const RSession = () => {
     },
   )
 
+  const {
+    isError: isSessionsError,
+    isLoading: areSessionsLoading,
+    data: sessionsData,
+  } = useQuery(
+    ['sessions', selectedValue.department, selectedValue.program],
+    () => getSessions(selectedValue.department, selectedValue.program),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: enablePrograms && enableSession,
+    },
+  )
+
   const inputHandleChange = (key, keyName) => {
     setSelectedValue(prev => ({
       ...prev,
@@ -83,6 +97,13 @@ const RSession = () => {
         ...prev,
         [key]: false,
         program: true,
+        session: true,
+      }))
+    } else if (key == 'prgram') {
+      setSubmitErrors(prev => ({
+        ...prev,
+        [key]: false,
+        session: true,
       }))
     } else {
       setSubmitErrors(prev => ({
@@ -92,19 +113,7 @@ const RSession = () => {
     }
   }
 
-  const [startYear, setStartYear] = useState(moment())
-
-  const dateStartHandeler = newValue => {
-    setStartYear(newValue)
-  }
-
-  const [endYear, setEndYear] = useState(moment())
-
-  const dateEndHandeler = newValue => {
-    setEndYear(newValue)
-  }
-
-  const { submitForm } = useRegisterSession()
+  const { submitForm } = useRegisterSection()
 
   const drawer = (
     <Drawer
@@ -131,26 +140,24 @@ const RSession = () => {
       </Box>
     </Drawer>
   )
-
   const formikOptions = {
     initialValues: {
-      session_title: '',
-      type: '',
-      starting: '',
-      ending: '',
+      section_title: '',
       department: '',
       program: '',
+      session: '',
     },
     validationSchema: Yup.object().shape({
-      session_title: Yup.string().required('Session Title is required'),
-      type: Yup.string().required('Session Type is required'),
+      section_title: Yup.string().required('Section Title is required'),
     }),
     onSubmit: (values, { setErrors, setStatus, setSubmitting }) => {
       setFormErrors(() => ({
         department: submitErrors.department,
         program: submitErrors.program,
+        session: submitErrors.session,
       }))
-      submitForm(values, selectedValue, startYear.toDate(), endYear.toDate(), {
+      // console.log(values, selectedValue)
+      submitForm(values, selectedValue, {
         setErrors,
         setStatus,
         setSubmitting,
@@ -174,9 +181,9 @@ const RSession = () => {
             <Grid item flexGrow={1}>
               <Grid container direction='column' width='100%'>
                 <Grid item width='100%'>
-                  <Typography variant='h4'>Register Session</Typography>
+                  <Typography variant='h4'>Register Section</Typography>
                   <Typography gutterBottom>
-                    Enter the Session details
+                    Enter the Section details
                   </Typography>
                 </Grid>
                 <Grid item width='100%'>
@@ -184,71 +191,23 @@ const RSession = () => {
                     <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                       <TextField
                         variant='outlined'
-                        label='Session Title'
+                        label='Section Title'
                         type='text'
-                        placeholder='2K19'
-                        value={values.session_title}
-                        onBlur={handleBlur('session_title')}
-                        onChange={handleChange('session_title')}
+                        placeholder='Blue'
+                        value={values.section_title}
+                        onBlur={handleBlur('section_title')}
+                        onChange={handleChange('section_title')}
                         error={
-                          !!touched.session_title && !!errors.session_title
+                          !!touched.section_title && !!errors.section_title
                         }
                         helperText={
-                          touched.session_title && errors.session_title
-                            ? errors.session_title
+                          touched.section_title && errors.section_title
+                            ? errors.section_title
                             : ''
                         }
                         fullWidth
                       />
                     </Grid>
-                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <FormControl
-                        fullWidth
-                        error={!!errors.type && !!touched.type}
-                      >
-                        <InputLabel>Session Type</InputLabel>
-                        <Select
-                          labelId='type'
-                          id='type'
-                          value={values.type}
-                          label='Session Type'
-                          required
-                          onChange={handleChange('type')}
-                        >
-                          <MenuItem value={'spring'}>Spring</MenuItem>
-                          <MenuItem value={'fall'}>Fall</MenuItem>
-                        </Select>
-                        {!!errors.type && !!touched.type && (
-                          <FormHelperText error>{errors.type}</FormHelperText>
-                        )}
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <MobileDatePicker
-                        views={['year']}
-                        label='Starting Year'
-                        inputFormat='YYYY'
-                        value={startYear}
-                        onChange={dateStartHandeler}
-                        renderInput={params => (
-                          <TextField {...params} fullWidth />
-                        )}
-                      />
-                    </Grid>
-
-                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <MobileDatePicker
-                        views={['year']}
-                        label='Ending Year'
-                        inputFormat='YYYY'
-                        value={endYear}
-                        onChange={dateEndHandeler}
-                        renderInput={params => (
-                          <TextField {...params} fullWidth />
-                        )}
-                      />
-                    </Grid>
-
                     <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                       <FormControl
                         fullWidth
@@ -288,12 +247,12 @@ const RSession = () => {
                         fullWidth
                         error={!!formErrors.program && submitErrors.program}
                       >
-                        <InputLabel>Programs</InputLabel>
+                        <InputLabel>Program</InputLabel>
                         <Select
                           labelId='programs'
                           id='programs'
                           value={selectedValue.program}
-                          label='Programs'
+                          label='Program'
                           required
                           disabled={
                             areProgramsLoading ||
@@ -302,6 +261,7 @@ const RSession = () => {
                           }
                           onChange={e => {
                             inputHandleChange('program', e.target.value)
+                            setEnableSession(true)
                           }}
                         >
                           {programsData?.map(p => (
@@ -313,6 +273,41 @@ const RSession = () => {
                         {!!formErrors.program && (
                           <FormHelperText error>
                             {!!submitErrors.program && 'Program is required'}
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                      <FormControl
+                        fullWidth
+                        error={!!formErrors.session && submitErrors.session}
+                      >
+                        <InputLabel>Session</InputLabel>
+                        <Select
+                          labelId='session'
+                          id='session'
+                          value={selectedValue.session}
+                          label='Session'
+                          required
+                          disabled={
+                            isSessionsError ||
+                            areSessionsLoading ||
+                            !enablePrograms ||
+                            !enableSession
+                          }
+                          onChange={e => {
+                            inputHandleChange('session', e.target.value)
+                          }}
+                        >
+                          {sessionsData?.map(s => (
+                            <MenuItem key={s._id} value={s._id}>
+                              {s.session_title}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {!!formErrors.session && (
+                          <FormHelperText error>
+                            {!!submitErrors.session && 'Seesion is required'}
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -359,4 +354,4 @@ const RSession = () => {
   )
 }
 
-export default RSession
+export default RSection

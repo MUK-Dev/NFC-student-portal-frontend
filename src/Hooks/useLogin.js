@@ -11,6 +11,7 @@ export default function useLogin() {
   const { setToken, setUser, setAccessToken } = useAuth()
 
   const submitForm = async (values, { setSubmitting, setErrors }) => {
+    setSubmitting(true)
     const d = {
       email: values.email,
       password: values.password,
@@ -26,11 +27,14 @@ export default function useLogin() {
       } else if (user.role === 'Parent') {
         navigate('/parent/home')
       } else if (user.role === 'Admin') {
-        navigate('/head/register/department')
+        navigate('/head/dashboard')
+      } else if (user.role === 'Teacher') {
+        navigate('/teacher/home')
       }
-      // else if(user.role === "Teacher")
+      setSubmitting(false)
     } catch (err) {
       setErrors({ [err.response.data.type]: err.response.data.message })
+      setSubmitting(false)
     }
   }
 

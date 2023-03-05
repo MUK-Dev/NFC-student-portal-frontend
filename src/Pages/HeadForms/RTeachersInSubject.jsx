@@ -5,19 +5,31 @@ import {
   Button,
   Checkbox,
   FormControl,
+  FormControlLabel,
+  FormGroup,
   Grid,
   InputLabel,
   MenuItem,
   Select,
+  Slider,
   TextField,
   Typography,
 } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 
 const icon = <CheckBoxOutlineBlank fontSize='small' />
 const checkedIcon = <CheckBox fontSize='small' />
 
-const RStudents = () => {
+const RTeachersInSubject = () => {
+  const [theory, setTheory] = useState()
+  const [lab, setLab] = useState()
+
+  const theoryEventHandler = e => {
+    setTheory(e.target.checked)
+  }
+  const labEventHandler = e => {
+    setLab(e.target.checked)
+  }
   return (
     <Grid container flexWrap='nowrap'>
       <Grid item flexGrow={1}>
@@ -65,7 +77,7 @@ const RStudents = () => {
                   <Select label='Department'>
                     <MenuItem value={10}>Computer Science</MenuItem>
                     <MenuItem value={20}>Mechanical Engineering</MenuItem>
-                    <MenuItem value={20}>Electrical Engineering</MenuItem>
+                    <MenuItem value={30}>Electrical Engineering</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -93,8 +105,19 @@ const RStudents = () => {
 
               <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
                 <FormControl fullWidth>
-                  <InputLabel>Semester Type</InputLabel>
-                  <Select label='Semester Type'>
+                  <InputLabel>Section</InputLabel>
+                  <Select label='Session'>
+                    <MenuItem value={10}>Blue</MenuItem>
+                    <MenuItem value={20}>Red</MenuItem>
+                    <MenuItem value={20}>Green</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <FormControl fullWidth>
+                  <InputLabel>Semester</InputLabel>
+                  <Select label='Semester'>
                     <MenuItem value={10}>1</MenuItem>
                     <MenuItem value={20}>2</MenuItem>
                     <MenuItem value={30}>3</MenuItem>
@@ -119,6 +142,40 @@ const RStudents = () => {
                   </Select>
                 </FormControl>
               </Grid>
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <FormControlLabel
+                  control={<Checkbox onChange={theoryEventHandler} />}
+                  label='Theory'
+                />
+                <FormControlLabel
+                  control={<Checkbox onChange={labEventHandler} />}
+                  label='Lab'
+                />
+              </Grid>
+              {theory && (
+                <Grid item xs={12} md={6} padding='.5em'>
+                  <Typography gutterBottom>Theory Credit Hours</Typography>
+                  <Slider
+                    aria-label='Theory Credit Hours'
+                    valueLabelDisplay='auto'
+                    marks
+                    min={1}
+                    max={5}
+                  />
+                </Grid>
+              )}
+              {lab && (
+                <Grid item xs={12} md={6} padding='.5em'>
+                  <Typography gutterBottom>Lab Credit Hours</Typography>
+                  <Slider
+                    aria-label='Theory Credit Hours'
+                    valueLabelDisplay='auto'
+                    marks
+                    min={1}
+                    max={5}
+                  />
+                </Grid>
+              )}
             </Grid>
 
             <Button variant='contained' sx={{ margin: '.5em .5em .5em 0' }}>
@@ -131,4 +188,4 @@ const RStudents = () => {
   )
 }
 
-export default RStudents
+export default RTeachersInSubject

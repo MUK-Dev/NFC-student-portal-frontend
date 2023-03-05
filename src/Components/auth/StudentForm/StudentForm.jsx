@@ -14,10 +14,6 @@ const StudentForm = ({ animation }) => {
   const { handleComplete, handleReset, handleBack, steps, activeStep } =
     useStepper(firstTimeAnimation)
   const {
-    department,
-    gender,
-    setDepartment,
-    setGender,
     programRef,
     rollNoRef,
     sectionRef,
@@ -29,6 +25,10 @@ const StudentForm = ({ animation }) => {
     email,
     sendRequest,
     error,
+    departmentRef,
+    genderRef,
+    setShowEmailModal,
+    showEmailModal,
   } = useStudentRegisterPage()
 
   return (
@@ -55,8 +55,8 @@ const StudentForm = ({ animation }) => {
           handleNext={handleComplete}
           animation={firstTimeAnimation.current && animation}
           programRef={programRef}
-          rollNoRef={rollNoRef}
           sectionRef={sectionRef}
+          departmentRef={departmentRef}
           sessionRef={sessionRef}
         />
       )}
@@ -64,10 +64,8 @@ const StudentForm = ({ animation }) => {
         <StudentForm2
           handleNext={handleComplete}
           handleBack={handleBack}
-          department={department}
-          setDepartment={setDepartment}
-          gender={gender}
-          setGender={setGender}
+          rollNoRef={rollNoRef}
+          genderRef={genderRef}
           nameRef={nameRef}
           phoneNoRef={phoneNoRef}
         />
@@ -81,6 +79,8 @@ const StudentForm = ({ animation }) => {
           email={email}
           sendRequest={sendRequest}
           finalError={error}
+          setShowEmailModal={setShowEmailModal}
+          showEmailModal={showEmailModal}
         />
       )}
     </Stack>

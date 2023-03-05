@@ -6,13 +6,13 @@ import useAuth from '../Hooks/useAuth'
 
 // ==============================|| AUTH GUARD ||============================== //
 const AuthGuard = ({ children, path = '/' }) => {
-  const { isAuthLoading, user } = useAuth()
+  const { isAuthLoading, user, disableAuthGuard } = useAuth()
   const navigate = useNavigate()
   const [isChecking, setIsChecking] = useState(true)
 
   useEffect(() => {
     setIsChecking(prev => true)
-    if (isAuthLoading) return
+    if (isAuthLoading || disableAuthGuard) return
     if (!!!user && !isAuthLoading) {
       navigate(path, { replace: true })
       setIsChecking(prev => false)
@@ -27,6 +27,9 @@ const AuthGuard = ({ children, path = '/' }) => {
           setIsChecking(prev => false)
         } else if (user.role === 'Admin') {
           navigate('/head/register/department', { replace: true })
+          setIsChecking(prev => false)
+        } else if (user.role === 'Teacher') {
+          navigate('/teacher/home', { replace: true })
           setIsChecking(prev => false)
         }
       }

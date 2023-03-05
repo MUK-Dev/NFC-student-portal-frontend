@@ -1,6 +1,7 @@
-import { HolidayVillage } from '@mui/icons-material'
+import { HolidayVillage, List } from '@mui/icons-material'
 import AccessibilityIcon from '@mui/icons-material/Accessibility'
 import ApartmentIcon from '@mui/icons-material/Apartment'
+import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import FactCheckIcon from '@mui/icons-material/FactCheck'
 import GradeIcon from '@mui/icons-material/Grade'
@@ -28,6 +29,15 @@ export const getLinks = (theme, role) => {
       {
         title: 'Attendance',
         path: '/student/attendance',
+        icon: (
+          <FactCheckIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Mark Attendance With Scanner',
+        path: '/student/scanner',
         icon: (
           <FactCheckIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
@@ -78,6 +88,15 @@ export const getLinks = (theme, role) => {
     return [
       {
         title: 'Department',
+        path: '/head/dashboard',
+        icon: (
+          <ApartmentIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Department',
         path: '/head/register/department',
         icon: (
           <ApartmentIcon
@@ -104,6 +123,15 @@ export const getLinks = (theme, role) => {
         ),
       },
       {
+        title: 'Section',
+        path: '/head/register/section',
+        icon: (
+          <AutoAwesomeMotionIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
         title: 'Semester',
         path: '/head/register/semester',
         icon: (
@@ -122,8 +150,8 @@ export const getLinks = (theme, role) => {
         ),
       },
       {
-        title: 'Students',
-        path: '/head/register/students',
+        title: 'Student',
+        path: '/head/register/student',
         icon: (
           <AccessibilityIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
@@ -131,8 +159,17 @@ export const getLinks = (theme, role) => {
         ),
       },
       {
-        title: 'Teachers',
-        path: '/head/register/teachers',
+        title: 'Students Subject',
+        path: '/head/register/students_subject',
+        icon: (
+          <AccessibilityIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Teachers Subject',
+        path: '/head/register/teachers_subject',
         icon: (
           <SchoolIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
@@ -140,6 +177,44 @@ export const getLinks = (theme, role) => {
         ),
       },
     ]
-  // else if (role === 'Teacher') return []
+  else if (role === 'Teacher')
+    return [
+      {
+        title: 'Dashboard',
+        path: '/teacher/home',
+        icon: (
+          <HomeIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Mark Attendance',
+        path: '/teacher/mark-attandence',
+        icon: (
+          <FactCheckIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Attendance Records',
+        path: '/teacher/sheets',
+        icon: (
+          <List
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Result Form',
+        path: '/teacher/result-form',
+        icon: (
+          <SchoolIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+    ]
   else return []
 }
