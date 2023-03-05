@@ -1,63 +1,57 @@
-import { ArrowForwardIos } from '@mui/icons-material'
+import { CheckBox, CheckBoxOutlineBlank } from '@mui/icons-material'
 import {
-  Box,
+  Autocomplete,
+  Avatar,
   Button,
-  Drawer,
+  Checkbox,
   FormControl,
   FormHelperText,
   Grid,
   InputLabel,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   MenuItem,
   Select,
-  Slider,
-  Stack,
   TextField,
   Typography,
-  useTheme,
 } from '@mui/material'
-import { Formik } from 'formik'
-import React, { useState } from 'react'
+import React from 'react'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
-import * as Yup from 'yup'
 
-import useRegisterSubject from '../../Hooks/useRegisterSubjest'
+import useAuth from '../../Hooks/useAuth'
 
 import { getDepartments } from '../../Services/API/departmentsRequest'
 import { getPrograms } from '../../Services/API/programsRequest'
+import { getSections } from '../../Services/API/sectionsRequest'
 import { getSemester } from '../../Services/API/semesterRequest'
 import { getSessions } from '../../Services/API/sessionsRequest'
+import { getSubject } from '../../Services/API/subjectRequest'
+
+const icon = <CheckBoxOutlineBlank fontSize='small' />
+const checkedIcon = <CheckBox fontSize='small' />
 
 const RStudentsInSubject = () => {
-  const [showDrawer, setShowDrawer] = useState(false)
-  const theme = useTheme()
-
-  const [selectedValue, setSelectedValue] = useState({
-    department: '',
-    program: '',
+  const { token } = useAuth()
+  const [values, setValues] = useState({
     session: '',
+    program: '',
+    department: '',
+    section: '',
     semester: '',
+    subject: '',
   })
-
-  const [formErrors, setFormErrors] = useState({
-    department: null,
-    program: null,
+  const [errors, setErrors] = useState({
     session: null,
+    program: null,
+    department: null,
+    section: null,
     semester: null,
-  })
-  const [submitErrors, setSubmitErrors] = useState({
-    department: true,
-    program: true,
-    session: true,
-    semester: true,
+    subject: null,
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [enablePrograms, setEnablePrograms] = useState(false)
-  const [enableSession, setEnableSession] = useState(false)
-  const [enableSemester, setEnableSemester] = useState(false)
+  const [enableSessions, setEnableSessions] = useState(false)
+  const [enableSections, setEnableSections] = useState(false)
+  const [enableSubjects, setEnableSubjects] = useState(false)
 
   const {
     isError: isDepartmentError,
@@ -72,8 +66,8 @@ const RStudentsInSubject = () => {
     isLoading: areProgramsLoading,
     data: programsData,
   } = useQuery(
-    ['programs', selectedValue.department],
-    () => getPrograms(selectedValue.department),
+    ['programs', values.department],
+    () => getPrograms(values.department),
     {
       staleTime: 1000 * 60 * 60 * 24,
       enabled: enablePrograms,
@@ -85,11 +79,24 @@ const RStudentsInSubject = () => {
     isLoading: areSessionsLoading,
     data: sessionsData,
   } = useQuery(
-    ['sessions', selectedValue.department, selectedValue.program],
-    () => getSessions(selectedValue.department, selectedValue.program),
+    ['sessions', values.department, values.program],
+    () => getSessions(values.department, values.program),
     {
       staleTime: 1000 * 60 * 60 * 24,
-      enabled: enablePrograms && enableSession,
+      enabled: enablePrograms && enableSessions,
+    },
+  )
+
+  const {
+    isError: isSectionsError,
+    isLoading: areSectionsLoading,
+    data: sectionsData,
+  } = useQuery(
+    ['sections', values.department, values.program, values.session],
+    () => getSections(values.department, values.program, values.session),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: enablePrograms && enableSessions && enableSections,
     },
   )
 
@@ -98,411 +105,280 @@ const RStudentsInSubject = () => {
     isLoading: areSemestersLoading,
     data: semestersData,
   } = useQuery(
+    ['semesters', values.department, values.program, values.session],
+    () => getSemester(values.department, values.program, values.session),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: enablePrograms && enableSessions && enableSections,
+    },
+  )
+
+  const {
+    isError: isSubjectsError,
+    isLoading: areSubjectsLoading,
+    data: subjectsData,
+  } = useQuery(
     [
-      'sessions',
-      selectedValue.department,
-      selectedValue.program,
-      selectedValue.session,
+      'subjects',
+      values.department,
+      values.program,
+      values.session,
+      values.semester,
     ],
     () =>
-      getSemester(
-        selectedValue.department,
-        selectedValue.program,
-        selectedValue.session,
+      getSubject(
+        token,
+        values.department,
+        values.program,
+        values.session,
+        values.semester,
       ),
     {
       staleTime: 1000 * 60 * 60 * 24,
-      enabled: enablePrograms && enableSession && enableSemester,
+      enabled:
+        !!token &&
+        enablePrograms &&
+        enableSessions &&
+        enableSections &&
+        enableSubjects,
     },
   )
 
-  const inputHandleChange = (key, keyName) => {
-    setSelectedValue(prev => ({
+  const handleChange = (key, value) => {
+    setValues(prev => ({
       ...prev,
-      [key]: keyName,
+      [key]: value,
     }))
-    if (key == 'department') {
-      setSubmitErrors(prev => ({
-        ...prev,
-        [key]: false,
-        program: true,
-        session: true,
-        semester: true,
-      }))
-    } else if (key == 'program') {
-      setSubmitErrors(prev => ({
-        ...prev,
-        [key]: false,
-        session: true,
-        semester: true,
-      }))
-    } else if (key == 'session') {
-      setSubmitErrors(prev => ({
-        ...prev,
-        [key]: false,
-        semester: true,
-      }))
-    } else {
-      setSubmitErrors(prev => ({
-        ...prev,
-        [key]: false,
-      }))
-    }
-  }
-
-  const { submitForm } = useRegisterSubject()
-
-  const drawer = (
-    <Drawer
-      anchor='right'
-      open={showDrawer}
-      onClose={() => setShowDrawer(prev => !prev)}
-    >
-      <Box sx={{ width: 250 }}>
-        <List>
-          {[
-            'Subject 1',
-            'Subject 2',
-            'Subject 3',
-            'Subject 4',
-            'Subject 5',
-          ].map((text, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
-    </Drawer>
-  )
-
-  const formikOptions = {
-    initialValues: {
-      subject_title: '',
-      type: '',
-      subject_code: '',
-      theory_hours: '0',
-      lab_hours: '0',
-      department: '',
-      program: '',
-      session: '',
-      semester: '',
-    },
-    validationSchema: Yup.object().shape({
-      subject_title: Yup.string().required('Subject Title is required'),
-      type: Yup.string().required('Semester Type is required'),
-      subject_code: Yup.string().required('Subject Code is required'),
-      theory_hours: Yup.string().required(),
-      lab_hours: Yup.string().required(),
-    }),
-    onSubmit: (values, { setErrors, setStatus, setSubmitting }) => {
-      setFormErrors(() => ({
-        department: submitErrors.department,
-        program: submitErrors.program,
-        session: submitErrors.session,
-        semester: submitErrors.semester,
-      }))
-      // console.log(values, selectedValue)
-      submitForm(values, selectedValue, {
-        setErrors,
-        setStatus,
-        setSubmitting,
-      })
-    },
   }
 
   return (
-    <Formik {...formikOptions}>
-      {({
-        errors,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        isSubmitting,
-        touched,
-        values,
-      }) => (
-        <form noValidate onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <Grid container flexWrap='nowrap'>
-            <Grid item flexGrow={1}>
-              <Grid container direction='column' width='100%'>
-                <Grid item width='100%'>
-                  <Typography variant='h4'>Register Subject</Typography>
-                  <Typography gutterBottom>
-                    Enter the Subject details
-                  </Typography>
-                </Grid>
-                <Grid item width='100%'>
-                  <Grid container width='100%'>
-                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <TextField
-                        variant='outlined'
-                        label='Subject Code'
-                        type='text'
-                        placeholder='CS-111'
-                        value={values.subject_code}
-                        onBlur={handleBlur('subject_code')}
-                        onChange={handleChange('subject_code')}
-                        error={!!touched.subject_code && !!errors.subject_code}
-                        helperText={
-                          touched.subject_code && errors.subject_code
-                            ? errors.subject_code
-                            : ''
-                        }
-                        fullWidth
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <TextField
-                        variant='outlined'
-                        label='Subject Title'
-                        type='text'
-                        placeholder='Programming Fundamental'
-                        value={values.subject_title}
-                        onBlur={handleBlur('subject_title')}
-                        onChange={handleChange('subject_title')}
-                        error={
-                          !!touched.subject_title && !!errors.subject_title
-                        }
-                        helperText={
-                          touched.subject_title && errors.subject_title
-                            ? errors.subject_title
-                            : ''
-                        }
-                        fullWidth
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <FormControl
-                        fullWidth
-                        error={!!errors.type && !!touched.type}
-                      >
-                        <InputLabel>Subject Type</InputLabel>
-                        <Select
-                          labelId='type'
-                          id='type'
-                          value={values.type}
-                          label='Subject Type'
-                          required
-                          onChange={handleChange('type')}
-                        >
-                          <MenuItem value={'core'}>Core</MenuItem>
-                          <MenuItem value={'elective'}>Elective</MenuItem>
-                          <MenuItem value={'supply'}>Supply</MenuItem>
-                        </Select>
-                        {!!errors.type && !!touched.type && (
-                          <FormHelperText error>{errors.type}</FormHelperText>
-                        )}
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <FormControl
-                        fullWidth
-                        error={
-                          !!formErrors.department && !!submitErrors.department
-                        }
-                      >
-                        <InputLabel>Department</InputLabel>
-                        <Select
-                          labelId='department'
-                          id='department'
-                          value={selectedValue.department}
-                          label='Departments'
-                          disabled={isDepartmentError || areDepartmentsLoading}
-                          required
-                          onChange={e => {
-                            inputHandleChange('department', e.target.value)
-                            setEnablePrograms(true)
-                          }}
-                        >
-                          {departmentsData?.map(d => (
-                            <MenuItem value={d._id} key={d._id}>
-                              {d.department_name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                        {!!formErrors.department && (
-                          <FormHelperText error>
-                            {!!submitErrors.department &&
-                              'Department is required'}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <FormControl
-                        fullWidth
-                        error={!!formErrors.program && submitErrors.program}
-                      >
-                        <InputLabel>Program</InputLabel>
-                        <Select
-                          labelId='programs'
-                          id='programs'
-                          value={selectedValue.program}
-                          label='Program'
-                          required
-                          disabled={
-                            areProgramsLoading ||
-                            isProgramsError ||
-                            !enablePrograms
-                          }
-                          onChange={e => {
-                            inputHandleChange('program', e.target.value)
-                            setEnableSession(true)
-                          }}
-                        >
-                          {programsData?.map(p => (
-                            <MenuItem key={p._id} value={p._id}>
-                              {p.program_abbreviation}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                        {!!formErrors.program && (
-                          <FormHelperText error>
-                            {!!submitErrors.program && 'Program is required'}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <FormControl
-                        fullWidth
-                        error={!!formErrors.session && submitErrors.session}
-                      >
-                        <InputLabel>Session</InputLabel>
-                        <Select
-                          labelId='session'
-                          id='session'
-                          value={selectedValue.session}
-                          label='Session'
-                          required
-                          disabled={
-                            isSessionsError ||
-                            areSessionsLoading ||
-                            !enablePrograms ||
-                            !enableSession
-                          }
-                          onChange={e => {
-                            inputHandleChange('session', e.target.value)
-                            setEnableSemester(true)
-                          }}
-                        >
-                          {sessionsData?.map(s => (
-                            <MenuItem key={s._id} value={s._id}>
-                              {s.session_title}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                        {!!formErrors.session && (
-                          <FormHelperText error>
-                            {!!submitErrors.session && 'Seesion is required'}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <Typography gutterBottom>Theory Credit Hours</Typography>
-                      <Slider
-                        aria-label='Theory Credit Hours'
-                        valueLabelDisplay='auto'
-                        marks
-                        min={0}
-                        max={5}
-                        value={values.theory_hours}
-                        onBlur={handleBlur('theory_hours')}
-                        onChange={handleChange('theory_hours')}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <FormControl
-                        fullWidth
-                        error={!!formErrors.semester && submitErrors.semester}
-                      >
-                        <InputLabel>Semester</InputLabel>
-                        <Select
-                          labelId='semester'
-                          id='semester'
-                          value={selectedValue.semester}
-                          label='Semester'
-                          required
-                          disabled={
-                            isSemestersError ||
-                            areSemestersLoading ||
-                            !enablePrograms ||
-                            !enableSession ||
-                            !enableSemester
-                          }
-                          onChange={e => {
-                            inputHandleChange('semester', e.target.value)
-                          }}
-                        >
-                          {semestersData?.map(s => (
-                            <MenuItem key={s._id} value={s._id}>
-                              {s.semester_title}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                        {!!formErrors.semester && (
-                          <FormHelperText error>
-                            {!!submitErrors.semester && 'Semester is required'}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
-                      <Typography gutterBottom>Lab Credit Hours</Typography>
-                      <Slider
-                        aria-label='Theory Credit Hours'
-                        valueLabelDisplay='auto'
-                        marks
-                        min={0}
-                        max={5}
-                        value={values.lab_hours}
-                        onBlur={handleBlur('lab_hours')}
-                        onChange={handleChange('lab_hours')}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  <Button
-                    type='submit'
-                    variant='contained'
-                    sx={{ margin: '.5em .5em .5em 0' }}
+    <Grid container flexWrap='nowrap'>
+      <Grid item flexGrow={1}>
+        <Grid container direction='column' width='100%'>
+          <Grid item width='100%'>
+            <Typography variant='h4'>Register students in subject</Typography>
+            <Typography gutterBottom>Select Subject and Students</Typography>
+          </Grid>
+          <Grid item width='100%'>
+            <Grid container width='100%'>
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <FormControl fullWidth error={!!errors.department}>
+                  <InputLabel>Department</InputLabel>
+                  <Select
+                    labelId='department'
+                    id='department'
+                    value={values.department}
+                    label='Departments'
+                    disabled={isDepartmentError || areDepartmentsLoading}
+                    required
+                    onChange={e => {
+                      handleChange('department', e.target.value)
+                      setEnablePrograms(true)
+                    }}
                   >
-                    Register
-                  </Button>
-                </Grid>
+                    {departmentsData?.map(d => (
+                      <MenuItem value={d._id} key={d._id}>
+                        {d.department_name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {!!errors.department && (
+                    <FormHelperText error>{errors.department}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <FormControl fullWidth error={!!errors.program}>
+                  <InputLabel>Programs</InputLabel>
+                  <Select
+                    labelId='Programs'
+                    id='programs'
+                    value={values.program}
+                    label='Programs'
+                    required
+                    disabled={
+                      areProgramsLoading || isProgramsError || !enablePrograms
+                    }
+                    onChange={e => {
+                      handleChange('program', e.target.value)
+                      setEnableSessions(true)
+                    }}
+                  >
+                    {programsData?.map(p => (
+                      <MenuItem key={p._id} value={p._id}>
+                        {p.program_abbreviation}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {!!errors.program && (
+                    <FormHelperText error>{errors.program}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <FormControl fullWidth error={!!errors.session}>
+                  <InputLabel>Session</InputLabel>
+                  <Select
+                    labelId='session'
+                    id='session'
+                    value={values.session}
+                    label='Session'
+                    required
+                    disabled={
+                      isSessionsError ||
+                      areSessionsLoading ||
+                      !enablePrograms ||
+                      !enableSessions
+                    }
+                    onChange={e => {
+                      handleChange('session', e.target.value)
+                      setEnableSections(true)
+                    }}
+                  >
+                    {sessionsData?.map(s => (
+                      <MenuItem key={s._id} value={s._id}>
+                        {s.session_title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {!!errors.session && (
+                    <FormHelperText error>{errors.session}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <FormControl fullWidth error={!!errors.section}>
+                  <InputLabel htmlFor='section'>Section</InputLabel>
+                  <Select
+                    id='section'
+                    value={values.section}
+                    label='Section'
+                    required
+                    disabled={
+                      areSectionsLoading ||
+                      isSectionsError ||
+                      !enablePrograms ||
+                      !enableSections ||
+                      !enableSessions
+                    }
+                    onChange={e => handleChange('section', e.target.value)}
+                  >
+                    {sectionsData?.map(s => (
+                      <MenuItem value={s._id} key={s._id}>
+                        {s.section_title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {!!errors.section && (
+                    <FormHelperText error>{errors.section}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <FormControl fullWidth error={!!errors.semester}>
+                  <InputLabel htmlFor='section'>Semester</InputLabel>
+                  <Select
+                    id='semester'
+                    value={values.semester}
+                    label='Semester'
+                    required
+                    disabled={
+                      areSectionsLoading ||
+                      isSectionsError ||
+                      !enablePrograms ||
+                      !enableSections ||
+                      !enableSessions
+                    }
+                    onChange={e => {
+                      handleChange('semester', e.target.value)
+                      setEnableSubjects(true)
+                    }}
+                  >
+                    {semestersData?.map(s => (
+                      <MenuItem value={s._id} key={s._id}>
+                        {s.semester_title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {!!errors.semester && (
+                    <FormHelperText error>{errors.semester}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={6} padding='.5em .5em .5em 0'>
+                <FormControl fullWidth error={!!errors.subject}>
+                  <InputLabel htmlFor='section'>Subject</InputLabel>
+                  <Select
+                    id='semester'
+                    value={values.subject}
+                    label='Subject'
+                    required
+                    disabled={
+                      areSubjectsLoading ||
+                      isSubjectsError ||
+                      !enablePrograms ||
+                      !enableSections ||
+                      !enableSessions ||
+                      !enableSubjects
+                    }
+                    onChange={e => {
+                      handleChange('subject', e.target.value)
+                      setEnableSubjects(true)
+                    }}
+                  >
+                    {subjectsData?.map(s => (
+                      <MenuItem value={s._id} key={s._id}>
+                        {s?.subject_title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {!!errors.semester && (
+                    <FormHelperText error>{errors.semester}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} padding='.5em .5em .5em 0'>
+                <Autocomplete
+                  multiple
+                  disableCloseOnSelect
+                  options={Array.from(Array(20).keys()).map(i => ({
+                    title: `Student ${i}`,
+                  }))}
+                  fullWidth
+                  getOptionLabel={option => option.title}
+                  renderOption={(props, option, { selected }) => (
+                    <li {...props}>
+                      <Checkbox
+                        icon={icon}
+                        checkedIcon={checkedIcon}
+                        style={{ marginRight: 8 }}
+                        checked={selected}
+                      />
+                      <Avatar
+                        sx={{
+                          marginRight: '1em',
+                        }}
+                      />
+                      {option.title}
+                    </li>
+                  )}
+                  renderInput={params => (
+                    <TextField {...params} label='Students' />
+                  )}
+                />
               </Grid>
             </Grid>
-            <Grid item>
-              <Stack
-                direction='row'
-                alignItems='center'
-                justifyContent='center'
-                height='100%'
-                onClick={() => setShowDrawer(prev => !prev)}
-                sx={{
-                  cursor: 'pointer',
-                }}
-              >
-                <Typography
-                  variant='caption'
-                  sx={{
-                    writingMode: 'vertical-rl',
-                  }}
-                >
-                  Show Subjects
-                </Typography>
-                <ArrowForwardIos htmlColor={theme.palette.warning.main} />
-              </Stack>
-            </Grid>
-            {drawer}
+
+            <Button variant='contained' sx={{ margin: '.5em .5em .5em 0' }}>
+              Register
+            </Button>
           </Grid>
-        </form>
-      )}
-    </Formik>
+        </Grid>
+      </Grid>
+    </Grid>
   )
 }
 
