@@ -634,13 +634,13 @@ const MarkAttandence = () => {
                   {studentsList ? (
                     studentsList?.length > 0 ? (
                       studentsList?.map((student, i) => {
-                        if (editMode)
+                        if (editMode && student)
                           return (
                             <ListItem
                               key={student?._id}
                               secondaryAction={
                                 <Tooltip
-                                  title={`Mark ${student?.student.name} Attendence`}
+                                  title={`Mark ${student?.student?.name} Attendence`}
                                   placement='right'
                                 >
                                   <Checkbox
@@ -656,17 +656,17 @@ const MarkAttandence = () => {
                                 <ListItemAvatar>
                                   <Avatar
                                     alt={`Avatar n°${i + 1}`}
-                                    src={student?.student.avatar}
+                                    src={student?.student?.avatar}
                                   />
                                 </ListItemAvatar>
                                 <ListItemText
                                   //id={labelId}
-                                  primary={`${student?.student.name} ${student?.student.rollNo}`}
+                                  primary={`${student?.student?.name} ${student?.student?.rollNo}`}
                                 />
                               </ListItemButton>
                             </ListItem>
                           )
-                        else
+                        else if (!editMode)
                           return (
                             <ListItem
                               key={student._id}
@@ -698,6 +698,7 @@ const MarkAttandence = () => {
                               </ListItemButton>
                             </ListItem>
                           )
+                        else return <></>
                       })
                     ) : (
                       <Typography align='center' color='error'>

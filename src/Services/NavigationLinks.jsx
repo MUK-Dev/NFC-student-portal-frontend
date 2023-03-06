@@ -3,6 +3,7 @@ import AccessibilityIcon from '@mui/icons-material/Accessibility'
 import ApartmentIcon from '@mui/icons-material/Apartment'
 import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
+import DocumentScannerIcon from '@mui/icons-material/DocumentScanner'
 import FactCheckIcon from '@mui/icons-material/FactCheck'
 import GradeIcon from '@mui/icons-material/Grade'
 import GradingIcon from '@mui/icons-material/Grading'
@@ -36,10 +37,10 @@ export const getLinks = (theme, role) => {
         ),
       },
       {
-        title: 'Mark Attendance With Scanner',
+        title: 'Scanner',
         path: '/student/scanner',
         icon: (
-          <FactCheckIcon
+          <DocumentScannerIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),
