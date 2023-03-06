@@ -15,7 +15,7 @@ const ScannerAttendence = () => {
   const [errorModal, setErrorModal] = useState(false)
   const [successModal, setSuccessModel] = useState(false)
 
-  const [selected, setSelected] = useState('user')
+  const [selected, setSelected] = useState('environment')
   const [startScan, setStartScan] = useState(false)
   const [loadingScan, setLoadingScan] = useState(false)
   const [data, setData] = useState('')
