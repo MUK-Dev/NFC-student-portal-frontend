@@ -25,10 +25,10 @@ const ScannerAttendence = () => {
     console.error(err)
   }
   const toggleCamera = () => {
-    if (selected === 'environment') setSelected(e.target.user)
+    if (selected === 'environment') setSelected('user')
 
     elseif(selected === 'user')
-    setSelected(e.target.environment)
+    setSelected('environment')
   }
   return (
     <>
