@@ -99,7 +99,7 @@ const RSubject = () => {
     data: semestersData,
   } = useQuery(
     [
-      'sessions',
+      'semester',
       selectedValue.department,
       selectedValue.program,
       selectedValue.session,
