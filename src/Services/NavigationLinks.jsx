@@ -151,24 +151,6 @@ export const getLinks = (theme, role) => {
         ),
       },
       {
-        title: 'Student',
-        path: '/head/register/student',
-        icon: (
-          <AccessibilityIcon
-            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-          />
-        ),
-      },
-      {
-        title: 'Students Subject',
-        path: '/head/register/students_subject',
-        icon: (
-          <AccessibilityIcon
-            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-          />
-        ),
-      },
-      {
         title: 'Teachers Subject',
         path: '/head/register/teachers_subject',
         icon: (

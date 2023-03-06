@@ -15,9 +15,12 @@ import {
 } from '@mui/material'
 import { Formik } from 'formik'
 import React, { useState } from 'react'
+import { useQuery } from 'react-query'
 import * as Yup from 'yup'
 
 import useRegisterDepartment from '../../Hooks/useRegisterDepartment'
+
+import { getDepartments } from '../../Services/API/departmentsRequest'
 
 /* 
 ------ MUST READ ------
@@ -32,6 +35,13 @@ RDepartment = Register Department
 const RDepartment = () => {
   const [showDrawer, setShowDrawer] = useState(false)
   const theme = useTheme()
+  const {
+    isError: isDepartmentError,
+    isLoading: areDepartmentsLoading,
+    data: departmentsData,
+  } = useQuery('departments', () => getDepartments(), {
+    staleTime: 1000 * 60 * 60 * 24,
+  })
 
   const { submitForm } = useRegisterDepartment()
 
@@ -43,16 +53,10 @@ const RDepartment = () => {
     >
       <Box sx={{ width: 250 }}>
         <List>
-          {[
-            'Department 1',
-            'Department 2',
-            'Department 3',
-            'Department 4',
-            'Department 5',
-          ].map((text, index) => (
-            <ListItem key={index} disablePadding>
+          {departmentsData?.map(d => (
+            <ListItem key={d._id} disablePadding>
               <ListItemButton>
-                <ListItemText primary={text} />
+                <ListItemText primary={d.department_name} />
               </ListItemButton>
             </ListItem>
           ))}
