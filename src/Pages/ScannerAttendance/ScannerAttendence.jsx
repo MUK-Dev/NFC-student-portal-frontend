@@ -4,18 +4,41 @@ import { Stack } from '@mui/system'
 import { useState } from 'react'
 import { QrReader } from 'react-qr-reader'
 
+import AttendanceSuccessModal from '../../Components/Modal/AttendanceSuccessModal'
+import QRAttendanceErrorModel from '../../Components/Modal/QRAttendanceErrorModal'
+
+import useAuth from '../../Hooks/useAuth'
+
+import { MarkAttendancewithQR } from '../../Services/API/markAttendancewithQR'
+
 const ScannerAttendence = () => {
+  const [errorModal, setErrorModal] = useState(false)
+  const [successModal, setSuccessModel] = useState(false)
+
   const [selected, setSelected] = useState('environment')
   const [startScan, setStartScan] = useState(false)
   const [loadingScan, setLoadingScan] = useState(false)
   const [data, setData] = useState('')
-
+  const { token } = useAuth()
   const handleScan = async scanData => {
     setLoadingScan(true)
     console.log(`loaded data data`, scanData)
     if (scanData && scanData !== '') {
       console.log(`loaded >>>`, scanData)
-      setData(scanData.text)
+      //setData(scanData.text)
+      // const res = await MarkAttendancewithQR(token, scanData.text)
+      // console.log(res)
+      try {
+        const res = await MarkAttendancewithQR(token, scanData)
+        console.log(res)
+        setSuccessModel(res.message)
+      } catch (err) {
+        console.log(err)
+
+        setErrorModal(err.response.data.message)
+        setIsSubmitting(prev => false)
+      }
+
       setStartScan(false)
       setLoadingScan(false)
       // setPrecScan(scanData);
@@ -74,6 +97,12 @@ const ScannerAttendence = () => {
       )}
       {loadingScan && <p>Loading</p>}
       {data !== '' && <p>{data}</p>}
+      <AttendanceSuccessModal open={!!successModal} text={successModal} />
+      <QRAttendanceErrorModel
+        open={!!errorModal}
+        text={errorModal}
+        onClose={() => setErrorModal(prev => !prev)}
+      />
     </>
   )
 }
