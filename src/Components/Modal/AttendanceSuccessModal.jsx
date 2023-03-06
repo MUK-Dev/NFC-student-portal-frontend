@@ -1,14 +1,14 @@
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material'
 import { useNavigate } from 'react-router'
 
-const AttendanceSuccessModal = ({ ...rest }) => {
+const AttendanceSuccessModal = ({ text, ...rest }) => {
   const navigate = useNavigate()
 
   return (
     <Dialog {...rest}>
-      <DialogTitle>Successfully Marked attendance</DialogTitle>
+      <DialogTitle>{text}</DialogTitle>
       <DialogActions>
-        <Button onClick={() => navigate('/teacher/home')}>Continue</Button>
+        <Button onClick={() => navigate('/student/home')}>Continue</Button>
       </DialogActions>
     </Dialog>
   )
