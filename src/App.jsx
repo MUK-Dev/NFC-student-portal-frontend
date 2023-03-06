@@ -20,6 +20,8 @@ import RTeachersInSubject from './Pages/HeadForms/RTeachersInSubject'
 import AuthLayout from './Pages/Layouts/AuthLayout'
 import DashboardLayout from './Pages/Layouts/DashboardLayout'
 import MarkAttandence from './Pages/MarkAttandence/MarkAttandence'
+import ChildsAttendance from './Pages/Parent-Home/ChildsAttendance'
+import ParentOption from './Pages/Parent-Home/ParentOptions'
 import ParentHome from './Pages/Parent-Home/Parent_Home'
 import ScannerAttendance from './Pages/ScannerAttendance/ScannerAttendence'
 import PreviousSheets from './Pages/Sheets/PreviousSheets'
@@ -112,6 +114,14 @@ const App = () => {
                     element={<ScannerAttendance />}
                   />
                   <Route path='/parent/home' element={<ParentHome />} />
+                  <Route
+                    path='/parent/home/option'
+                    element={<ParentOption />}
+                  />
+                  <Route
+                    path='/parent/home/childattendance'
+                    element={<ChildsAttendance />}
+                  />
                   <Route
                     path='/teacher/result-form'
                     element={<ClassResult />}
