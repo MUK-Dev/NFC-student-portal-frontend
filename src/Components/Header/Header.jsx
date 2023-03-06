@@ -109,6 +109,11 @@ export default function MiniDrawer() {
           )}
         </IconButton>
       </DrawerHeader>
+      <Avatar
+        src={user?.avatar}
+        alt={user?.name}
+        sx={{ margin: '0 auto 1em auto' }}
+      />
       <List disablePadding>
         {links.map((text, index) => (
           <NavigationLink
@@ -151,11 +156,15 @@ export default function MiniDrawer() {
 
   const mobileDrawer = (
     <Drawer open={open} onClose={handleDrawerClose}>
+      <Stack alignItems='center' gap='1em'>
+        <Avatar src={user?.avatar} alt={user?.name} />
+        <Typography>{user?.name}</Typography>
+      </Stack>
       <List
         disablePadding
         onMouseLeave={handleDrawerClose}
         sx={{
-          marginTop: { xs: '56px', sm: '64px' },
+          // marginTop: { xs: '56px', sm: '64px' },
           width: drawerWidth,
         }}
       >
@@ -231,17 +240,6 @@ export default function MiniDrawer() {
           <Typography variant='h6' width='300px'>
             NFC IET Student Portal
           </Typography>
-          <Stack
-            direction='row'
-            width='100%'
-            height='100%'
-            justifyContent='flex-end'
-            alignItems='center'
-            gap='1em'
-          >
-            <Avatar src={user?.avatar} alt={user?.name} />
-            <Typography variant='h6'>{user?.name}</Typography>
-          </Stack>
         </Toolbar>
       </AppBar>
       {mobileDrawer}
