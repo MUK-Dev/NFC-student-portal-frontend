@@ -78,14 +78,16 @@ const ScannerAttendence = () => {
             <CameraswitchIcon fontSize='inherit' />
           </IconButton>
 
-          <QrReader
-            constraints={{
-              facingMode: selected,
-            }}
-            scanDelay={1500}
-            onResult={handleScan}
-            videoContainerStyle={{ width: '300px' }}
-          />
+          {!loadingScan && (
+            <QrReader
+              constraints={{
+                facingMode: selected,
+              }}
+              scanDelay={1500}
+              onResult={handleScan}
+              videoContainerStyle={{ width: '300px' }}
+            />
+          )}
         </>
       )}
       {loadingScan && <p>Loading</p>}
