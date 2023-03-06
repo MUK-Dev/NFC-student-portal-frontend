@@ -15,22 +15,20 @@ const ScannerAttendence = () => {
   const [errorModal, setErrorModal] = useState(false)
   const [successModal, setSuccessModel] = useState(false)
 
-  const [selected, setSelected] = useState('environment')
+  const [selected, setSelected] = useState('user')
   const [startScan, setStartScan] = useState(false)
   const [loadingScan, setLoadingScan] = useState(false)
   const [data, setData] = useState('')
   const { token } = useAuth()
-  const handleScan = async scanData => {
+  const handleScan = async (scanData, err) => {
+    if (err) {
+      console.log(err)
+      return
+    }
     setLoadingScan(true)
-    console.log(`loaded data data`, scanData)
     if (scanData && scanData !== '') {
-      console.log(`loaded >>>`, scanData)
-      //setData(scanData.text)
-      // const res = await MarkAttendancewithQR(token, scanData.text)
-      // console.log(res)
       try {
         const res = await MarkAttendancewithQR(token, scanData)
-        console.log(res)
         setSuccessModel(res.message)
       } catch (err) {
         console.log(err)
@@ -41,18 +39,14 @@ const ScannerAttendence = () => {
 
       setStartScan(false)
       setLoadingScan(false)
-      // setPrecScan(scanData);
     }
   }
-  const handleError = err => {
-    console.error(err)
-  }
+
   const toggleCamera = () => {
     if (selected === 'environment') setSelected('user')
-
-    elseif(selected === 'user')
-    setSelected('environment')
+    else if (selected === 'user') setSelected('environment')
   }
+
   return (
     <>
       <Stack alignContent='center' alignItems='center'>
@@ -85,13 +79,11 @@ const ScannerAttendence = () => {
           </IconButton>
 
           <QrReader
-            facingMode={selected}
-            delay={1000}
-            onError={handleError}
-            // onScan={handleScan}
+            constraints={{
+              facingMode: selected,
+            }}
             onResult={handleScan}
-            // chooseDeviceId={()=>selected}
-            style={{ width: '100px !important' }}
+            videoContainerStyle={{ width: '300px' }}
           />
         </>
       )}
