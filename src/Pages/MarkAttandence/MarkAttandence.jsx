@@ -640,7 +640,7 @@ const MarkAttandence = () => {
                               key={student?._id}
                               secondaryAction={
                                 <Tooltip
-                                  title={`Mark ${student?.student.name} Attendence`}
+                                  title={`Mark ${student?.student?.name} Attendence`}
                                   placement='right'
                                 >
                                   <Checkbox
