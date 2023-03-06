@@ -82,6 +82,7 @@ const ScannerAttendence = () => {
             constraints={{
               facingMode: selected,
             }}
+            scanDelay={1500}
             onResult={handleScan}
             videoContainerStyle={{ width: '300px' }}
           />
