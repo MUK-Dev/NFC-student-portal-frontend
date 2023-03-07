@@ -17,7 +17,7 @@ const StudentCertificate = () => {
         </Stack>
 
         <Stack direction='row' spacing={2} alignContent="right">
-          <Typography>Registeration No.</Typography>
+          <Typography>Registration No.</Typography>
           <TextField variant='standard' />
         </Stack>
 <Stack alignContent='center'>
