@@ -13,7 +13,7 @@ const StudentCertificate = () => {
         </Stack>
 
         <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo' />
-        <Stack >
+        <Stack spacing={2} >
           <Typography>Regis No.</Typography>
           <TextField variant='standard' />
         </Stack>
@@ -34,7 +34,7 @@ const StudentCertificate = () => {
             <Stack direction='row' spacing={2} justifyContent='center'
               alignItems='center'>
 
-              <Typography >This Certificate is awarded to </Typography>
+              <Typography align='center' >This Certificate is awarded to </Typography>
 
 
               <TextField variant='standard' />
@@ -46,9 +46,9 @@ const StudentCertificate = () => {
             <Stack direction='row' spacing={2} alignItems='center'>
               <Typography align='center'>at</Typography>
               <TextField variant='standard' />
-              <Typography> on this </Typography>
+              <Typography align='center'> on this </Typography>
               <TextField variant='standard' />
-              <Typography> day of</Typography>
+              <Typography align='center'> day of</Typography>
               <TextField variant='standard' />
             </Stack>
             <Stack direction='row' spacing={2} alignItems='center'>
@@ -58,14 +58,14 @@ const StudentCertificate = () => {
               <TextField variant='standard' />
               <Typography align='center'>in</Typography>
               <TextField variant='standard' />
-              <Typography>grade</Typography>
+              <Typography align='center'>grade</Typography>
 
             </Stack>
             <Stack direction='row' spacing={2} alignItems='center'>
               <TextField variant='standard' />
               <Typography align='center'>from</Typography>
               <TextField variant='standard' />
-              <Typography>to</Typography>
+              <Typography align='center'>to</Typography>
               <TextField variant='standard' />
 
 
