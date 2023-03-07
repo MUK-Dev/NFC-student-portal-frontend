@@ -12,20 +12,20 @@ const StudentCertificate = () => {
           <TextField variant='standard' />
         </Stack>
 
-        <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo' />
+        <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo' direction='row' />
         
 
 <Stack alignContent='center'>
 
         <Stack >
-          <Typography variant='h6' align='center' color="#4a4a4a" fontFamily= '"Montserrat", Open Sans'>
+          <Typography variant='h6' align='center' color="#70231d" fontFamily= '"Montserrat", Open Sans'>
             NFC Institute of Engineering and Technology
             </Typography>
 
 
         </Stack>
         <Stack > 
-          <Typography variant='h6' align='center' style={{color:"#4a4a4a" , fontFamily: '"Montserrat", Open Sans'}}>
+          <Typography variant='h6' align='center' style={{color:"#70231d" , fontFamily: '"Montserrat", Open Sans'}}>
           Degree Awarding Certificate
           </Typography>
           </Stack>
@@ -46,7 +46,7 @@ const StudentCertificate = () => {
 
             </Stack>
 
-            <Stack direction='row' spacing={2} alignItems='center'>
+            <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
               <Typography align='center'>at</Typography>
               <TextField variant='standard' />
               <Typography align='center'> on this </Typography>
@@ -54,17 +54,17 @@ const StudentCertificate = () => {
               <Typography align='center'> day of</Typography>
               <TextField variant='standard' />
             </Stack>
-            <Stack direction='row' spacing={2} alignItems='center'>
+            <Stack direction='row' spacing={2} justifyContent='center'alignItems='center'>
               on successful completion of the certificate course of
             </Stack>
-            <Stack direction='row' spacing={2} alignItems='center'>
+            <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
               <TextField variant='standard' />
               <Typography align='center'>in</Typography>
               <TextField variant='standard' />
               <Typography align='center'>grade</Typography>
 
             </Stack>
-            <Stack direction='row' spacing={2} alignItems='center'>
+            <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
               <TextField variant='standard' />
               <Typography align='center'>from</Typography>
               <TextField variant='standard' />
@@ -74,7 +74,7 @@ const StudentCertificate = () => {
 
             </Stack>
 
-            <Stack direction='row' spacing={2} alignItems='center'>
+            <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
               <Typography align='center'>from</Typography>
               <TextField variant='standard' />
 
@@ -83,7 +83,7 @@ const StudentCertificate = () => {
           </Stack>
 
         </Grid >
-        <Button variant="contained" style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}>Download</Button>
+        <Button variant="contained" align="right" style={{maxWidth: '70px', maxHeight: '70px', minWidth: '70px', minHeight: '70px'}}>Download</Button>
 
       </Stack>
       </Stack>
