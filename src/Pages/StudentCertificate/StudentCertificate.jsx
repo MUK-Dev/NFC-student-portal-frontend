@@ -9,7 +9,7 @@ const StudentCertificate = () => {
 
 
 
-    <Grid container spacing={1}  align="left"  item xs={20} >
+    <Grid container spacing={1} item xs={20} >
       <Stack direction='row' spacing={2}>
         <Typography>Serial No.</Typography>
         <TextField variant='standard' />
