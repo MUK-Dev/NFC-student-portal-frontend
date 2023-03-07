@@ -71,6 +71,14 @@ const StudentProgress = () => {
                     name: 'Semester 4',
                     data: [0, 0, 0, 3.3, 0, 0, 0, 0],
                   },
+                  {
+                    name: 'Semester 5',
+                    data: [0, 0, 0, 0, 3.53, 0, 0, 0],
+                  },
+                  {
+                    name: 'Semester 6',
+                    data: [0, 0, 0, 0, 0, 3.55, 0, 0],
+                  },
                 ]}
               />
               <Button
