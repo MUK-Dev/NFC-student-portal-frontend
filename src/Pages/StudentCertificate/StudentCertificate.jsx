@@ -24,9 +24,13 @@ const StudentCertificate = () => {
         <TextField variant='standard' />
       </Stack>
 
-      
+     
         <Grid container  justify="center" align="center"  item xs={12}>
+   <Stack direction='row' spacing={2}>
+        <Typography >NFC Institute of Engineering and Technology</Typography>
+        <Typography>Degree Awarding Certificate</Typography>
 
+      </Stack> 
           <Stack spacing={4}>
             <Stack direction='row' spacing={2}  justifyContent='center'
       alignItems='center'>
