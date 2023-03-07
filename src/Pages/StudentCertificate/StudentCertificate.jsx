@@ -1,5 +1,7 @@
 import { Stack, TextField, Typography, Grid, Button } from '@mui/material'
 import NFCLogo from '../../Assets/Images/NFC Iet Logo.png';
+import { Container } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 
 const StudentCertificate = () => {
   
@@ -7,7 +9,13 @@ const StudentCertificate = () => {
    
    
 
-
+<Container>
+    <Box 
+       borderColor="primary.main" 
+       borderTop={4} 
+       borderBottom={4}
+    >
+      QUOTE, and preview
 
     <Grid container spacing={1} item xs={20} >
       <Stack direction='row' spacing={2}>
@@ -80,7 +88,8 @@ const StudentCertificate = () => {
         
       </Grid>
 
-    
+    </Box>
+  </Container>
 
 
   )
