@@ -9,18 +9,18 @@ const StudentCertificate = () => {
       <Stack  sx={{ border: '5px solid' }}>
         <Stack spacing={2} >
           <Typography>Serial No.</Typography>
-          <TextField variant='standard' />
+          <TextField variant='standard' align="left"/>
         </Stack>
 
         <Stack spacing={2} >
-        <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo' direction='row' />
+        <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo' align="center"  />
         </Stack>
 
         <Stack spacing={2} align="right">
           <Typography>Registration No.</Typography>
-          <TextField variant='standard' />
+          <TextField variant='standard' align="right"/>
         </Stack>
-<Stack alignContent='center'>
+<Stack alignContent='center' justify="center">
 
         <Stack >
           <Typography variant='h6' align='center' color="#70231d" fontFamily= '"Montserrat", Open Sans'>
