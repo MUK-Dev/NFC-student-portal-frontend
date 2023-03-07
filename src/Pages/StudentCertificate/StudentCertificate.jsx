@@ -13,7 +13,7 @@ const StudentCertificate = () => {
         </Stack>
 
         <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo' />
-        <Stack spacing={2} >
+        <Stack spacing={2} align='right'>
           <Typography>Regis No.</Typography>
           <TextField variant='standard' />
         </Stack>
@@ -21,11 +21,17 @@ const StudentCertificate = () => {
 <Stack alignContent='center'>
 
         <Stack >
-          <Typography variant='h6' align='center' color="pink.hot">NFC Institute of Engineering and Technology</Typography>
+          <Typography variant='h6' align='center' color="#4a4a4a" fontFamily= '"Montserrat", Open Sans'>
+            NFC Institute of Engineering and Technology
+            </Typography>
 
 
         </Stack>
-        <Stack > <Typography variant='h6' align='center' color="pink.hot">Degree Awarding Certificate</Typography></Stack>
+        <Stack > 
+          <Typography variant='h6' align='center' style={{color:"#4a4a4a" , fontFamily: '"Montserrat", Open Sans'}}>
+          Degree Awarding Certificate
+          </Typography>
+          </Stack>
 
 
         <Grid container justify="center" align="center" item xs={12}>
@@ -80,7 +86,7 @@ const StudentCertificate = () => {
           </Stack>
 
         </Grid >
-        <Button variant="contained" align='center'>Download</Button>
+        <Button variant="contained" style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}>Download</Button>
 
       </Stack>
       </Stack>
