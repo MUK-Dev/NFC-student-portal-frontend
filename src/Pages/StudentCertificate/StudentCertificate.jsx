@@ -8,7 +8,7 @@ const StudentCertificate = () => {
     <Grid >
       <Stack  sx={{ border: '5px solid' }}>
 
-      <Stack direction="row" spacing={2}>
+      <Stack direction="row" spacing={4}>
 
       <Typography>Serial No.</Typography>
           <TextField variant='standard'/>
