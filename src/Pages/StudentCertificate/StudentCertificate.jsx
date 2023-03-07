@@ -7,19 +7,12 @@ const StudentCertificate = () => {
   return (
     <Grid >
       <Stack  sx={{ border: '5px solid' }}>
-        <Stack>
-          <Typography>Serial No.</Typography>
-          <TextField variant='standard' align="left"/>
-        </Stack>
-
-        <Stack >
-        <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo' align="center"  />
-        </Stack>
-
-        <Stack alignContent="right" justify="right">
-          <Typography>Registration No.</Typography>
-          <TextField variant='standard' align="right"/>
-        </Stack>
+      <Stack direction="row" spacing={2}>
+  <Item>Serial</Item>
+  <Item>Item 2</Item>
+  <Item>Item 3</Item>
+</Stack>
+       
 <Stack alignContent='center' justify="center">
 
         <Stack >
