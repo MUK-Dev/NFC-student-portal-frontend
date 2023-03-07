@@ -5,8 +5,8 @@ import NFCLogo from '../../Assets/Images/NFC Iet Logo.png';
 const StudentCertificate = () => {
 
   return (
-    <Grid container spacing={1} item xs={20} >
-      <Stack sx={{ border: '2px solid' }}>
+    <Grid >
+      <Stack  sx={{ border: '5px solid' }}>
         <Stack direction='row' spacing={2} >
           <Typography>Serial No.</Typography>
           <TextField variant='standard' />
@@ -18,13 +18,14 @@ const StudentCertificate = () => {
           <TextField variant='standard' />
         </Stack>
 
+<Stack alignContent='center'>
 
         <Stack direction='row' spacing={2}>
-          <Typography >NFC Institute of Engineering and Technology</Typography>
+          <Typography variant='h6' align='center'>NFC Institute of Engineering and Technology</Typography>
 
 
         </Stack>
-        <Stack> <Typography>Degree Awarding Certificate</Typography></Stack>
+        <Stack> <Typography variant='h6' align='center'>Degree Awarding Certificate</Typography></Stack>
 
 
         <Grid container justify="center" align="center" item xs={12}>
@@ -33,11 +34,11 @@ const StudentCertificate = () => {
             <Stack direction='row' spacing={2} justifyContent='center'
               alignItems='center'>
 
-              <Typography>This Certificate is awarded to </Typography>
+              <Typography >This Certificate is awarded to </Typography>
 
 
               <TextField variant='standard' />
-              <Typography> S/D/o </Typography>
+              <Typography align='center'> S/D/o </Typography>
               <TextField variant='standard' />
 
             </Stack>
@@ -82,7 +83,7 @@ const StudentCertificate = () => {
         <Button variant="contained">Download</Button>
 
       </Stack>
-
+      </Stack>
     </Grid>
 
   )
@@ -90,4 +91,3 @@ const StudentCertificate = () => {
 
 
 export default StudentCertificate;
-
