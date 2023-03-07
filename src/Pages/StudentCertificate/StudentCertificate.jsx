@@ -21,11 +21,11 @@ const StudentCertificate = () => {
 <Stack alignContent='center'>
 
         <Stack >
-          <Typography variant='h6' align='center'>NFC Institute of Engineering and Technology</Typography>
+          <Typography variant='h6' align='center' color="pink.hot">NFC Institute of Engineering and Technology</Typography>
 
 
         </Stack>
-        <Stack > <Typography variant='h6' align='center'>Degree Awarding Certificate</Typography></Stack>
+        <Stack > <Typography variant='h6' align='center' color="pink.hot">Degree Awarding Certificate</Typography></Stack>
 
 
         <Grid container justify="center" align="center" item xs={12}>
