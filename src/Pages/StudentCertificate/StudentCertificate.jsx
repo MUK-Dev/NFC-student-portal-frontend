@@ -20,12 +20,12 @@ const StudentCertificate = () => {
 
 <Stack alignContent='center'>
 
-        <Stack direction='row' spacing={2}>
+        <Stack >
           <Typography variant='h6' align='center'>NFC Institute of Engineering and Technology</Typography>
 
 
         </Stack>
-        <Stack> <Typography variant='h6' align='center'>Degree Awarding Certificate</Typography></Stack>
+        <Stack > <Typography variant='h6' align='center'>Degree Awarding Certificate</Typography></Stack>
 
 
         <Grid container justify="center" align="center" item xs={12}>
@@ -43,7 +43,7 @@ const StudentCertificate = () => {
 
             </Stack>
 
-            <Stack direction='row' spacing={2}>
+            <Stack direction='row' spacing={2} alignItems='center'>
               <Typography align='center'>at</Typography>
               <TextField variant='standard' />
               <Typography> on this </Typography>
@@ -51,17 +51,17 @@ const StudentCertificate = () => {
               <Typography> day of</Typography>
               <TextField variant='standard' />
             </Stack>
-            <Stack direction='row' spacing={2} align='center'>
+            <Stack direction='row' spacing={2} alignItems='center'>
               on successful completion of the certificate course of
             </Stack>
-            <Stack direction='row' spacing={2}>
+            <Stack direction='row' spacing={2} alignItems='center'>
               <TextField variant='standard' />
               <Typography align='center'>in</Typography>
               <TextField variant='standard' />
               <Typography>grade</Typography>
 
             </Stack>
-            <Stack direction='row' spacing={2}>
+            <Stack direction='row' spacing={2} alignItems='center'>
               <TextField variant='standard' />
               <Typography align='center'>from</Typography>
               <TextField variant='standard' />
@@ -71,7 +71,7 @@ const StudentCertificate = () => {
 
             </Stack>
 
-            <Stack direction='row' spacing={2}>
+            <Stack direction='row' spacing={2} alignItems='center'>
               <Typography align='center'>from</Typography>
               <TextField variant='standard' />
 
@@ -79,7 +79,7 @@ const StudentCertificate = () => {
 
           </Stack>
 
-        </Grid>
+        </Grid> alignItems='center'
         <Button variant="contained">Download</Button>
 
       </Stack>
