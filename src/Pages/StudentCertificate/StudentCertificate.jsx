@@ -89,7 +89,7 @@ const StudentCertificate = () => {
 
         </Grid >
         <Button variant="contained" style={{maxWidth: '100px', maxHeight: '70px', minWidth: '100px', minHeight: '70px' ,  display: 'flex', justifyContent: 'flex-end'}}>
-          
+          Download
         </Button>
 
       </Stack>
