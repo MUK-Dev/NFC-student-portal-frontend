@@ -44,26 +44,26 @@ const StudentCertificate = () => {
             </Stack>
 
             <Stack direction='row' spacing={2}>
-              <Typography>at</Typography>
+              <Typography align='center'>at</Typography>
               <TextField variant='standard' />
               <Typography> on this </Typography>
               <TextField variant='standard' />
               <Typography> day of</Typography>
               <TextField variant='standard' />
             </Stack>
-            <Stack direction='row' spacing={2}>
+            <Stack direction='row' spacing={2} align='center'>
               on successful completion of the certificate course of
             </Stack>
             <Stack direction='row' spacing={2}>
               <TextField variant='standard' />
-              <Typography>in</Typography>
+              <Typography align='center'>in</Typography>
               <TextField variant='standard' />
               <Typography>grade</Typography>
 
             </Stack>
             <Stack direction='row' spacing={2}>
               <TextField variant='standard' />
-              <Typography>from</Typography>
+              <Typography align='center'>from</Typography>
               <TextField variant='standard' />
               <Typography>to</Typography>
               <TextField variant='standard' />
@@ -72,7 +72,7 @@ const StudentCertificate = () => {
             </Stack>
 
             <Stack direction='row' spacing={2}>
-              <Typography>from</Typography>
+              <Typography align='center'>from</Typography>
               <TextField variant='standard' />
 
             </Stack>
