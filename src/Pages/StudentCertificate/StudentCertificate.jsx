@@ -7,16 +7,16 @@ const StudentCertificate = () => {
   return (
     <Grid >
       <Stack  sx={{ border: '5px solid' }}>
-        <Stack direction='row' spacing={2} >
+        <Stack spacing={2} >
           <Typography>Serial No.</Typography>
           <TextField variant='standard' />
         </Stack>
 
-        <Stack direction='row' spacing={2} >
+        <Stack spacing={2} >
         <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo' direction='row' />
         </Stack>
 
-        <Stack direction='row' spacing={2} alignContent="right">
+        <Stack spacing={2} align="right">
           <Typography>Registration No.</Typography>
           <TextField variant='standard' />
         </Stack>
@@ -88,7 +88,7 @@ const StudentCertificate = () => {
           </Stack>
 
         </Grid >
-        <Button variant="contained" align="right" style={{maxWidth: '70px', maxHeight: '70px', minWidth: '70px', minHeight: '70px'}}>Download</Button>
+        <Button variant="contained" align="right" style={{maxWidth: '100px', maxHeight: '70px', minWidth: '100px', minHeight: '70px'}}>Download</Button>
 
       </Stack>
       </Stack>
