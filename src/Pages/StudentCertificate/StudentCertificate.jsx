@@ -7,7 +7,7 @@ const StudentCertificate = () => {
   return (
     <Grid >
       <Stack  sx={{ border: '5px solid' }}>
-        <Stack direction='row' spacing={2} >
+        <Stack  >
           <Typography>Serial No.</Typography>
           <TextField variant='standard' />
         </Stack>
@@ -79,7 +79,7 @@ const StudentCertificate = () => {
 
           </Stack>
 
-        </Grid> alignItems='center'
+        </Grid alignItems='center'>
         <Button variant="contained">Download</Button>
 
       </Stack>
