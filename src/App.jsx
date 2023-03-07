@@ -13,8 +13,6 @@ import RProgram from './Pages/HeadForms/RProgram'
 import RSection from './Pages/HeadForms/RSection'
 import RSemester from './Pages/HeadForms/RSemester'
 import RSession from './Pages/HeadForms/RSession'
-import RStudent from './Pages/HeadForms/RStudent'
-import RStudentsInSubject from './Pages/HeadForms/RStudentsInSubject'
 import RSubject from './Pages/HeadForms/RSubject'
 import RTeachers from './Pages/HeadForms/RTeachers'
 import RTeachersInSubject from './Pages/HeadForms/RTeachersInSubject'
@@ -77,11 +75,6 @@ const App = () => {
                     element={<RDepartment />}
                   />
                   <Route path='/head/register/subject' element={<RSubject />} />
-                  <Route
-                    path='/head/register/students_subject'
-                    element={<RStudentsInSubject />}
-                  />
-                  <Route path='/head/register/student' element={<RStudent />} />
                   <Route
                     path='/head/register/teachers_subject'
                     element={<RTeachersInSubject />}
