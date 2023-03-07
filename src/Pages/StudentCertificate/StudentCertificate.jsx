@@ -2,41 +2,39 @@ import { Stack, TextField, Typography, Grid, Button } from '@mui/material'
 import NFCLogo from '../../Assets/Images/NFC Iet Logo.png';
 
 
-
 const StudentCertificate = () => {
-  
+
   return (
-   
-   
-
-
-    
-
     <Grid container spacing={1} item xs={20} >
-      <Stack direction='row' spacing={2}>
-        <Typography>Serial No.</Typography>
-        <TextField variant='standard' />
-      </Stack>
+      <Stack sx={{ border: '2px solid' }}>
+        <Stack direction='row' spacing={2} >
+          <Typography>Serial No.</Typography>
+          <TextField variant='standard' />
+        </Stack>
 
-      <img src={NFCLogo} style={{ width: 200 ,height: 160 }} alt='Logo' />
-      <Stack direction='row' spacing={2}>
-        <Typography>Regis No.</Typography>
-        <TextField variant='standard' />
-      </Stack>
+        <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo' />
+        <Stack direction='row' spacing={2}>
+          <Typography>Regis No.</Typography>
+          <TextField variant='standard' />
+        </Stack>
 
-     
-        <Grid container  justify="center" align="center"  item xs={12}>
-   <Stack direction='row' spacing={2}>
-        <Typography >NFC Institute of Engineering and Technology</Typography>
-        <Typography>Degree Awarding Certificate</Typography>
 
-      </Stack> 
+        <Stack direction='row' spacing={2}>
+          <Typography >NFC Institute of Engineering and Technology</Typography>
+
+
+        </Stack>
+        <Stack> <Typography>Degree Awarding Certificate</Typography></Stack>
+
+
+        <Grid container justify="center" align="center" item xs={12}>
+
           <Stack spacing={4}>
-            <Stack direction='row' spacing={2}  justifyContent='center'
-      alignItems='center'>
-      
+            <Stack direction='row' spacing={2} justifyContent='center'
+              alignItems='center'>
+
               <Typography>This Certificate is awarded to </Typography>
-              
+
 
               <TextField variant='standard' />
               <Typography> S/D/o </Typography>
@@ -79,18 +77,17 @@ const StudentCertificate = () => {
             </Stack>
 
           </Stack>
-          
+
         </Grid>
         <Button variant="contained">Download</Button>
 
+      </Stack>
 
-        
-      </Grid>
-
-   
-
+    </Grid>
 
   )
 }
 
+
 export default StudentCertificate;
+
