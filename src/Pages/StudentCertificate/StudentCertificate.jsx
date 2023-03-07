@@ -13,7 +13,7 @@ const StudentCertificate = () => {
         </Stack>
 
         <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo' />
-        <Stack>
+        <Stack direction='row' spacing={2}>
           <Typography>Regis No.</Typography>
           <TextField variant='standard' />
         </Stack>
