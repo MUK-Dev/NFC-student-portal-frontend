@@ -9,8 +9,9 @@ const StudentCertificate = () => {
       <Stack  sx={{ border: '5px solid' }}>
 
       <Stack direction="row"
-  justifyContent="space-around"
-  alignItems="baseline" spacing={1}>
+  justifyContent="space-evenly"
+  alignItems="center"
+  spacing={0}>
 
       <Typography>Serial No.</Typography>
           <TextField variant='standard'/>
