@@ -92,7 +92,9 @@ const StudentCertificate = () => {
   
         
       </Stack>
-      <Box component="span" sx={{ p: 2 }}>
+      <Box component="span" sx={{ p: 2 }} display="flex"
+  justifyContent="flex-end"
+  alignItem="flex-end">
       <Button variant="contained">Save</Button>
     </Box>    
     </Stack>
