@@ -24,15 +24,15 @@ const StudentCertificate = () => {
        
 <Stack alignContent='center' justify="center">
 
-        <Stack >
-          <Typography variant='h6' align='center' color="#70231d" fontFamily= '"Montserrat", Open Sans'>
+        <Stack style={{ backgroundColor: "#70231d" }}>
+          <Typography variant='h6' align='center' color="#4a4a4a" fontFamily= '"Montserrat", Open Sans'>
             NFC Institute of Engineering and Technology
             </Typography>
 
 
         </Stack>
-        <Stack > 
-          <Typography variant='h6' align='center' style={{color:"#70231d" , fontFamily: '"Montserrat", Open Sans'}}>
+        <Stack  style={{ backgroundColor: "#70231d" }}> 
+          <Typography variant='h6' align='center' style={{color:"#4a4a4a" , fontFamily: '"Montserrat", Open Sans'}}>
           Degree Awarding Certificate
           </Typography>
           </Stack>
@@ -94,7 +94,7 @@ const StudentCertificate = () => {
       </Stack>
       <Box component="span" sx={{ p: 2 }}>
       <Button variant="contained">Save</Button>
-    </Box>     
+    </Box>    
     </Stack>
     </Grid>
 
