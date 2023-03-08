@@ -16,7 +16,7 @@ const StudentCertificate = () => {
       <Typography>Serial No.</Typography>
           <TextField variant='standard'/>
       <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo'/>
-      <Typography sx={{ display: 'flex', justifyContent: 'flex-end'}}>Reg No.</Typography>
+      <Typography align="right">Reg No.</Typography>
           <TextField variant='standard'/>
 
 </Stack>
