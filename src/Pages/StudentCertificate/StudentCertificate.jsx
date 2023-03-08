@@ -11,12 +11,12 @@ const StudentCertificate = () => {
       <Stack direction="row"
   justifyContent="space-evenly"
   alignItems="center"
-  spacing={2}>
+  spacing={0}>
 
       <Typography>Serial No.</Typography>
           <TextField variant='standard'/>
       <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo'/>
-      <Typography align="right">Reg No.</Typography>
+      <Typography sx={{ display: 'flex', justifyContent: 'flex-end'}}>Reg No.</Typography>
           <TextField variant='standard'/>
 
 </Stack>
@@ -91,8 +91,10 @@ const StudentCertificate = () => {
         </Grid >
         
       </Stack>
-    <Button varient="contained" color="error">Download</Button>
-      </Stack>
+      <Box component="span" sx={{ p: 2, border: '1px dashed grey' }}>
+      <Button>Download</Button>
+    </Box>      
+    </Stack>
     </Grid>
 
   )
