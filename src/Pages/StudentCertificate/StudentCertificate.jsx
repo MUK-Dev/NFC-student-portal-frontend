@@ -41,40 +41,41 @@ const StudentCertificate = () => {
         <Grid container justify ="center" item xs={12}>
 
           <Stack spacing={2}>
-            <Stack direction='row' spacing={2} >
+            <Stack direction='row' spacing={2} justifyContent='center'
+              alignItems='center'>
 
-              <Typography align='center' >This Certificate is awarded to </Typography>
+              <Typography >This Certificate is awarded to </Typography>
 
 
               <TextField variant='standard' />
-              <Typography align='center'> S/D/o </Typography>
+              <Typography> S/D/o </Typography>
               <TextField variant='standard' />
 
             </Stack>
 
-            <Stack direction='row' spacing={2} >
-              <Typography align='center'>at</Typography>
+            <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
+              <Typography >at</Typography>
               <TextField variant='standard' />
-              <Typography align='center'> on this </Typography>
+              <Typography > on this </Typography>
               <TextField variant='standard' />
-              <Typography align='center'> day of</Typography>
+              <Typography > day of</Typography>
               <TextField variant='standard' />
             </Stack>
-            <Stack direction='row' spacing={2} >
+            <Stack direction='row' spacing={2} justifyContent='center'alignItems='center'>
               on successful completion of the certificate course of
             </Stack>
-            <Stack direction='row' spacing={2} >
+            <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
               <TextField variant='standard' />
-              <Typography align='center'>in</Typography>
+              <Typography >in</Typography>
               <TextField variant='standard' />
-              <Typography align='center'>grade</Typography>
+              <Typography >grade</Typography>
 
             </Stack>
-            <Stack direction='row' spacing={2}>
+            <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
               <TextField variant='standard' />
-              <Typography align='center'>from</Typography>
+              <Typography >from</Typography>
               <TextField variant='standard' />
-              <Typography align='center'>to</Typography>
+              <Typography >to</Typography>
               <TextField variant='standard' />
 
 
