@@ -91,7 +91,7 @@ const StudentCertificate = () => {
         </Grid >
         
       </Stack>
-    <Button varient="contained">Download</Button>
+    <Button varient="contained" color="error">Download</Button>
       </Stack>
     </Grid>
 
