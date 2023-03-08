@@ -25,7 +25,7 @@ const StudentCertificate = () => {
 <Stack alignContent='center' justify="center">
 
         <Stack style={{ backgroundColor: "#70231d" }}>
-          <Typography variant='h6' align='center' color="##ffffff" fontFamily= '"Montserrat", Open Sans, bold'>
+          <Typography variant='h6' align='center' style={{color:"##ffffff" , fontFamily: '"Montserrat", Open Sans, bold'}} >
             NFC Institute of Engineering and Technology
             </Typography>
 
@@ -38,7 +38,7 @@ const StudentCertificate = () => {
           </Stack>
 
 
-        <Grid container justify="center" align="center" item xs={12}>
+        <Grid container justify ="center" alignItems="center" item xs={12}>
 
           <Stack spacing={2}>
             <Stack direction='row' spacing={2} justifyContent='center'
