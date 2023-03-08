@@ -38,7 +38,7 @@ const StudentCertificate = () => {
           </Stack>
 
 
-        <Grid container justify ="center" item xs={12}>
+        <Grid container justify ="right" item xs={12}>
 
           <Stack spacing={2}>
             <Stack direction='row' spacing={2} justifyContent='center'
