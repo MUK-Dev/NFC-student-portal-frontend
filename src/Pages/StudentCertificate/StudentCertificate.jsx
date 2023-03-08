@@ -17,22 +17,22 @@ const StudentCertificate = () => {
       <Typography>Serial No.</Typography>
           <TextField variant='standard'/>
       <img src={NFCLogo} style={{ width: 200, height: 160 }} alt='Logo'/>
-      <Typography sx={{ display: 'flex', justifyContent: 'flex-end'}}>Reg No.</Typography>
+      <Typography >Reg No.</Typography>
           <TextField variant='standard'/>
 
 </Stack>
        
 <Stack alignContent='center' justify="center">
 
-        <Stack style={{ backgroundColor: "#70231d" }}>
-          <Typography variant='h6' align='center'style={{color:"#ffffff" , fontFamily: '"Montserrat", Open Sans, bold'}} >
+        <Stack >
+          <Typography variant='h6' align='center'style={{color:"#70231d" , fontFamily: '"Montserrat", Open Sans, bold'}} >
             NFC Institute of Engineering and Technology
             </Typography>
 
 
         </Stack>
-        <Stack  style={{ backgroundColor: "#70231d" }}> 
-          <Typography variant='h6' align='center' style={{color:"#ffffff" , fontFamily: '"Montserrat", Open Sans, bold'}}>
+        <Stack > 
+          <Typography variant='h6' align='center' style={{color:"#70231d" , fontFamily: '"Montserrat", Open Sans, bold'}}>
           Degree Awarding Certificate
           </Typography>
           </Stack>
