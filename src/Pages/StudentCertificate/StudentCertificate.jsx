@@ -95,7 +95,7 @@ const StudentCertificate = () => {
       <Box component="span" sx={{ p: 2 }} display="flex"
   justifyContent="flex-end"
   alignItem="flex-end">
-      <Button variant="contained">Save</Button>
+      <Button variant="contained">Download PDF</Button>
     </Box>    
     </Stack>
     </Grid>
