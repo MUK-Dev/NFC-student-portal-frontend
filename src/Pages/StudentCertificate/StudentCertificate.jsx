@@ -92,9 +92,9 @@ const StudentCertificate = () => {
         </Grid >
         
       </Stack>
-      <Box component="span" sx={{ p: 2, border: '1px dashed grey' }}>
-      <Button>Download</Button>
-    </Box>      
+      <Box component="span" sx={{ p: 2 }}>
+      <Button variant="contained">Save</Button>
+    </Box>     
     </Stack>
     </Grid>
 
