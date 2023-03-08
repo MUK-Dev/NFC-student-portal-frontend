@@ -38,7 +38,7 @@ const StudentCertificate = () => {
           </Stack>
 
 
-        <Grid container justify ="right" item xs={12}>
+       
 
           <Stack spacing={2}>
             <Stack direction='row' spacing={2} justifyContent='center'
@@ -89,7 +89,7 @@ const StudentCertificate = () => {
 
           </Stack>
 
-        </Grid >
+  
         
       </Stack>
       <Box component="span" sx={{ p: 2 }}>
