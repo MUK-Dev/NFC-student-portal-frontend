@@ -11,7 +11,7 @@ const StudentCertificate = () => {
       <Stack direction="row"
   justifyContent="space-evenly"
   alignItems="center"
-  spacing={12}>
+  spacing={0}>
 
       <Typography>Serial No.</Typography>
           <TextField variant='standard'/>
@@ -89,7 +89,7 @@ const StudentCertificate = () => {
           </Stack>
 
         </Grid >
-        <Button variant="contained" style={{maxWidth: '100px', maxHeight: '70px', minWidth: '100px', minHeight: '70px' ,  display: 'flex', justifyContent: 'flex-end'}}>
+        <Button variant="contained">
           Download
         </Button>
 
