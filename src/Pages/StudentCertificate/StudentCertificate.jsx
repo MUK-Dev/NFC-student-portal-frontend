@@ -10,7 +10,7 @@ const StudentCertificate = () => {
 
       <Stack direction="row"
   justifyContent="space-around"
-  alignItems="baseline" spacing={2}>
+  alignItems="baseline" spacing={1}>
 
       <Typography>Serial No.</Typography>
           <TextField variant='standard'/>
