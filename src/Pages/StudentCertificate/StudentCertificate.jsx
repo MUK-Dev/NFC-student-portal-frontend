@@ -38,11 +38,10 @@ const StudentCertificate = () => {
           </Stack>
 
 
-        <Grid container justify ="center" alignItems="center" item xs={12}>
+        <Grid container justify ="center" item xs={12}>
 
           <Stack spacing={2}>
-            <Stack direction='row' spacing={2} justifyContent='center'
-              alignItems='center'>
+            <Stack direction='row' spacing={2} >
 
               <Typography align='center' >This Certificate is awarded to </Typography>
 
@@ -53,7 +52,7 @@ const StudentCertificate = () => {
 
             </Stack>
 
-            <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
+            <Stack direction='row' spacing={2} >
               <Typography align='center'>at</Typography>
               <TextField variant='standard' />
               <Typography align='center'> on this </Typography>
@@ -61,17 +60,17 @@ const StudentCertificate = () => {
               <Typography align='center'> day of</Typography>
               <TextField variant='standard' />
             </Stack>
-            <Stack direction='row' spacing={2} justifyContent='center'alignItems='center'>
+            <Stack direction='row' spacing={2} >
               on successful completion of the certificate course of
             </Stack>
-            <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
+            <Stack direction='row' spacing={2} >
               <TextField variant='standard' />
               <Typography align='center'>in</Typography>
               <TextField variant='standard' />
               <Typography align='center'>grade</Typography>
 
             </Stack>
-            <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
+            <Stack direction='row' spacing={2}>
               <TextField variant='standard' />
               <Typography align='center'>from</Typography>
               <TextField variant='standard' />
