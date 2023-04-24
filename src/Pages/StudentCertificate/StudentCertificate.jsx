@@ -97,9 +97,9 @@ const StudentCertificate = () => {
   alignItem="flex-end">
 <ListItem button >
    <i class="material-icons mail_outline">mail_outline</i>
-   <ListItemText primary="Support" />
   <a href="mailto:laibaraees690@gmail.com"></a>
-</ListItem>    </Box>    
+</ListItem>
+</Box>    
     </Stack>
     </Grid>
 
