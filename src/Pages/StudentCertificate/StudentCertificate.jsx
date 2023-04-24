@@ -1,4 +1,4 @@
-import { Stack, TextField, Typography, Grid,  ListItem} from '@mui/material'
+import { Stack, TextField, Typography, Grid,  Button} from '@mui/material'
 import Box from '@mui/material/Box';
 import NFCLogo from '../../Assets/Images/NFC Iet Logo.png';
 
@@ -95,10 +95,8 @@ const StudentCertificate = () => {
       <Box component="span" sx={{ p: 2 }} display="flex"
   justifyContent="flex-end"
   alignItem="flex-end">
-<ListItem button >
-   <i class="material-icons mail_outline">mail_outline</i>
-  <a href="mailto:laibaraees690@gmail.com"></a>
-</ListItem>
+      <Button variant="contained">Download PDF</Button>
+
 </Box>    
     </Stack>
     </Grid>
