@@ -95,8 +95,11 @@ const StudentCertificate = () => {
       <Box component="span" sx={{ p: 2 }} display="flex"
   justifyContent="flex-end"
   alignItem="flex-end">
-      <Button variant="contained">Download PDF</Button>
-    </Box>    
+<ListItem button >
+   <i class="material-icons mail_outline">mail_outline</i>
+   <ListItemText primary="Support" />
+  <a href="mailto:laibaraees690@gmail.com"></a>
+</ListItem>    </Box>    
     </Stack>
     </Grid>
 
