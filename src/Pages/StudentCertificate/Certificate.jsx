@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import NFCLogo from '../../Assets/Images/NFC Iet Logo.png';
 
 
-const StudentCertificate = () => {
+const Certificate = () => {
 
   return (
     <Grid >
@@ -108,4 +108,4 @@ const StudentCertificate = () => {
 }
 
 
-export default StudentCertificate;
+export default Certificate;
