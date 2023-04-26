@@ -96,6 +96,19 @@ const StudentCertificate = () => {
   justifyContent="flex-end"
   alignItem="flex-end">
       <Button variant="contained">Download PDF</Button>
+<Button
+                variant='contained'
+                sx={{
+                  width: '100%',
+                  marginTop: '1em',
+                  borderTopRightRadius: 0,
+                  borderTopLeftRadius: 0,
+                }}
+                onClick={() => navigate('/student/Certificate')}
+                disableElevation
+              >
+                Another page
+              </Button>
 
 </Box>    
     </Stack>
