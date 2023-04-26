@@ -24,6 +24,7 @@ import ScannerAttendance from './Pages/ScannerAttendance/ScannerAttendence'
 import PreviousSheets from './Pages/Sheets/PreviousSheets'
 import StudentAttendance from './Pages/StudentAttendance/StudentAttendance'
 import StudentCertificate from './Pages/StudentCertificate/StudentCertificate'
+import Certificate from './Pages/StudentCertificate/Certificate'
 import StudentDashboard from './Pages/StudentDashboard/StudentDashboard'
 import StudentDetailProgress from './Pages/StudentProgress/StudentDetailProgress'
 import StudentProgress from './Pages/StudentProgress/StudentProgress'
@@ -104,6 +105,10 @@ const App = () => {
                   <Route
                     path='/student/certificate'
                     element={<StudentCertificate />}
+                  />
+                   <Route
+                    path='/student/certificate'
+                    element={<Certificate />}
                   />
                   <Route
                     path='/student/scanner'
