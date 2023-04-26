@@ -99,7 +99,7 @@ const StudentCertificate = () => {
 <Button
                 variant='contained'
                 sx={{
-                  width: '100%',
+                  width: '30%',
                   marginTop: '1em',
                   borderTopRightRadius: 0,
                   borderTopLeftRadius: 0,
