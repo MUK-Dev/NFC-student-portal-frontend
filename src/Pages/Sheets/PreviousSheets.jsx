@@ -12,6 +12,12 @@ import {
   OutlinedInput,
   Paper,
   Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
   Typography,
 } from '@mui/material'
@@ -23,6 +29,16 @@ import { useNavigate } from 'react-router'
 import useAuth from '../../Hooks/useAuth'
 
 import { getAttendanceSheetsDataRequest } from '../../Services/API/getAttendanceSheetsRequest'
+
+const tableHeaders = [
+  'Department',
+  'Program',
+  'Session',
+  'Section',
+  'Semester',
+  'Subject - Code',
+  'Marked on',
+]
 
 const PreviousSheets = () => {
   const { token } = useAuth()
@@ -67,61 +83,40 @@ const PreviousSheets = () => {
           return true
       })
       ?.map(r => (
-        <Grid key={r._id} item xs={12} sm={6} md={4} lg={3} padding='1em'>
-          <Card>
-            <CardActionArea
-              onClick={() =>
-                navigate(`/teacher/mark-attandence?sheetId=${r._id}`)
-              }
-            >
-              <CardContent>
-                <Typography
-                  sx={{ fontSize: 14 }}
-                  color='text.secondary'
-                  gutterBottom
-                >
-                  Marked on {moment(r.date).format('LLL')}
-                </Typography>
-                <Chip
-                  label={r.department.department_name}
-                  sx={{ margin: '0.5em' }}
-                />
-                <Chip
-                  label={r.program.program_abbreviation}
-                  sx={{ margin: '0.5em' }}
-                />
-                <Chip
-                  label={r.session.session_title}
-                  sx={{ margin: '0.5em' }}
-                />
-                <Chip
-                  label={r.section.section_title}
-                  sx={{ margin: '0.5em' }}
-                />
-                <Chip
-                  label={`Semester: ${r.semester.semester_title}`}
-                  sx={{ margin: '0.5em' }}
-                />
-                <Chip
-                  label={`${r.subject.subject_title} ${r.subject.subject_code}`}
-                  sx={{ margin: '0.5em' }}
-                />
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
+        <TableRow
+          hover
+          key={r._id}
+          sx={{ cursor: 'pointer' }}
+          onClick={() => navigate(`/teacher/mark-attandence?sheetId=${r._id}`)}
+        >
+          <TableCell align='center'>{r.department.department_name}</TableCell>
+          <TableCell align='center'>{r.program.program_abbreviation}</TableCell>
+          <TableCell align='center'>{r.session.session_title}</TableCell>
+          <TableCell align='center'>{r.section.section_title}</TableCell>
+          <TableCell align='center'>{r.semester.semester_title}</TableCell>
+          <TableCell align='center'>{`${r.subject.subject_title} ${r.subject.subject_code}`}</TableCell>
+          <TableCell align='center'>{moment(r.date).format('LLL')}</TableCell>
+        </TableRow>
       ))
 
   return (
     <Paper sx={{ padding: '1em' }}>
       <Grid container justifyContent='space-between' alignItems='center'>
         <Grid item>
-          <Typography variant='h6' gutterBottom>
+          <Typography
+            variant='h6'
+            sx={{ textAlign: { xs: 'center', md: 'left' } }}
+            gutterBottom
+          >
             Attendance Records
           </Typography>
         </Grid>
         <Grid item>
-          <FormControl sx={{ width: '30ch' }} size='small' variant='outlined'>
+          <FormControl
+            sx={{ width: { xs: '100%', md: '30ch' } }}
+            size='small'
+            variant='outlined'
+          >
             <OutlinedInput
               size='small'
               value={search}
@@ -141,9 +136,20 @@ const PreviousSheets = () => {
         </Stack>
       )}
       {isError && <Typography color='error'>Couldn't find records</Typography>}
-      <Grid container width='100%'>
-        {dataList}
-      </Grid>
+      <TableContainer sx={{ maxHeight: '80vh', overflow: 'auto' }}>
+        <Table stickyHeader aria-label='sticky table'>
+          <TableHead>
+            <TableRow>
+              {tableHeaders.map(h => (
+                <TableCell id={h} align='center'>
+                  {h}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>{dataList}</TableBody>
+        </Table>
+      </TableContainer>
     </Paper>
   )
 }
