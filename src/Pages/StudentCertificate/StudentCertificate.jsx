@@ -1,9 +1,30 @@
-import { Stack, TextField, Typography, Grid,  Button} from '@mui/material'
+import { Stack, TextField, Typography, Grid, Button} from '@mui/material'
 import Box from '@mui/material/Box';
 import NFCLogo from '../../Assets/Images/NFC Iet Logo.png';
-import Certificate from '../../Pages/StudentCertificate/Certificate'
+import {useNavigate } from 'react-router-dom';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
+
+const [loader, setLoader] = useState(false);
+
+const downloadPDF = () =>{
+  const capture = document.querySelector('.actual-receipt');
+  setLoader(true);
+  html2canvas(capture).then((canvas)=>{
+    const imgData = canvas.toDataURL('img/png');
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const componentWidth = doc.internal.pageSize.getWidth();
+    const componentHeight = doc.internal.pageSize.getHeight();
+    doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
+    setLoader(false);
+    doc.save('receipt.pdf');
+  })
+}
 
 const StudentCertificate = () => {
+const navigate = useNavigate();
+
 
   return (
     <Grid >
@@ -23,6 +44,8 @@ const StudentCertificate = () => {
 </Stack>
        
 <Stack alignContent='center' justify="center">
+  <Stack>
+  <img src={NFCLogo} style={{ width: 250, height: 200, opacity: "0.8"  }} alt='Logo'/>
 
         <Stack >
           <Typography variant='h6' align='center'style={{color:"#ffffff" , fontFamily: '"Montserrat", Open Sans, bold' ,  backgroundColor: "#70231d" }} >
@@ -95,27 +118,35 @@ const StudentCertificate = () => {
       <Box component="span" sx={{ p: 2 }} display="flex"
   justifyContent="flex-end"
   alignItem="flex-end">
-      <Button variant="contained">Download PDF</Button>
-<Button
+      <Button variant="contained"
+       onClick={downloadPDF}
+       disabled={!(loader===false)}
+     >
+       {loader?(
+         <span>Downloading</span>
+       ):(
+         <span>Download</span>
+       )}
+
+        Download PDF
+        </Button>
+      
+            <Button
                 variant='contained'
-                sx={{
-                  width: '30%',
-                  marginTop: '1em',
-                  borderTopRightRadius: 0,
-                  borderTopLeftRadius: 0,
-                }}
-                onClick={() => navigate('/student/Certificate')}
+                onClick={() => navigate('student/certificate')}
                 disableElevation
               >
-                Another page
+              Next Page
               </Button>
-
-</Box>    
+              
+    </Box>    
     </Stack>
+    </Stack>
+
     </Grid>
 
   )
-}
 
+  }
 
 export default StudentCertificate;
