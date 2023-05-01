@@ -136,7 +136,7 @@ const navigate = useNavigate();
                 onClick={() => navigate('student/certificate')}
                 disableElevation
               >
-              Next Page
+              Next
               </Button>
               
     </Box>    
