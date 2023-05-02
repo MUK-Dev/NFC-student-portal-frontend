@@ -103,7 +103,7 @@ const App = () => {
                     element={<StudentDetailProgress />}
                   />
                   <Route
-                    path='/student/certificate'
+                    path='/student/studentcertificate'
                     element={<StudentCertificate />}
                   />
                    <Route
