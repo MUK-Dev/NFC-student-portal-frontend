@@ -46,7 +46,7 @@ const StudentCertificate = () => {
             <img
               src={NFCLogo}
               style={{ width: 1000, height: 250, opacity: '0.3' 
-     }}
+    }}
               alt='Logo'
             />
 
@@ -61,7 +61,7 @@ const StudentCertificate = () => {
               >
                 NFC Institute of Engineering and Technology
               </Typography>
-           
+            </Stack>
             <Stack>
               <Typography
                 variant='h6'
@@ -74,7 +74,7 @@ const StudentCertificate = () => {
               >
                 Degree Awarding Certificate
               </Typography>
-           
+            </Stack>
 
             <Stack spacing={2}>
               <Stack
@@ -88,7 +88,7 @@ const StudentCertificate = () => {
                 <TextField variant='standard' />
                 <Typography> S/D/o </Typography>
                 <TextField variant='standard' />
-              
+              </Stack>
 
               <Stack
                 direction='row'
@@ -102,7 +102,7 @@ const StudentCertificate = () => {
                 <TextField variant='standard' />
                 <Typography> day of</Typography>
                 <TextField variant='standard' />
-            
+              </Stack>
               <Stack
                 direction='row'
                 spacing={2}
@@ -172,10 +172,6 @@ const StudentCertificate = () => {
               B
             </Button>
           </Box>
-          </Stack>
-          </Stack>
-          </Stack>
-          </Stack>
         </Stack>
       </Stack>
     </Grid>
