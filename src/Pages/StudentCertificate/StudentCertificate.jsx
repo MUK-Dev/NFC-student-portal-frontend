@@ -43,13 +43,7 @@ const StudentCertificate = () => {
 
         <Stack alignContent='center' justify='center'>
           <Stack>
-            <img
-              src={NFCLogo}
-              style={{ width: 1000, height: 250, opacity: '0.3' 
-    }}
-              alt='Logo'
-            />
-
+        
               <Typography
                 variant='h6'
                 align='center'
