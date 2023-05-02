@@ -74,7 +74,7 @@ const StudentCertificate = () => {
               >
                 Degree Awarding Certificate
               </Typography>
-            </Stack>
+           
 
             <Stack spacing={2}>
               <Stack
@@ -88,7 +88,7 @@ const StudentCertificate = () => {
                 <TextField variant='standard' />
                 <Typography> S/D/o </Typography>
                 <TextField variant='standard' />
-              </Stack>
+              
 
               <Stack
                 direction='row'
@@ -102,7 +102,7 @@ const StudentCertificate = () => {
                 <TextField variant='standard' />
                 <Typography> day of</Typography>
                 <TextField variant='standard' />
-              </Stack>
+            
               <Stack
                 direction='row'
                 spacing={2}
@@ -169,9 +169,12 @@ const StudentCertificate = () => {
               onClick={() => navigate('student/certificate')}
               disableElevation
             >
-              Next
+              B
             </Button>
           </Box>
+          </Stack>
+          </Stack>
+          </Stack>
           </Stack>
         </Stack>
       </Stack>
