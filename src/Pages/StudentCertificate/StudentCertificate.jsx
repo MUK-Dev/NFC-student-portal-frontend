@@ -161,7 +161,7 @@ const StudentCertificate = () => {
 
             <Button
               variant='contained'
-              onClick={() => navigate('student/certificate')}
+              onClick={() => navigate('/student/studentcertificate')}
               disableElevation
             >
               Next
