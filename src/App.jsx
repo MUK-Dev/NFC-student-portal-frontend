@@ -103,11 +103,11 @@ const App = () => {
                     element={<StudentDetailProgress />}
                   />
                   <Route
-                    path='/student/studentcertificate'
+                    path='/student/certificate'
                     element={<StudentCertificate />}
                   />
                    <Route
-                    path='/student/certificate'
+                    path='/student/studentcertificate'
                     element={<Certificate />}
                   />
                   <Route
