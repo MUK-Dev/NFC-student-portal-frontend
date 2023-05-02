@@ -45,7 +45,8 @@ const StudentCertificate = () => {
           <Stack>
             <img
               src={NFCLogo}
-              style={{ width: 1000, height: 250, opacity: '0.3' }}
+              style={{ width: 1000, height: 250, opacity: '0.3'  backgroundSize: 'cover',
+     backgroundPosition: 'center'}}
               alt='Logo'
             />
 
