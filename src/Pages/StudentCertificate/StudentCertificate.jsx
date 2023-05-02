@@ -172,4 +172,4 @@ const StudentCertificate = () => {
   )
 }
 
-export default StudentCertificate
+export default StudentCertificate;
