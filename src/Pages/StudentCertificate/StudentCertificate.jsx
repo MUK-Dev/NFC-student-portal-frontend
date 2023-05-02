@@ -43,7 +43,8 @@ const StudentCertificate = () => {
 
         <Stack alignContent='center' justify='center'>
           <Stack>
-        
+     
+
               <Typography
                 variant='h6'
                 align='center'
