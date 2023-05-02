@@ -164,7 +164,7 @@ const StudentCertificate = () => {
               onClick={() => navigate('student/certificate')}
               disableElevation
             >
-              B
+              Next
             </Button>
           </Box>
         </Stack>
