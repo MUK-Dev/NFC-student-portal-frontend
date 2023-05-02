@@ -24,7 +24,7 @@ const Certificate = () => {
        
 <Stack alignContent='center' justify="center">
   <Stack>
-  <img src={NFCLogo} style={{ width: 250, height: 200, opacity: "0.8"  }} alt='Logo'/>
+ 
 
         <Stack >
           <Typography variant='h6' align='center'style={{color:"#ffffff" , fontFamily: '"Montserrat", Open Sans, bold' ,  backgroundColor: "#70231d" }} >
