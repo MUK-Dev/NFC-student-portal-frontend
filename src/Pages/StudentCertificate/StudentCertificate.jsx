@@ -50,7 +50,6 @@ const StudentCertificate = () => {
               alt='Logo'
             />
 
-            <Stack>
               <Typography
                 variant='h6'
                 align='center'
@@ -144,6 +143,8 @@ const StudentCertificate = () => {
               >
                 <Typography align='center'>from</Typography>
                 <TextField variant='standard' />
+                  
+            <Stack>
               </Stack>
             </Stack>
           </Stack>
