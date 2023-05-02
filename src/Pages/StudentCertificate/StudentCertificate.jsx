@@ -45,8 +45,8 @@ const StudentCertificate = () => {
           <Stack>
             <img
               src={NFCLogo}
-              style={{ width: 1000, height: 250, opacity: '0.3'  backgroundSize: 'cover',
-     backgroundPosition: 'center'}}
+              style={{ width: 1000, height: 250, opacity: '0.3' 
+     }}
               alt='Logo'
             />
 
@@ -61,7 +61,7 @@ const StudentCertificate = () => {
               >
                 NFC Institute of Engineering and Technology
               </Typography>
-            </Stack>
+           
             <Stack>
               <Typography
                 variant='h6'
@@ -169,9 +169,10 @@ const StudentCertificate = () => {
               onClick={() => navigate('student/certificate')}
               disableElevation
             >
-              >>>
+              Next
             </Button>
           </Box>
+          </Stack>
         </Stack>
       </Stack>
     </Grid>
