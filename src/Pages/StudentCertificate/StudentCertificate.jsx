@@ -159,7 +159,7 @@ const StudentCertificate = () => {
               disabled={!(loader === false)}
             >
               {loader ? <span>Downloading</span> : <span>Download</span>}
-              Download PDF
+            
             </Button>
 
             <Button
@@ -167,7 +167,7 @@ const StudentCertificate = () => {
               onClick={() => navigate('student/certificate')}
               disableElevation
             >
-              Nex
+              >>>
             </Button>
           </Box>
         </Stack>
