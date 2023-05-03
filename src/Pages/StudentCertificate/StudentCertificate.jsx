@@ -26,8 +26,8 @@ const StudentCertificate = () => {
   }
 
   return (
-    <Grid  className="actual-receipt">
-      <Stack sx={{ border: '5px solid' }}>
+    <Grid>
+      <Stack sx={{ border: '5px solid' }} className="actual-receipt">
         <Stack
           direction='row'
           justifyContent='space-evenly'
