@@ -32,13 +32,12 @@ function createData(subject, teacher, hours) {
 }
 
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0),
-  createData('Desin and Analysis of Algorithm', "Ma'am Ujala Saleem", '3 + 1'),
-  createData('Eclair', 262, 16.0),
-  createData('Cupcake', 305, 3.7),
-  createData('Gingerbread', 356, 16.0),
-  createData('Frozen yoghurt', 159, 6.0),
-  createData('Desin and Analysis of Algorithm', "Ma'am Ujala Saleem", '3 + 1'),
+  createData('Professional Practices', 'Mr. Kamran Abid', '3 + 0'),
+  createData('Human Computer Interaction', 'Mr. Ahmad Naeem', '2 + 1'),
+  createData('Compiler Construction', "Ma'am Ujala Saleem", '2 + 1'),
+  createData('Game Development', 'Mr. Mustajeeb-ur-Rehman', '2 + 1'),
+  createData('Information Security', 'Mr. Fuzail', '2 + 0'),
+  createData('Final Year Project - I', 'Mr. Ahtesham Noor', '0 + 1'),
 ]
 
 export default function SemesterDetailTable() {

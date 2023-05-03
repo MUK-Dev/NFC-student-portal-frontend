@@ -13,9 +13,8 @@ import RProgram from './Pages/HeadForms/RProgram'
 import RSection from './Pages/HeadForms/RSection'
 import RSemester from './Pages/HeadForms/RSemester'
 import RSession from './Pages/HeadForms/RSession'
-import RStudent from './Pages/HeadForms/RStudent'
-import RStudentsInSubject from './Pages/HeadForms/RStudentsInSubject'
 import RSubject from './Pages/HeadForms/RSubject'
+import RTeachers from './Pages/HeadForms/RTeachers'
 import RTeachersInSubject from './Pages/HeadForms/RTeachersInSubject'
 import AuthLayout from './Pages/Layouts/AuthLayout'
 import DashboardLayout from './Pages/Layouts/DashboardLayout'
@@ -27,6 +26,7 @@ import ScannerAttendance from './Pages/ScannerAttendance/ScannerAttendence'
 import PreviousSheets from './Pages/Sheets/PreviousSheets'
 import StudentAttendance from './Pages/StudentAttendance/StudentAttendance'
 import StudentCertificate from './Pages/StudentCertificate/StudentCertificate'
+import Certificate from './Pages/StudentCertificate/Certificate'
 import StudentDashboard from './Pages/StudentDashboard/StudentDashboard'
 import StudentDetailProgress from './Pages/StudentProgress/StudentDetailProgress'
 import StudentProgress from './Pages/StudentProgress/StudentProgress'
@@ -79,11 +79,6 @@ const App = () => {
                   />
                   <Route path='/head/register/subject' element={<RSubject />} />
                   <Route
-                    path='/head/register/students_subject'
-                    element={<RStudentsInSubject />}
-                  />
-                  <Route path='/head/register/student' element={<RStudent />} />
-                  <Route
                     path='/head/register/teachers_subject'
                     element={<RTeachersInSubject />}
                   />
@@ -92,6 +87,10 @@ const App = () => {
                   <Route
                     path='/head/register/semester'
                     element={<RSemester />}
+                  />
+                  <Route
+                    path='/head/register/teachers'
+                    element={<RTeachers />}
                   />
                   <Route
                     path='/student/progress'
@@ -108,6 +107,10 @@ const App = () => {
                   <Route
                     path='/student/certificate'
                     element={<StudentCertificate />}
+                  />
+                   <Route
+                    path='/student/studentcertificate'
+                    element={<Certificate />}
                   />
                   <Route
                     path='/student/scanner'

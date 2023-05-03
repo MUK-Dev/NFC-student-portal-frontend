@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -19,6 +19,8 @@
     "axios": "^0.27.2",
     "formik": "^2.2.9",
     "framer-motion": "^7.5.1",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "moment": "^2.29.4",
     "qrcode": "^1.5.1",
     "react": "^18.2.0",

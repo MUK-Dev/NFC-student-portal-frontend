@@ -42,6 +42,7 @@ import { getSections } from '../../Services/API/sectionsRequest'
 import { getSemester } from '../../Services/API/semesterRequest'
 import { getSessions } from '../../Services/API/sessionsRequest'
 import { getSubject } from '../../Services/API/subjectRequest'
+import { updateAttendanceListRequest } from '../../Services/API/updateAttendanceList'
 
 const MarkAttandence = () => {
   const [studentsList, setStudentsList] = useState([])
@@ -107,6 +108,7 @@ const MarkAttandence = () => {
   const [enableStudentData, setEnableStudentData] = useState(
     editMode ? true : false,
   )
+  const [changeDone, setChangeDone] = useState(editMode ? false : true)
 
   const {
     isError: isDepartmentError,
@@ -263,25 +265,31 @@ const MarkAttandence = () => {
     }))
   }
 
-  const setPresent = index =>
+  const setPresent = index => {
+    if (!changeDone) setChangeDone(prev => true)
     setStudentsList(previousList => {
       const newList = [...previousList]
       newList[index].present = !newList[index].present
       return newList
     })
+  }
 
   const updateAttendance = async () => {
     setIsSubmitting(prev => true)
     const dto = {
-      ...values,
-      date: values.date.toDate(),
-      teacher: user._id,
       list: studentsList.map(s => ({
         student: s._id,
         present: s.present,
       })),
     }
-    console.log(dto)
+    try {
+      const res = await updateAttendanceListRequest(token, sheetId, dto)
+      location.reload()
+    } catch (err) {
+      // console.log(err)
+      setErrorModal("Couldn't update")
+    }
+
     setIsSubmitting(prev => false)
   }
 
@@ -620,7 +628,8 @@ const MarkAttandence = () => {
                         !enableSubjects ||
                         !enableStudentData ||
                         isSheetLoading ||
-                        isSubmitting
+                        isSubmitting ||
+                        !changeDone
                       }
                     >
                       {editMode ? 'Update Attendance' : 'Mark Attendence'}
@@ -634,13 +643,13 @@ const MarkAttandence = () => {
                   {studentsList ? (
                     studentsList?.length > 0 ? (
                       studentsList?.map((student, i) => {
-                        if (editMode)
+                        if (editMode && student)
                           return (
                             <ListItem
                               key={student?._id}
                               secondaryAction={
                                 <Tooltip
-                                  title={`Mark ${student?.student.name} Attendence`}
+                                  title={`Mark ${student?.student?.name} Attendence`}
                                   placement='right'
                                 >
                                   <Checkbox
@@ -656,17 +665,17 @@ const MarkAttandence = () => {
                                 <ListItemAvatar>
                                   <Avatar
                                     alt={`Avatar n°${i + 1}`}
-                                    src={student?.student.avatar}
+                                    src={student?.student?.avatar}
                                   />
                                 </ListItemAvatar>
                                 <ListItemText
                                   //id={labelId}
-                                  primary={`${student?.student.name} ${student?.student.rollNo}`}
+                                  primary={`${student?.student?.name} ${student?.student?.rollNo}`}
                                 />
                               </ListItemButton>
                             </ListItem>
                           )
-                        else
+                        else if (!editMode)
                           return (
                             <ListItem
                               key={student._id}
@@ -698,6 +707,7 @@ const MarkAttandence = () => {
                               </ListItemButton>
                             </ListItem>
                           )
+                        else return <></>
                       })
                     ) : (
                       <Typography align='center' color='error'>

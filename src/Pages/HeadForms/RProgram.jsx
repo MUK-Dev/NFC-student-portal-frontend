@@ -28,6 +28,7 @@ import * as Yup from 'yup'
 import useRegisterProgram from '../../Hooks/useRegisterProgram'
 
 import { getDepartments } from '../../Services/API/departmentsRequest'
+import { getPrograms } from '../../Services/API/programsRequest'
 
 const RProgram = () => {
   const [showDrawer, setShowDrawer] = useState(false)
@@ -35,6 +36,9 @@ const RProgram = () => {
 
   const [errors, setErrors] = useState({
     department: null,
+  })
+  const [selectedValue, setSelectedValue] = useState({
+    department: '',
   })
 
   const {
@@ -44,6 +48,17 @@ const RProgram = () => {
   } = useQuery('departments', () => getDepartments(), {
     staleTime: 1000 * 60 * 60 * 24,
   })
+  // const {
+  //   isError: isProgramsError,
+  //   isLoading: areProgramsLoading,
+  //   data: programsData,
+  // } = useQuery(
+  //   ['programs', selectedValue.department],
+  //   () => getPrograms(selectedValue.department),
+  //   {
+  //     staleTime: 1000 * 60 * 60 * 24,
+  //   },
+  // )
 
   const { submitForm } = useRegisterProgram()
   const [value, setValue] = useState(moment())
@@ -60,19 +75,13 @@ const RProgram = () => {
     >
       <Box sx={{ width: 250 }}>
         <List>
-          {[
-            'Program 1',
-            'Program 2',
-            'Program 3',
-            'Program 4',
-            'Program 5',
-          ].map((text, index) => (
-            <ListItem key={index} disablePadding>
+          {/* {programsData?.map(p => (
+            <ListItem key={p._id} disablePadding>
               <ListItemButton>
-                <ListItemText primary={text} />
+                <ListItemText primary={p.program_abbreviation} />
               </ListItemButton>
             </ListItem>
-          ))}
+          ))} */}
         </List>
       </Box>
     </Drawer>

@@ -29,7 +29,7 @@ import { getSubject } from '../../Services/API/subjectRequest'
 const icon = <CheckBoxOutlineBlank fontSize='small' />
 const checkedIcon = <CheckBox fontSize='small' />
 
-const RStudentsInSubject = () => {
+const RTeachers = () => {
   const { token } = useAuth()
   const [values, setValues] = useState({
     session: '',
@@ -157,7 +157,7 @@ const RStudentsInSubject = () => {
         <Grid container direction='column' width='100%'>
           <Grid item width='100%'>
             <Typography variant='h4'>Register students in subject</Typography>
-            <Typography gutterBottom>Select Subject and Students</Typography>
+            <Typography gutterBottom>Enter the students details</Typography>
           </Grid>
           <Grid item width='100%'>
             <Grid container width='100%'>
@@ -382,4 +382,4 @@ const RStudentsInSubject = () => {
   )
 }
 
-export default RStudentsInSubject
+export default RTeachers
