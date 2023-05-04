@@ -18,8 +18,17 @@ import MenuItem from '@mui/material/MenuItem'
 import Paper from '@mui/material/Paper'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+<<<<<<< HEAD
+import * as React from 'react'
+import { useState } from 'react'
+
+import useAuth from '../../Hooks/useAuth'
+
+import { searchRequest } from '../../../searchstudent'
+=======
 import React, { useRef, useState } from 'react'
 import { useQuery } from 'react-query'
+>>>>>>> 39505e9a356017697942e7c662f244149d9730b0
 
 import useAuth from '../../Hooks/useAuth'
 
@@ -37,6 +46,18 @@ const options = [
 ]
 
 export default function Parent_Home() {
+<<<<<<< HEAD
+  const [type, setType] = useState('name')
+  const [query, setQuery] = useState('')
+
+  const { token } = useAuth()
+  const handlesubmit = async () => {
+    const d = { type, query }
+    const res = await searchRequest(token, d)
+    console.log(res)
+  }
+
+=======
   const fieldRef = useRef('')
   const [query, setQuery] = useState('')
   const [type, setType] = useState('name')
@@ -56,11 +77,51 @@ export default function Parent_Home() {
     },
   )
 
+>>>>>>> 39505e9a356017697942e7c662f244149d9730b0
   return (
     <Grid container>
       <Grid item xs={12} md={8}>
         <Stack width='100%'>
           {/* <Searchbar/> */}
+<<<<<<< HEAD
+          <Stack direction='row'>
+            <Select
+              onChange={event => setType(event.target.value)}
+              value={type}
+              style={{ borderRadius: '0px 0px 0px 0px' }}
+              id='outlined-select-currency'
+              defaultValue='name'
+            >
+              {currencies.map(option => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+            <TextField
+              onChange={event => setQuery(event.target.query)}
+              value={query}
+              fullWidth
+              placeholder='Name or Roll no'
+              sx={{
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+              }}
+              inputProps={{
+                'aria-label': 'search here',
+                style: {},
+              }}
+            />
+            <IconButton
+              type='button'
+              sx={{ p: '10px' }}
+              aria-label='search'
+              onClick={handlesubmit}
+            >
+              <SearchIcon />
+            </IconButton>
+          </Stack>
+=======
 
           <Box component='form' onSubmit={handleSearch} sx={{ width: '100%' }}>
             <Stack direction='row'>
@@ -85,6 +146,7 @@ export default function Parent_Home() {
               </IconButton>
             </Stack>
           </Box>
+>>>>>>> 39505e9a356017697942e7c662f244149d9730b0
           {/* <StudentsList /> */}
           <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {isLoading && (

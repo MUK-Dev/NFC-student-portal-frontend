@@ -27,7 +27,7 @@ const StudentCertificate = () => {
 
   return (
     <Grid>
-      <Stack sx={{ border: '5px solid' }}>
+      <Stack sx={{ border: '5px solid' }} className="actual-receipt">
         <Stack
           direction='row'
           justifyContent='space-evenly'
@@ -43,13 +43,8 @@ const StudentCertificate = () => {
 
         <Stack alignContent='center' justify='center'>
           <Stack>
-            <img
-              src={NFCLogo}
-              style={{ width: 250, height: 200, opacity: '0.8' }}
-              alt='Logo'
-            />
+     
 
-            <Stack>
               <Typography
                 variant='h6'
                 align='center'
@@ -143,6 +138,8 @@ const StudentCertificate = () => {
               >
                 <Typography align='center'>from</Typography>
                 <TextField variant='standard' />
+                  
+            <Stack>
               </Stack>
             </Stack>
           </Stack>
@@ -159,15 +156,15 @@ const StudentCertificate = () => {
               disabled={!(loader === false)}
             >
               {loader ? <span>Downloading</span> : <span>Download</span>}
-              Download PDF
+            
             </Button>
 
             <Button
               variant='contained'
-              onClick={() => navigate('student/certificate')}
+              onClick={() => navigate('/student/studentcertificate')}
               disableElevation
             >
-              Nex
+              Next
             </Button>
           </Box>
         </Stack>
