@@ -1,4 +1,4 @@
-import { Button, Grid, Paper, TextField } from '@mui/material'
+import { Button, Grid, LinearProgress, Paper, TextField } from '@mui/material'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell, { tableCellClasses } from '@mui/material/TableCell'
@@ -7,12 +7,19 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { styled } from '@mui/material/styles'
 import * as React from 'react'
+import { useState } from 'react'
+import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { useSearchParams } from 'react-router-dom'
+
+import ResultDialogBox from '../../Components/DialogBox/MarksErrorDialogBox'
+import MarksErrorDialogBox from '../../Components/DialogBox/MarksErrorDialogBox'
+import ResultErrorDialogBox from '../../Components/DialogBox/ResultErrorDialogBox'
 
 import useAuth from '../../Hooks/useAuth'
 
 import { getMarksSheet } from '../../Services/API/marksSheetRequest'
+import { postMarksRequest } from '../../Services/API/postMarksRequest'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,131 +41,220 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }))
 
-function createData(sRoll, sName) {
-  return { sRoll, sName }
-}
-
-const rows = [
-  createData('2K19-BSCS-301', 'Ahsan Farooq'),
-  createData('2K19-BSCS-302', 'Abu Bakar Asif'),
-  createData('2K19-BSCS-303', 'Faseeh Tahir'),
-  createData('2K19-BSCS-304', 'Maaz Amajd'),
-  createData('2K19-BSCS-305', 'Waseem Saleem'),
-  createData('2K19-BSCS-306', 'Laiba Raees'),
-  createData('2K19-BSCS-307', 'Areesh Ahmad'),
-  createData('2K19-BSCS-308', 'Daniyal Sabir'),
-  createData('2K19-BSCS-309', 'Komal Irshad'),
-  createData('2K19-BSCS-310', 'Tamoor Ghani'),
-]
-
 export default function ClassResult() {
   let [searchParams, setSearchParams] = useSearchParams()
-  const session = searchParams.get('session').toLowerCase()
-  const program = searchParams.get('program').toLowerCase()
-  const section = searchParams.get('section').toLowerCase()
-  const subject = searchParams.get('subject').toLowerCase()
+  const department = searchParams.get('department')
+  const session = searchParams.get('session')
+  const program = searchParams.get('program')
+  const semester = searchParams.get('semester')
+  const section = searchParams.get('section')
+  const subject = searchParams.get('subject')
+  const Session = searchParams.get('session_title')
+  const Program = searchParams.get('program_abbreviation')
+  // console.log(session)
+  const [studentsList, setStudentsList] = useState([])
+  const [selectValue, SetSelectValue] = useState([])
+  const [showModal, setShowModal] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorModal, setErrorModal] = useState(false)
 
-  const { token } = useAuth()
-  const { data } = useQuery(
-    ['marks-sheet', searchParams.get('section'), searchParams.get('subject')],
-    () => getMarksSheet(token, { session, program, section }),
+  const { user, token } = useAuth()
+  const { data, error, isError, isLoading } = useQuery(
+    ['marks-sheet', section, subject],
+    () =>
+      getMarksSheet(token, {
+        session,
+        program,
+        section,
+      }),
     {
       enabled: !!token,
+      staleTime: 1000 * 60 * 60 * 24,
     },
   )
+  useEffect(() => {
+    console.log('Use Effect')
+    if (isError || isLoading) return
+    setStudentsList(data)
+  }, [data])
 
-  console.log(data)
-  const Session = session.toUpperCase()
-  const Program = program.toUpperCase()
-  const Section = section.toUpperCase()
-  const Subject = subject.toUpperCase()
+  const setValue = (i, val, para) => {
+    setStudentsList(previousList => {
+      const newList = [...previousList]
+      newList[i][para] = val
+      return newList
+    })
+  }
+  // console.log(studentsList)
+
+  const submitMarks = async () => {
+    console.log('Final Submit')
+    setIsSubmitting(prev => true)
+    const dto = {
+      date: new Date(),
+      department: department,
+      program: program,
+      session: session,
+      semester: semester,
+      subject: subject,
+      section: section,
+      teacher: user._id,
+      list: studentsList,
+    }
+
+    try {
+      const res = await postMarksRequest(token, dto)
+      setIsSubmitting(prev => false)
+    } catch (err) {
+      setErrorModal(err.response.data.message)
+      setIsSubmitting(prev => false)
+    }
+  }
+
+  const handleSubmit = () => {
+    console.log(studentsList)
+    let shouldBreak = false
+    studentsList?.map((row, i) => {
+      if (shouldBreak) return
+      if (
+        row.mids > 30 ||
+        row.finals > 50 ||
+        row.sessional > 20 ||
+        row.mids === '' ||
+        row.finals === '' ||
+        row.sessional === '' ||
+        row.mids < 0 ||
+        row.finals < 0 ||
+        row.sessional < 0
+      ) {
+        console.log(row)
+        SetSelectValue(prev => row)
+        setShowModal(true)
+        shouldBreak = true
+        return row
+      }
+      return null
+    })
+    if (!shouldBreak) {
+      submitMarks()
+    }
+  }
 
   return (
-    <Grid>
-      <Paper sx={{ height: '77vh' }}>
-        <TableContainer sx={{ height: '100%' }}>
-          <Table stickyHeader aria-label='customized table'>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell
-                  align='left'
-                  sx={{ padding: '2%', width: '20%' }}
-                >
-                  Student Roll No.
-                </StyledTableCell>
-                <StyledTableCell
-                  align='left'
-                  sx={{ padding: '2%', width: '20%' }}
-                >
-                  Student Name
-                </StyledTableCell>
-                <StyledTableCell
-                  align='left'
-                  sx={{ padding: '2%', width: '20%' }}
-                >
-                  Mid Marks
-                </StyledTableCell>
-                <StyledTableCell
-                  align='left'
-                  sx={{ padding: '2%', width: '20%' }}
-                >
-                  Final Marks
-                </StyledTableCell>
-                <StyledTableCell
-                  align='left'
-                  sx={{ padding: '2%', width: '20%' }}
-                >
-                  Sessional Marks
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody sx={{ overflowY: 'auto' }}>
-              {data?.map(row => (
-                <StyledTableRow key={row._id}>
-                  <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                    {Session}-{Program}-{row.rollNo}
+    <>
+      <Grid>
+        <Paper sx={{ height: '77vh', position: 'relative', paddingY: '4px' }}>
+          {(isLoading || isSubmitting) && (
+            <LinearProgress
+              sx={{
+                width: '100%',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+              }}
+            />
+          )}
+          <TableContainer sx={{ height: '100%' }}>
+            <Table stickyHeader aria-label='customized table'>
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell
+                    align='left'
+                    sx={{ padding: '2%', width: '20%' }}
+                  >
+                    Student Roll No.
                   </StyledTableCell>
-                  <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                    {row.name}
+                  <StyledTableCell
+                    align='left'
+                    sx={{ padding: '2%', width: '20%' }}
+                  >
+                    Student Name
                   </StyledTableCell>
-                  <StyledTableCell align='center' sx={{ padding: '1%' }}>
-                    <TextField
-                      id='outlined-basic'
-                      label='Mid Marks'
-                      variant='outlined'
-                    />
+                  <StyledTableCell
+                    align='left'
+                    sx={{ padding: '2%', width: '20%' }}
+                  >
+                    Mid Marks
                   </StyledTableCell>
-                  <StyledTableCell align='center' sx={{ padding: '1%' }}>
-                    <TextField
-                      id='outlined-basic'
-                      label='Final Marks'
-                      variant='outlined'
-                    />
+                  <StyledTableCell
+                    align='left'
+                    sx={{ padding: '2%', width: '20%' }}
+                  >
+                    Final Marks
                   </StyledTableCell>
-                  <StyledTableCell align='center' sx={{ padding: '1%' }}>
-                    <TextField
-                      id='outlined-basic'
-                      label='Sessional Marks'
-                      variant='outlined'
-                    />
+                  <StyledTableCell
+                    align='left'
+                    sx={{ padding: '2%', width: '20%' }}
+                  >
+                    Sessional Marks
                   </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-      <Button
-        variant='contained'
-        sx={{
-          width: '100%',
-          borderTopRightRadius: 0,
-          borderTopLeftRadius: 0,
-        }}
-        disableElevation
-      >
-        Submit
-      </Button>
-    </Grid>
+                </TableRow>
+              </TableHead>
+              <TableBody sx={{ overflowY: 'auto' }}>
+                {studentsList?.map((row, i) => (
+                  <StyledTableRow key={row._id}>
+                    <StyledTableCell align='left' sx={{ padding: '1%' }}>
+                      {Session}-{Program}-{row.rollNo}
+                    </StyledTableCell>
+                    <StyledTableCell align='left' sx={{ padding: '1%' }}>
+                      {row.name}
+                    </StyledTableCell>
+                    <StyledTableCell align='center' sx={{ padding: '1%' }}>
+                      <TextField
+                        id='outlined-basic'
+                        label='Mid Marks'
+                        variant='outlined'
+                        required
+                        onChange={e => setValue(i, e.target.value, 'mids')}
+                      />
+                    </StyledTableCell>
+                    <StyledTableCell align='center' sx={{ padding: '1%' }}>
+                      <TextField
+                        id='outlined-basic'
+                        label='Final Marks'
+                        variant='outlined'
+                        required
+                        onChange={e => setValue(i, e.target.value, 'finals')}
+                      />
+                    </StyledTableCell>
+                    <StyledTableCell align='center' sx={{ padding: '1%' }}>
+                      <TextField
+                        id='outlined-basic'
+                        label='Sessional Marks'
+                        variant='outlined'
+                        required
+                        onChange={e => setValue(i, e.target.value, 'sessional')}
+                      />
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+        <Button
+          variant='contained'
+          sx={{
+            width: '100%',
+            borderTopRightRadius: 0,
+            borderTopLeftRadius: 0,
+          }}
+          disableElevation
+          onClick={handleSubmit}
+        >
+          Submit
+        </Button>
+        <MarksErrorDialogBox
+          open={showModal}
+          onClose={() => setShowModal(prev => !prev)}
+          value={selectValue}
+        />
+        <ResultErrorDialogBox
+          open={!!errorModal}
+          text={errorModal}
+          onClose={() => setErrorModal(prev => !prev)}
+        />
+      </Grid>
+    </>
   )
 }

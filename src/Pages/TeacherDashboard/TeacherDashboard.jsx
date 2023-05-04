@@ -3,33 +3,24 @@ import { Grid, Paper, useMediaQuery, useTheme } from '@mui/material'
 import TeacherSubject from '../../Components/Cards/TeacherSubject'
 import AreaChart from '../../Components/Charts/AreaChart'
 
-function createData(session, program, section, subject) {
-  return { session, program, section, subject }
-}
-
-const rows = [
-  createData('2K19', 'bscs', 'Blue', 'Information Security'),
-  createData('2K19', 'bscs', 'Red', 'Information Security'),
-  createData('2K19', 'bscs', 'Green', 'Information Security'),
-  createData('2K20', 'bscs', 'Blue', 'Digital Image Processing'),
-  createData('2K20', 'bscs', 'Red', 'Digital Image Processing'),
-  createData('2K20', 'bscs', 'Green', 'Digital Image Processing'),
-]
+import useAuth from '../../Hooks/useAuth'
 
 const TeacherDashboard = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-
+  const { user } = useAuth()
   return (
     <Grid container direction='column' width='100%' gap='1em'>
       <Grid item>
         <Paper sx={{ padding: '1em' }}>
           <Grid container gap='1em'>
-            {rows.map(row => (
+            {user?.subjects?.map(row => (
               <TeacherSubject
-                session={row.session}
-                program={row.program}
-                section={row.section}
+                key={row.subject._id}
+                department={row.subject.department}
+                session={row.subject.session}
+                semester={row.subject.semester}
+                program={row.subject.program}
                 subject={row.subject}
               />
             ))}

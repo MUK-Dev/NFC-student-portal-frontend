@@ -23,12 +23,11 @@ import ParentHome from './Pages/Parent-Home/Parent_Home'
 import ScannerAttendance from './Pages/ScannerAttendance/ScannerAttendence'
 import PreviousSheets from './Pages/Sheets/PreviousSheets'
 import StudentAttendance from './Pages/StudentAttendance/StudentAttendance'
-import StudentCertificate from './Pages/StudentCertificate/StudentCertificate'
 import Certificate from './Pages/StudentCertificate/Certificate'
+import StudentCertificate from './Pages/StudentCertificate/StudentCertificate'
 import StudentDashboard from './Pages/StudentDashboard/StudentDashboard'
 import StudentDetailProgress from './Pages/StudentProgress/StudentDetailProgress'
 import StudentProgress from './Pages/StudentProgress/StudentProgress'
-import StudentsTranscript from './Pages/StudentProgress/StudentTranscript'
 import TeacherDashboard from './Pages/TeacherDashboard/TeacherDashboard'
 import ClassResult from './Pages/TeacherForms/ClassResult'
 
@@ -95,10 +94,6 @@ const App = () => {
                     element={<StudentProgress />}
                   />
                   <Route
-                    path='/student/transcript'
-                    element={<StudentsTranscript />}
-                  />
-                  <Route
                     path='/student/detail-progress'
                     element={<StudentDetailProgress />}
                   />
@@ -106,7 +101,7 @@ const App = () => {
                     path='/student/certificate'
                     element={<StudentCertificate />}
                   />
-                   <Route
+                  <Route
                     path='/student/certificate'
                     element={<Certificate />}
                   />

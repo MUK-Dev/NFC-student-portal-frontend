@@ -1,11 +1,10 @@
 import axios from 'axios'
 
-export const getMarksSheet = async (token, reqDTO) => {
-  console.log('run')
+export const postMarksRequest = async (token, marksDTO) => {
   const { data } = await axios({
-    url: `${import.meta.env.VITE_API_URL}/marks`,
+    url: `${import.meta.env.VITE_API_URL}/marks/student`,
     method: 'POST',
-    data: reqDTO,
+    data: marksDTO,
     headers: {
       Authorization: `Bearer ${token}`,
     },

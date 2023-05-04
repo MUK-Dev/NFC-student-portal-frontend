@@ -55,8 +55,8 @@ export const getLinks = (theme, role) => {
         ),
       },
       {
-        title: 'Transcript',
-        path: '/student/transcript',
+        title: 'Result',
+        path: '/student/detail-progress',
         icon: (
           <GradingIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}

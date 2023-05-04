@@ -4,15 +4,29 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
-export default function TeacherSubject({ session, program, section, subject }) {
-  const navigate = useNavigate()
+import DialogBox from '../DialogBox/DialogBox'
 
+export default function TeacherSubject({
+  department,
+  session,
+  semester,
+  program,
+  subject,
+}) {
+  const navigate = useNavigate()
+  const [showModal, setShowModal] = useState(false)
+  const [selectValue, SetSelectValue] = useState({
+    department: department,
+    program: program,
+    session: session,
+    semester: semester,
+    subject: subject,
+  })
   const handleClassClick = () => {
-    navigate(
-      `/teacher/result-form?session=${session}&program=${program}&section=${section}&subject=${subject}`,
-    )
+    setShowModal(true)
   }
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -24,14 +38,7 @@ export default function TeacherSubject({ session, program, section, subject }) {
         height: isMobile ? 'auto' : '50%',
       }}
     >
-      <Card
-        sx={
-          {
-            // width: isMobile ? '50%' : '25%',
-            // height: isMobile ? 'auto' : '50%',
-          }
-        }
-      >
+      <Card>
         <CardActionArea onClick={handleClassClick}>
           <CardContent>
             <Typography
@@ -40,14 +47,19 @@ export default function TeacherSubject({ session, program, section, subject }) {
               component='div'
               padding='0 0 0 0.5em'
             >
-              {session} {section}
+              {session.session_title} {program.program_abbreviation}
             </Typography>
             <Typography variant='body2' color='text.secondary' align='center'>
-              {subject}
+              {subject.subject_title}
             </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
+      <DialogBox
+        open={showModal}
+        onClose={() => setShowModal(prev => !prev)}
+        value={selectValue}
+      />
     </Grid>
   )
 }

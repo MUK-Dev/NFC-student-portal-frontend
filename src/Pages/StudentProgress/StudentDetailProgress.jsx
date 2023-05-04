@@ -5,186 +5,35 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import React from 'react'
 
-import SemesterDetailTable from '../../Components/Progress/SemesterDetailTable'
+import ResultDetailTable from '../../Components/Result/ResultDetailTable'
 
 const StudentDetailProgress = () => {
+  const semesterArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   return (
     <div>
-      <Accordion container gap='2em'>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel1a-content'
-          id='panel1a-header'
-        >
-          <Typography variant='h6' align='center'>
-            Semester 1 Details
-          </Typography>
-        </AccordionSummary>
+      {semesterArray?.map((row, i) => (
+        <Accordion container='true' gap='2em' key={i}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls='panel1a-content'
+            id='panel1a-header'
+          >
+            <Typography variant='h6' align='center'>
+              Semester {row} Details
+            </Typography>
+          </AccordionSummary>
 
-        <Paper
-          sx={{
-            padding: '1em',
-          }}
-        >
-          <AccordionDetails>
-            <SemesterDetailTable />
-          </AccordionDetails>
-        </Paper>
-      </Accordion>
-
-      <Accordion container gap='2em'>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel1a-content'
-          id='panel1a-header'
-        >
-          <Typography variant='h6' align='center'>
-            Semester 2 Details
-          </Typography>
-        </AccordionSummary>
-
-        <Paper
-          sx={{
-            padding: '1em',
-          }}
-        >
-          <AccordionDetails>
-            <SemesterDetailTable />
-          </AccordionDetails>
-        </Paper>
-      </Accordion>
-
-      <Accordion container gap='2em'>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel1a-content'
-          id='panel1a-header'
-        >
-          <Typography variant='h6' align='center'>
-            Semester 3 Details
-          </Typography>
-        </AccordionSummary>
-
-        <Paper
-          sx={{
-            padding: '1em',
-          }}
-        >
-          <AccordionDetails>
-            <SemesterDetailTable />
-          </AccordionDetails>
-        </Paper>
-      </Accordion>
-
-      <Accordion container gap='2em'>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel1a-content'
-          id='panel1a-header'
-        >
-          <Typography variant='h6' align='center'>
-            Semester 4 Details
-          </Typography>
-        </AccordionSummary>
-
-        <Paper
-          sx={{
-            padding: '1em',
-          }}
-        >
-          <AccordionDetails>
-            <SemesterDetailTable />
-          </AccordionDetails>
-        </Paper>
-      </Accordion>
-
-      <Accordion container gap='2em'>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel1a-content'
-          id='panel1a-header'
-        >
-          <Typography variant='h6' align='center'>
-            Semester 5 Details
-          </Typography>
-        </AccordionSummary>
-
-        <Paper
-          sx={{
-            padding: '1em',
-          }}
-        >
-          <AccordionDetails>
-            <SemesterDetailTable />
-          </AccordionDetails>
-        </Paper>
-      </Accordion>
-
-      <Accordion container gap='2em'>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel1a-content'
-          id='panel1a-header'
-        >
-          <Typography variant='h6' align='center'>
-            Semester 6 Details
-          </Typography>
-        </AccordionSummary>
-
-        <Paper
-          sx={{
-            padding: '1em',
-          }}
-        >
-          <AccordionDetails>
-            <SemesterDetailTable />
-          </AccordionDetails>
-        </Paper>
-      </Accordion>
-
-      <Accordion container gap='2em'>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel1a-content'
-          id='panel1a-header'
-        >
-          <Typography variant='h6' align='center'>
-            Semester 7 Details
-          </Typography>
-        </AccordionSummary>
-
-        <Paper
-          sx={{
-            padding: '1em',
-          }}
-        >
-          <AccordionDetails>
-            <SemesterDetailTable />
-          </AccordionDetails>
-        </Paper>
-      </Accordion>
-
-      <Accordion container gap='2em'>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel1a-content'
-          id='panel1a-header'
-        >
-          <Typography variant='h6' align='center'>
-            Semester 8 Details
-          </Typography>
-        </AccordionSummary>
-
-        <Paper
-          sx={{
-            padding: '1em',
-          }}
-        >
-          <AccordionDetails>
-            <SemesterDetailTable />
-          </AccordionDetails>
-        </Paper>
-      </Accordion>
+          <Paper
+            sx={{
+              padding: '1em',
+            }}
+          >
+            <AccordionDetails>
+              <ResultDetailTable />
+            </AccordionDetails>
+          </Paper>
+        </Accordion>
+      ))}
     </div>
   )
 }
