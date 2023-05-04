@@ -89,6 +89,8 @@ const MarkAttandence = () => {
     section: '',
     semester: '',
     subject: '',
+    subjectType: '',
+    creditHours: '',
     date: moment(),
   })
   const [errors, setErrors] = useState({
@@ -98,6 +100,8 @@ const MarkAttandence = () => {
     section: null,
     semester: null,
     subject: null,
+    subjectType: null,
+    creditHours: null,
     date: null,
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -105,6 +109,9 @@ const MarkAttandence = () => {
   const [enableSessions, setEnableSessions] = useState(editMode ? true : false)
   const [enableSections, setEnableSections] = useState(editMode ? true : false)
   const [enableSubjects, setEnableSubjects] = useState(editMode ? true : false)
+  const [enableSubjectType, setEnableSubjectType] = useState(
+    editMode ? true : false,
+  )
   const [enableStudentData, setEnableStudentData] = useState(
     editMode ? true : false,
   )
@@ -251,6 +258,8 @@ const MarkAttandence = () => {
       semester: sheetData.sheet.semester._id,
       session: sheetData.sheet.session._id,
       subject: sheetData.sheet.subject._id,
+      subjectType: sheetData.sheet.subjectType,
+      creditHours: sheetData.sheet.creditHours,
     })
     setStudentsList(sheetData.list)
     generateQRCode(
@@ -301,6 +310,8 @@ const MarkAttandence = () => {
       section: null,
       semester: null,
       subject: null,
+      subjectType: null,
+      creditHours: null,
       date: null,
     })
     setIsSubmitting(prev => true)
@@ -527,7 +538,7 @@ const MarkAttandence = () => {
                       )}
                     </FormControl>
                     <FormControl fullWidth error={!!errors.semester}>
-                      <InputLabel htmlFor='section'>Semester</InputLabel>
+                      <InputLabel htmlFor='semester'>Semester</InputLabel>
                       <Select
                         id='semester'
                         value={values.semester || ''}
@@ -567,9 +578,9 @@ const MarkAttandence = () => {
                     </FormControl>
 
                     <FormControl fullWidth error={!!errors.subject}>
-                      <InputLabel htmlFor='section'>Subject</InputLabel>
+                      <InputLabel htmlFor='subject'>Subject</InputLabel>
                       <Select
-                        id='semester'
+                        id='subject'
                         value={values.subject || ''}
                         label='Subject'
                         required
@@ -584,7 +595,7 @@ const MarkAttandence = () => {
                         }
                         onChange={e => {
                           handleChange('subject', e.target.value)
-                          setEnableStudentData(true)
+                          setEnableSubjectType(true)
                         }}
                       >
                         {editMode ? (
@@ -602,10 +613,82 @@ const MarkAttandence = () => {
                           ))
                         )}
                       </Select>
-                      {!!errors.semester && (
-                        <FormHelperText error>{errors.semester}</FormHelperText>
+                      {!!errors.subject && (
+                        <FormHelperText error>{errors.subject}</FormHelperText>
                       )}
                     </FormControl>
+
+                    <FormControl fullWidth error={!!errors.subjectType}>
+                      <InputLabel htmlFor='subject-type'>
+                        Subject Type
+                      </InputLabel>
+                      <Select
+                        id='subject-type'
+                        value={values.subjectType || ''}
+                        label='Subject Type'
+                        required
+                        disabled={
+                          areSubjectsLoading ||
+                          isSubjectsError ||
+                          !enablePrograms ||
+                          !enableSections ||
+                          !enableSessions ||
+                          !enableSubjects ||
+                          !enableSubjectType ||
+                          editMode
+                        }
+                        onChange={e => {
+                          handleChange('subjectType', e.target.value)
+                          setEnableCreditHours(true)
+                        }}
+                      >
+                        <MenuItem value='theory'>Theory</MenuItem>
+                        <MenuItem value='lab'>Lab</MenuItem>
+                      </Select>
+                      {!!errors.subjectType && (
+                        <FormHelperText error>
+                          {errors.subjectType}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
+
+                    <FormControl fullWidth error={!!errors.creditHours}>
+                      <InputLabel htmlFor='credit-hours'>
+                        Credit Hours
+                      </InputLabel>
+                      <Select
+                        id='credit-hours'
+                        value={values.creditHours || ''}
+                        label='Credit Hours'
+                        required
+                        disabled={
+                          areSubjectsLoading ||
+                          isSubjectsError ||
+                          !enablePrograms ||
+                          !enableSections ||
+                          !enableSessions ||
+                          !enableSubjects ||
+                          !enableSubjectType ||
+                          editMode
+                        }
+                        onChange={e => {
+                          handleChange('creditHours', e.target.value)
+                          setEnableStudentData(true)
+                        }}
+                      >
+                        <MenuItem value='1'>1</MenuItem>
+                        <MenuItem value='2'>2</MenuItem>
+                        <MenuItem value='3'>3</MenuItem>
+                        <MenuItem value='4'>4</MenuItem>
+                        <MenuItem value='5'>5</MenuItem>
+                      </Select>
+                      {!!errors.creditHours && (
+                        <FormHelperText error>
+                          {errors.creditHours}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
+
                     <MobileDatePicker
                       label='Date'
                       inputFormat='DD-MM-YYYY'
@@ -647,6 +730,16 @@ const MarkAttandence = () => {
                           return (
                             <ListItem
                               key={student?._id}
+                              component={motion.div}
+                              initial={{
+                                opacity: 0,
+                                filter: 'blur(20px)',
+                              }}
+                              animate={{
+                                opacity: 1,
+                                filter: 'blur(0px)',
+                              }}
+                              transition={{ delay: 0.1 * i }}
                               secondaryAction={
                                 <Tooltip
                                   title={`Mark ${student?.student?.name} Attendence`}
@@ -679,6 +772,18 @@ const MarkAttandence = () => {
                           return (
                             <ListItem
                               key={student._id}
+                              component={motion.div}
+                              initial={{
+                                opacity: 0,
+                                y: 30,
+                                filter: 'blur(20px)',
+                              }}
+                              animate={{
+                                opacity: 1,
+                                y: 0,
+                                filter: 'blur(0px)',
+                              }}
+                              transition={{ delay: 0.1 * i }}
                               secondaryAction={
                                 <Tooltip
                                   title={`Mark ${student.name} Attendence`}
