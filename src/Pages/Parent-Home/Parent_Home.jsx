@@ -18,21 +18,14 @@ import MenuItem from '@mui/material/MenuItem'
 import Paper from '@mui/material/Paper'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-<<<<<<< HEAD
 import * as React from 'react'
 import { useState } from 'react'
 
 import useAuth from '../../Hooks/useAuth'
 
-import { searchRequest } from '../../../searchstudent'
-=======
-import React, { useRef, useState } from 'react'
-import { useQuery } from 'react-query'
->>>>>>> 39505e9a356017697942e7c662f244149d9730b0
-
-import useAuth from '../../Hooks/useAuth'
-
 import { searchStudentRequest } from '../../Services/API/searchStudentsRequest'
+
+import { searchRequest } from '../../../searchstudent'
 
 const options = [
   {
@@ -46,7 +39,6 @@ const options = [
 ]
 
 export default function Parent_Home() {
-<<<<<<< HEAD
   const [type, setType] = useState('name')
   const [query, setQuery] = useState('')
 
@@ -57,33 +49,11 @@ export default function Parent_Home() {
     console.log(res)
   }
 
-=======
-  const fieldRef = useRef('')
-  const [query, setQuery] = useState('')
-  const [type, setType] = useState('name')
-  const { token } = useAuth()
-
-  const handleSearch = e => {
-    e.preventDefault()
-    setQuery(fieldRef.current.value)
-  }
-
-  const { isError, isLoading, data } = useQuery(
-    ['students', query, type],
-    () => searchStudentRequest(token, { type, query }),
-    {
-      staleTime: 1000 * 60 * 60 * 24,
-      enabled: !!token && query !== '',
-    },
-  )
-
->>>>>>> 39505e9a356017697942e7c662f244149d9730b0
   return (
     <Grid container>
       <Grid item xs={12} md={8}>
         <Stack width='100%'>
           {/* <Searchbar/> */}
-<<<<<<< HEAD
           <Stack direction='row'>
             <Select
               onChange={event => setType(event.target.value)}
@@ -121,32 +91,6 @@ export default function Parent_Home() {
               <SearchIcon />
             </IconButton>
           </Stack>
-=======
-
-          <Box component='form' onSubmit={handleSearch} sx={{ width: '100%' }}>
-            <Stack direction='row'>
-              <Select
-                id='outlined-select-currency'
-                value={type}
-                onChange={e => setType(e.target.value)}
-              >
-                {options.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-              <TextField
-                fullWidth
-                placeholder='Name or Roll no'
-                inputRef={fieldRef}
-              />
-              <IconButton type='submit' sx={{ p: '10px' }} aria-label='search'>
-                <SearchIcon />
-              </IconButton>
-            </Stack>
-          </Box>
->>>>>>> 39505e9a356017697942e7c662f244149d9730b0
           {/* <StudentsList /> */}
           <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {isLoading && (

@@ -103,13 +103,8 @@ const App = () => {
                     path='/student/certificate'
                     element={<StudentCertificate />}
                   />
-<<<<<<< HEAD
                   <Route
                     path='/student/certificate'
-=======
-                   <Route
-                    path='/student/studentcertificate'
->>>>>>> 8382ea8f053150e13e80ceaa1dd7581a068d500b
                     element={<Certificate />}
                   />
                   <Route
