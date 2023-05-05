@@ -16,18 +16,18 @@ const StudentCertificate = () => {
     setLoader(true)
     html2canvas(capture).then(canvas => {
       const imgData = canvas.toDataURL('img/png')
-      const doc = new jsPDF('p', 'mm', 'a4')
+      const doc = new jsPDF('l', 'mm', [1244, 573])
       const componentWidth = doc.internal.pageSize.getWidth()
       const componentHeight = doc.internal.pageSize.getHeight()
       doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight)
       setLoader(false)
-      doc.save('receipt.pdf')
+      doc.save('Certificate.pdf')
     })
   }
 
   return (
-    <Grid>
-      <Stack sx={{ border: '5px solid' }} className="actual-receipt">
+    <Grid >
+      <Stack sx={{ border: '5px solid' }}  className="actual-receipt">
         <Stack
           direction='row'
           justifyContent='space-evenly'
@@ -164,13 +164,13 @@ const StudentCertificate = () => {
               onClick={() => navigate('/student/studentcertificate')}
               disableElevation
             >
-              Next
+              Manual Certificate
             </Button>
           </Box>
         </Stack>
       </Stack>
     </Grid>
   )
-}
 
+              }
 export default StudentCertificate
