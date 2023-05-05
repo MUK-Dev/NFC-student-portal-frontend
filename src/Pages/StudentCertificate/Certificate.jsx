@@ -1,9 +1,26 @@
 import { Stack, TextField, Typography, Grid, Button} from '@mui/material'
 import Box from '@mui/material/Box';
 import NFCLogo from '../../Assets/Images/NFC Iet Logo.png';
-
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
+import { useState } from 'react'
 
 const Certificate = () => {
+  const [loader, setLoader] = useState(false)
+  
+  const downloadPDF = () => {
+    const capture = document.querySelector('.actual-receipt')
+    setLoader(true)
+    html2canvas(capture).then(canvas => {
+      const imgData = canvas.toDataURL('img/png')
+      const doc = new jsPDF('l', 'mm', [1244, 573])
+      const componentWidth = doc.internal.pageSize.getWidth()
+      const componentHeight = doc.internal.pageSize.getHeight()
+      doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight)
+      setLoader(false)
+      doc.save('Certificate.pdf')
+    })
+  }
 
   return (
     <Grid >
@@ -24,7 +41,7 @@ const Certificate = () => {
        
 <Stack alignContent='center' justify="center">
   <Stack>
- 
+  
 
         <Stack >
           <Typography variant='h6' align='center'style={{color:"#ffffff" , fontFamily: '"Montserrat", Open Sans, bold' ,  backgroundColor: "#70231d" }} >
@@ -97,7 +114,14 @@ const Certificate = () => {
       <Box component="span" sx={{ p: 2 }} display="flex"
   justifyContent="flex-end"
   alignItem="flex-end">
-      <Button variant="contained">Download</Button>
+     <Button
+              variant='contained'
+              onClick={downloadPDF}
+              disabled={!(loader === false)}
+            >
+              {loader ? <span>Downloading</span> : <span>Download</span>}
+            
+            </Button>
     </Box>    
     </Stack>
     </Stack>
