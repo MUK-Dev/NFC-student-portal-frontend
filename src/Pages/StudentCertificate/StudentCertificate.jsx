@@ -143,7 +143,11 @@ const StudentCertificate = () => {
               </Stack>
             </Stack>
           </Stack>
-          <Box
+         
+        </Stack>
+      </Stack>
+    </Grid>
+ <Box
             component='span'
             sx={{ p: 2 }}
             display='flex'
@@ -167,9 +171,6 @@ const StudentCertificate = () => {
               Next
             </Button>
           </Box>
-        </Stack>
-      </Stack>
-    </Grid>
   )
 }
 
