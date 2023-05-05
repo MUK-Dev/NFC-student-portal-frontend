@@ -105,10 +105,10 @@ const MarkAttandence = () => {
     date: null,
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [enablePrograms, setEnablePrograms] = useState(editMode ? true : false)
-  const [enableSessions, setEnableSessions] = useState(editMode ? true : false)
   const [enableSections, setEnableSections] = useState(editMode ? true : false)
-  const [enableSubjects, setEnableSubjects] = useState(editMode ? true : false)
+  const [enableCreditHours, setEnableCreditHours] = useState(
+    editMode ? true : false,
+  )
   const [enableSubjectType, setEnableSubjectType] = useState(
     editMode ? true : false,
   )
@@ -116,41 +116,6 @@ const MarkAttandence = () => {
     editMode ? true : false,
   )
   const [changeDone, setChangeDone] = useState(editMode ? false : true)
-
-  const {
-    isError: isDepartmentError,
-    isLoading: areDepartmentsLoading,
-    data: departmentsData,
-  } = useQuery('departments', () => getDepartments(), {
-    staleTime: 1000 * 60 * 60 * 24,
-    enabled: !editMode,
-  })
-
-  const {
-    isError: isProgramsError,
-    isLoading: areProgramsLoading,
-    data: programsData,
-  } = useQuery(
-    ['programs', values.department],
-    () => getPrograms(values.department),
-    {
-      staleTime: 1000 * 60 * 60 * 24,
-      enabled: enablePrograms && !editMode,
-    },
-  )
-
-  const {
-    isError: isSessionsError,
-    isLoading: areSessionsLoading,
-    data: sessionsData,
-  } = useQuery(
-    ['sessions', values.department, values.program],
-    () => getSessions(values.department, values.program),
-    {
-      staleTime: 1000 * 60 * 60 * 24,
-      enabled: enablePrograms && enableSessions && !editMode,
-    },
-  )
 
   const {
     isError: isSectionsError,
@@ -161,52 +126,7 @@ const MarkAttandence = () => {
     () => getSections(values.department, values.program, values.session),
     {
       staleTime: 1000 * 60 * 60 * 24,
-      enabled: enablePrograms && enableSessions && enableSections && !editMode,
-    },
-  )
-
-  const {
-    isError: isSemestersError,
-    isLoading: areSemestersLoading,
-    data: semestersData,
-  } = useQuery(
-    ['semesters', values.department, values.program, values.session],
-    () => getSemester(values.department, values.program, values.session),
-    {
-      staleTime: 1000 * 60 * 60 * 24,
-      enabled: enablePrograms && enableSessions && enableSections && !editMode,
-    },
-  )
-
-  const {
-    isError: isSubjectsError,
-    isLoading: areSubjectsLoading,
-    data: subjectsData,
-  } = useQuery(
-    [
-      'subjects',
-      values.department,
-      values.program,
-      values.session,
-      values.semester,
-    ],
-    () =>
-      getSubject(
-        token,
-        values.department,
-        values.program,
-        values.session,
-        values.semester,
-      ),
-    {
-      staleTime: 1000 * 60 * 60 * 24,
-      enabled:
-        !!token &&
-        enablePrograms &&
-        enableSessions &&
-        enableSections &&
-        enableSubjects &&
-        !editMode,
+      enabled: enableSections && !editMode,
     },
   )
 
@@ -221,6 +141,7 @@ const MarkAttandence = () => {
       values.program,
       values.session,
       values.section,
+      sheetId,
     ],
     () =>
       getStudentAttendanceDataRequest(
@@ -232,14 +153,7 @@ const MarkAttandence = () => {
       ),
     {
       staleTime: 1000 * 60 * 60 * 24,
-      enabled:
-        !!token &&
-        enablePrograms &&
-        enableSessions &&
-        enableSections &&
-        enableSubjects &&
-        enableStudentData &&
-        !editMode,
+      enabled: !!token && enableSections && enableStudentData && !editMode,
     },
   )
 
@@ -268,10 +182,24 @@ const MarkAttandence = () => {
   }, [sheetData])
 
   const handleChange = (key, value) => {
-    setValues(prev => ({
-      ...prev,
-      [key]: value,
-    }))
+    if (key === 'subject') {
+      const selectedValue = user.subjects.filter(
+        s => s.subject._id === value,
+      )[0]
+      setValues(prev => ({
+        ...prev,
+        [key]: value,
+        department: selectedValue.subject.department._id,
+        program: selectedValue.subject.program._id,
+        session: selectedValue.subject.session._id,
+        semester: selectedValue.subject.semester._id,
+      }))
+    } else {
+      setValues(prev => ({
+        ...prev,
+        [key]: value,
+      }))
+    }
   }
 
   const setPresent = index => {
@@ -282,6 +210,15 @@ const MarkAttandence = () => {
       return newList
     })
   }
+  const setLeave = index => {
+    if (!changeDone) setChangeDone(prev => true)
+    setStudentsList(previousList => {
+      const newList = [...previousList]
+      newList[index].present = false
+      newList[index].leave = !newList[index].leave
+      return newList
+    })
+  }
 
   const updateAttendance = async () => {
     setIsSubmitting(prev => true)
@@ -289,6 +226,7 @@ const MarkAttandence = () => {
       list: studentsList.map(s => ({
         student: s._id,
         present: s.present,
+        leave: s.leave,
       })),
     }
     try {
@@ -322,6 +260,7 @@ const MarkAttandence = () => {
       list: studentsList.map(s => ({
         student: s._id,
         present: s.present,
+        leave: s.leave,
       })),
     }
 
@@ -339,15 +278,12 @@ const MarkAttandence = () => {
     }
   }
 
+  console.log(studentsList)
+
   return (
     <Paper sx={{ padding: '2em 1em', position: 'relative' }}>
-      {(areDepartmentsLoading ||
-        areProgramsLoading ||
-        areSectionsLoading ||
-        areSemestersLoading ||
-        areSessionsLoading ||
+      {(areSectionsLoading ||
         areStudentsLoading ||
-        areSubjectsLoading ||
         isSubmitting ||
         isSheetLoading) && (
         <LinearProgress
@@ -387,118 +323,37 @@ const MarkAttandence = () => {
                         <motion.img src={qrCode} width='300px' height='300px' />
                       </Box>
                     )}
-                    <FormControl fullWidth error={!!errors.department}>
-                      <InputLabel>Department</InputLabel>
+
+                    <FormControl fullWidth error={!!errors.subject}>
+                      <InputLabel htmlFor='subject'>Subject</InputLabel>
                       <Select
-                        labelId='department'
-                        id='department'
-                        value={values.department || ''}
-                        label='Departments'
-                        disabled={
-                          isDepartmentError || areDepartmentsLoading || editMode
-                        }
+                        id='subject'
+                        value={values.subject || ''}
+                        label='Subject'
+                        disabled={editMode}
                         required
                         onChange={e => {
-                          handleChange('department', e.target.value)
-                          setEnablePrograms(true)
-                        }}
-                      >
-                        {editMode ? (
-                          <MenuItem
-                            value={sheetData?.sheet.department._id}
-                            key={sheetData?.sheet.department._id}
-                          >
-                            {sheetData?.sheet.department.department_name}
-                          </MenuItem>
-                        ) : (
-                          departmentsData?.map(d => (
-                            <MenuItem value={d._id} key={d._id}>
-                              {d.department_name}
-                            </MenuItem>
-                          ))
-                        )}
-                      </Select>
-                      {!!errors.department && (
-                        <FormHelperText error>
-                          {errors.department}
-                        </FormHelperText>
-                      )}
-                    </FormControl>
-                    <FormControl fullWidth error={!!errors.program}>
-                      <InputLabel>Programs</InputLabel>
-                      <Select
-                        labelId='Programs'
-                        id='programs'
-                        value={values.program || ''}
-                        label='Programs'
-                        required
-                        disabled={
-                          areProgramsLoading ||
-                          isProgramsError ||
-                          !enablePrograms ||
-                          editMode
-                        }
-                        onChange={e => {
-                          handleChange('program', e.target.value)
-                          setEnableSessions(true)
-                        }}
-                      >
-                        {editMode ? (
-                          <MenuItem
-                            key={sheetData?.sheet.program._id}
-                            value={sheetData?.sheet.program._id}
-                          >
-                            {sheetData?.sheet.program.program_abbreviation}
-                          </MenuItem>
-                        ) : (
-                          programsData?.map(p => (
-                            <MenuItem key={p._id} value={p._id}>
-                              {p.program_abbreviation}
-                            </MenuItem>
-                          ))
-                        )}
-                      </Select>
-                      {!!errors.program && (
-                        <FormHelperText error>{errors.program}</FormHelperText>
-                      )}
-                    </FormControl>
-                    <FormControl fullWidth error={!!errors.session}>
-                      <InputLabel>Session</InputLabel>
-                      <Select
-                        labelId='session'
-                        id='session'
-                        value={values.session || ''}
-                        label='Session'
-                        required
-                        disabled={
-                          isSessionsError ||
-                          areSessionsLoading ||
-                          !enablePrograms ||
-                          !enableSessions ||
-                          editMode
-                        }
-                        onChange={e => {
-                          handleChange('session', e.target.value)
+                          handleChange('subject', e.target.value)
                           setEnableSections(true)
                         }}
                       >
                         {editMode ? (
                           <MenuItem
-                            key={sheetData?.sheet.session._id}
-                            value={sheetData?.sheet.session._id}
+                            value={sheetData?.sheet.subject._id}
+                            key={sheetData?.sheet.subject._id}
                           >
-                            {sheetData?.sheet.session.session_title}
+                            {sheetData?.sheet.subject?.subject_title}
                           </MenuItem>
                         ) : (
-                          sessionsData?.map(s => (
-                            <MenuItem key={s._id} value={s._id}>
-                              {s.session_title}
+                          user.subjects?.map(s => (
+                            <MenuItem value={s.subject._id} key={s.subject._id}>
+                              {s?.subject.subject_title}
                             </MenuItem>
                           ))
                         )}
                       </Select>
-                      {!!errors.session && (
-                        <FormHelperText error>{errors.session}</FormHelperText>
+                      {!!errors.subject && (
+                        <FormHelperText error>{errors.subject}</FormHelperText>
                       )}
                     </FormControl>
                     <FormControl fullWidth error={!!errors.section}>
@@ -511,12 +366,13 @@ const MarkAttandence = () => {
                         disabled={
                           areSectionsLoading ||
                           isSectionsError ||
-                          !enablePrograms ||
                           !enableSections ||
-                          !enableSessions ||
                           editMode
                         }
-                        onChange={e => handleChange('section', e.target.value)}
+                        onChange={e => {
+                          handleChange('section', e.target.value)
+                          setEnableSubjectType(true)
+                        }}
                       >
                         {editMode ? (
                           <MenuItem
@@ -537,86 +393,6 @@ const MarkAttandence = () => {
                         <FormHelperText error>{errors.section}</FormHelperText>
                       )}
                     </FormControl>
-                    <FormControl fullWidth error={!!errors.semester}>
-                      <InputLabel htmlFor='semester'>Semester</InputLabel>
-                      <Select
-                        id='semester'
-                        value={values.semester || ''}
-                        label='Semester'
-                        required
-                        disabled={
-                          areSemestersLoading ||
-                          isSemestersError ||
-                          !enablePrograms ||
-                          !enableSections ||
-                          !enableSessions ||
-                          editMode
-                        }
-                        onChange={e => {
-                          handleChange('semester', e.target.value)
-                          setEnableSubjects(true)
-                        }}
-                      >
-                        {editMode ? (
-                          <MenuItem
-                            value={sheetData?.sheet.semester._id}
-                            key={sheetData?.sheet.semester._id}
-                          >
-                            {sheetData?.sheet.semester.semester_title}
-                          </MenuItem>
-                        ) : (
-                          semestersData?.map(s => (
-                            <MenuItem value={s._id} key={s._id}>
-                              {s.semester_title}
-                            </MenuItem>
-                          ))
-                        )}
-                      </Select>
-                      {!!errors.semester && (
-                        <FormHelperText error>{errors.semester}</FormHelperText>
-                      )}
-                    </FormControl>
-
-                    <FormControl fullWidth error={!!errors.subject}>
-                      <InputLabel htmlFor='subject'>Subject</InputLabel>
-                      <Select
-                        id='subject'
-                        value={values.subject || ''}
-                        label='Subject'
-                        required
-                        disabled={
-                          areSubjectsLoading ||
-                          isSubjectsError ||
-                          !enablePrograms ||
-                          !enableSections ||
-                          !enableSessions ||
-                          !enableSubjects ||
-                          editMode
-                        }
-                        onChange={e => {
-                          handleChange('subject', e.target.value)
-                          setEnableSubjectType(true)
-                        }}
-                      >
-                        {editMode ? (
-                          <MenuItem
-                            value={sheetData?.sheet.subject._id}
-                            key={sheetData?.sheet.subject._id}
-                          >
-                            {sheetData?.sheet.subject?.subject_title}
-                          </MenuItem>
-                        ) : (
-                          subjectsData?.map(s => (
-                            <MenuItem value={s._id} key={s._id}>
-                              {s?.subject_title}
-                            </MenuItem>
-                          ))
-                        )}
-                      </Select>
-                      {!!errors.subject && (
-                        <FormHelperText error>{errors.subject}</FormHelperText>
-                      )}
-                    </FormControl>
 
                     <FormControl fullWidth error={!!errors.subjectType}>
                       <InputLabel htmlFor='subject-type'>
@@ -628,14 +404,7 @@ const MarkAttandence = () => {
                         label='Subject Type'
                         required
                         disabled={
-                          areSubjectsLoading ||
-                          isSubjectsError ||
-                          !enablePrograms ||
-                          !enableSections ||
-                          !enableSessions ||
-                          !enableSubjects ||
-                          !enableSubjectType ||
-                          editMode
+                          !enableSections || !enableSubjectType || editMode
                         }
                         onChange={e => {
                           handleChange('subjectType', e.target.value)
@@ -662,14 +431,7 @@ const MarkAttandence = () => {
                         label='Credit Hours'
                         required
                         disabled={
-                          areSubjectsLoading ||
-                          isSubjectsError ||
-                          !enablePrograms ||
-                          !enableSections ||
-                          !enableSessions ||
-                          !enableSubjects ||
-                          !enableSubjectType ||
-                          editMode
+                          !enableSections || !enableSubjectType || editMode
                         }
                         onChange={e => {
                           handleChange('creditHours', e.target.value)
@@ -705,10 +467,7 @@ const MarkAttandence = () => {
                       onClick={editMode ? updateAttendance : submitAttendence}
                       disabled={
                         !!!token ||
-                        !enablePrograms ||
-                        !enableSessions ||
                         !enableSections ||
-                        !enableSubjects ||
                         !enableStudentData ||
                         isSheetLoading ||
                         isSubmitting ||
@@ -741,20 +500,40 @@ const MarkAttandence = () => {
                               }}
                               transition={{ delay: 0.1 * i }}
                               secondaryAction={
-                                <Tooltip
-                                  title={`Mark ${student?.student?.name} Attendence`}
-                                  placement='right'
-                                >
-                                  <Checkbox
-                                    edge='end'
-                                    checked={student?.present}
-                                    onChange={() => setPresent(i)}
-                                  />
-                                </Tooltip>
+                                <Stack direction='row' gap='1em'>
+                                  <Tooltip
+                                    title={`Mark ${student?.student?.name} Attendence`}
+                                    placement='right'
+                                  >
+                                    <Checkbox
+                                      edge='end'
+                                      disabled={student?.leave}
+                                      checked={student?.present}
+                                      onChange={() => setPresent(i)}
+                                    />
+                                  </Tooltip>
+                                  <Tooltip
+                                    title={
+                                      student?.leave
+                                        ? ''
+                                        : `Mark ${student?.student?.name} Leave`
+                                    }
+                                    placement='right'
+                                  >
+                                    <Checkbox
+                                      edge='end'
+                                      checked={student?.leave}
+                                      onChange={() => setLeave(i)}
+                                    />
+                                  </Tooltip>
+                                </Stack>
                               }
                               disablePadding
                             >
-                              <ListItemButton onClick={() => setPresent(i)}>
+                              <ListItemButton
+                                disabled={student?.leave}
+                                onClick={() => setPresent(i)}
+                              >
                                 <ListItemAvatar>
                                   <Avatar
                                     alt={`Avatar n°${i + 1}`}
@@ -785,20 +564,40 @@ const MarkAttandence = () => {
                               }}
                               transition={{ delay: 0.1 * i }}
                               secondaryAction={
-                                <Tooltip
-                                  title={`Mark ${student.name} Attendence`}
-                                  placement='right'
-                                >
-                                  <Checkbox
-                                    edge='end'
-                                    checked={student.present}
-                                    onChange={() => setPresent(i)}
-                                  />
-                                </Tooltip>
+                                <Stack direction='row' gap='1em'>
+                                  <Tooltip
+                                    title={
+                                      student.leave
+                                        ? ''
+                                        : `Mark ${student.name} Attendence`
+                                    }
+                                    placement='right'
+                                  >
+                                    <Checkbox
+                                      edge='end'
+                                      disabled={student?.leave}
+                                      checked={student?.present}
+                                      onChange={() => setPresent(i)}
+                                    />
+                                  </Tooltip>
+                                  <Tooltip
+                                    title={`Mark ${student.name} Leave`}
+                                    placement='right'
+                                  >
+                                    <Checkbox
+                                      edge='end'
+                                      checked={student.leave}
+                                      onChange={() => setLeave(i)}
+                                    />
+                                  </Tooltip>
+                                </Stack>
                               }
                               disablePadding
                             >
-                              <ListItemButton onClick={() => setPresent(i)}>
+                              <ListItemButton
+                                disabled={student.leave}
+                                onClick={() => setPresent(i)}
+                              >
                                 <ListItemAvatar>
                                   <Avatar
                                     alt={`Avatar n°${i + 1}`}

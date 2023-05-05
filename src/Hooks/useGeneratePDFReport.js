@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
+import { useState } from 'react'
 
 import { generateSubjectReportRequest } from '../Services/API/generateSubjectReportRequest'
 
@@ -8,12 +9,18 @@ import NFCLogo from '../Assets/Images/NFC Iet Logo.png'
 import useAuth from './useAuth'
 
 export default function useGeneratePDFReport() {
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [error, setError] = useState(null)
   const { token } = useAuth()
-  const generatePDF = async subjectId => {
+
+  const generatePDF = async (subjectId, sectionId) => {
+    setIsGenerating(prev => true)
+    setError(null)
     try {
       const data = await generateSubjectReportRequest(
         token,
-        '63ff16eb005ddd64e4564796',
+        subjectId,
+        sectionId,
       )
       const doc = new jsPDF({
         orientation: 'landscape',
@@ -45,18 +52,21 @@ export default function useGeneratePDFReport() {
           halign: 'center',
         },
         columnStyles: {
-          0: { columnWidth: 25, halign: 'left' },
-          [data.tableColumn.length - 1]: { columnWidth: 10 },
+          0: { cellWidth: 25, halign: 'left' },
+          [data.tableColumn.length - 1]: { cellWidth: 10 },
         },
       })
       const date = Date().split(' ')
       const dateStr = date[0] + date[1] + date[2] + date[3] + date[4]
       doc.save(`attendance_report_${dateStr}.pdf`)
+      setIsGenerating(prev => false)
     } catch (err) {
       console.log(err)
+      setError(err.response.data.message)
+      setIsGenerating(prev => false)
       return
     }
   }
 
-  return { generatePDF }
+  return { generatePDF, isGenerating, error }
 }

@@ -161,8 +161,8 @@ const PreviousSheets = () => {
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              {tableHeaders?.map(h => (
-                <TableCell id={h} align='center'>
+              {tableHeaders?.map((h, i) => (
+                <TableCell id={i} align='center'>
                   {h}
                 </TableCell>
               ))}
