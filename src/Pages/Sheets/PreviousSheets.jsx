@@ -1,4 +1,4 @@
-import { Search } from '@mui/icons-material'
+import { Save, Search } from '@mui/icons-material'
 import {
   Card,
   CardActionArea,
@@ -8,6 +8,7 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
+  IconButton,
   InputAdornment,
   OutlinedInput,
   Paper,
@@ -19,12 +20,16 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material'
+import { motion } from 'framer-motion'
 import moment from 'moment'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router'
+
+import TeacherAttendanceReportModal from '../../Components/Modal/TeacherAttendanceReportModal'
 
 import useAuth from '../../Hooks/useAuth'
 
@@ -41,8 +46,9 @@ const tableHeaders = [
 ]
 
 const PreviousSheets = () => {
-  const { token } = useAuth()
+  const { token, user } = useAuth()
   const [search, setSearch] = useState('')
+  const [showReportModal, setShowReportModal] = useState(false)
   const navigate = useNavigate()
 
   const { isError, isLoading, data } = useQuery(
@@ -53,6 +59,8 @@ const PreviousSheets = () => {
       enabled: !!token,
     },
   )
+
+  const toggleGenerateReportModal = () => setShowReportModal(prev => !prev)
 
   const dataList =
     !!data &&
@@ -82,9 +90,13 @@ const PreviousSheets = () => {
         )
           return true
       })
-      ?.map(r => (
+      ?.map((r, i) => (
         <TableRow
           hover
+          component={motion.tr}
+          initial={{ opacity: 0, y: 30, filter: 'blur(20px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ delay: 0.1 * i }}
           key={r._id}
           sx={{ cursor: 'pointer' }}
           onClick={() => navigate(`/teacher/mark-attandence?sheetId=${r._id}`)}
@@ -94,7 +106,7 @@ const PreviousSheets = () => {
           <TableCell align='center'>{r.session.session_title}</TableCell>
           <TableCell align='center'>{r.section.section_title}</TableCell>
           <TableCell align='center'>{r.semester.semester_title}</TableCell>
-          <TableCell align='center'>{`${r.subject.subject_title} ${r.subject.subject_code}`}</TableCell>
+          <TableCell align='center'>{`${r.subject.subject_title} - ${r.subject.subject_code}`}</TableCell>
           <TableCell align='center'>{moment(r.date).format('LLL')}</TableCell>
         </TableRow>
       ))
@@ -112,6 +124,15 @@ const PreviousSheets = () => {
           </Typography>
         </Grid>
         <Grid item>
+          <Tooltip title='Generate Report' placement='top'>
+            <IconButton
+              color='primary'
+              onClick={toggleGenerateReportModal}
+              sx={{ marginRight: '1em' }}
+            >
+              <Save />
+            </IconButton>
+          </Tooltip>
           <FormControl
             sx={{ width: { xs: '100%', md: '30ch' } }}
             size='small'
@@ -140,8 +161,8 @@ const PreviousSheets = () => {
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              {tableHeaders.map(h => (
-                <TableCell id={h} align='center'>
+              {tableHeaders?.map((h, i) => (
+                <TableCell id={i} align='center'>
                   {h}
                 </TableCell>
               ))}
@@ -150,6 +171,10 @@ const PreviousSheets = () => {
           <TableBody>{dataList}</TableBody>
         </Table>
       </TableContainer>
+      <TeacherAttendanceReportModal
+        open={showReportModal}
+        onClose={toggleGenerateReportModal}
+      />
     </Paper>
   )
 }
