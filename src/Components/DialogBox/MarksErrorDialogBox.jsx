@@ -6,6 +6,7 @@ import * as React from 'react'
 
 export default function MarksErrorDialogBox(props) {
   const { onClose, selectedValue, open } = props
+  // console.log(props)
 
   const handleClose = () => {
     onClose()
@@ -16,7 +17,9 @@ export default function MarksErrorDialogBox(props) {
       <DialogTitle color='error'>Enter Valid Number</DialogTitle>
       <DialogContentText>
         <Typography>Name: {props.value.name}</Typography>
-        <Typography>Roll No.: {props.value.rollNo}</Typography>
+        <Typography>
+          Roll No.: {props.Session}-{props.Program}-{props.value.rollNo}
+        </Typography>
         <Typography>Entered Marks Error!</Typography>
       </DialogContentText>
     </Dialog>

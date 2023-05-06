@@ -1,4 +1,15 @@
-import { Button, Grid, LinearProgress, Paper, TextField } from '@mui/material'
+import { Search } from '@mui/icons-material'
+import {
+  Button,
+  FormControl,
+  Grid,
+  InputAdornment,
+  LinearProgress,
+  OutlinedInput,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell, { tableCellClasses } from '@mui/material/TableCell'
@@ -12,14 +23,16 @@ import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { useSearchParams } from 'react-router-dom'
 
-import ResultDialogBox from '../../Components/DialogBox/MarksErrorDialogBox'
 import MarksErrorDialogBox from '../../Components/DialogBox/MarksErrorDialogBox'
+import ResultDialogBox from '../../Components/DialogBox/ResultDialogBox'
 import ResultErrorDialogBox from '../../Components/DialogBox/ResultErrorDialogBox'
 
 import useAuth from '../../Hooks/useAuth'
 
+import { getResultSheetByIdRequest } from '../../Services/API/getResultSheetByIdRequest'
 import { getMarksSheet } from '../../Services/API/marksSheetRequest'
 import { postMarksRequest } from '../../Services/API/postMarksRequest'
+import { updateMarkListRequest } from '../../Services/API/updateMarkList'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -47,18 +60,39 @@ export default function ClassResult() {
   const session = searchParams.get('session')
   const program = searchParams.get('program')
   const semester = searchParams.get('semester')
+  const program_abbreviation = searchParams.get('program_abbreviation')
+  const session_title = searchParams.get('session_title')
   const section = searchParams.get('section')
   const subject = searchParams.get('subject')
-  const Session = searchParams.get('session_title')
-  const Program = searchParams.get('program_abbreviation')
-  // console.log(session)
+  const sheetId = searchParams.get('sheetId')
+  const editMode = !!sheetId
   const [studentsList, setStudentsList] = useState([])
   const [selectValue, SetSelectValue] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorModal, setErrorModal] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [search, setSearch] = useState('')
+  const [proSession, setProSession] = useState({
+    Program: '',
+    Session: '',
+  })
 
   const { user, token } = useAuth()
+
+  const {
+    isLoading: isSheetLoading,
+    isError: isSheetError,
+    data: sheetData,
+  } = useQuery(
+    ['sheet', sheetId, token],
+    () => getResultSheetByIdRequest(token, sheetId),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: editMode,
+    },
+  )
+
   const { data, error, isError, isLoading } = useQuery(
     ['marks-sheet', section, subject],
     () =>
@@ -68,7 +102,7 @@ export default function ClassResult() {
         section,
       }),
     {
-      enabled: !!token,
+      enabled: !editMode,
       staleTime: 1000 * 60 * 60 * 24,
     },
   )
@@ -78,6 +112,85 @@ export default function ClassResult() {
     setStudentsList(data)
   }, [data])
 
+  useEffect(() => {
+    if (isSheetError || isSheetLoading || !editMode) return
+    setStudentsList(sheetData.list)
+    setProSession({
+      Program: sheetData.program_abbreviation,
+      Session: sheetData.session_title,
+    })
+  }, [sheetData])
+  console.log(studentsList)
+
+  const dataList =
+    !isLoading &&
+    !isError &&
+    !!studentsList &&
+    studentsList
+      ?.filter(r => {
+        if (search === '') return true
+        else if (
+          r.student.name?.toLowerCase()?.includes(search?.toLowerCase()) ||
+          r.student.rollNo?.toLowerCase()?.includes(search?.toLowerCase())
+        )
+          return true
+      })
+      ?.map((row, i) => (
+        <StyledTableRow key={row._id}>
+          {editMode ? (
+            <>
+              <StyledTableCell align='left' sx={{ padding: '1%' }}>
+                {proSession.Session}-{proSession.Program}-{row.student.rollNo}
+              </StyledTableCell>
+              <StyledTableCell align='left' sx={{ padding: '1%' }}>
+                {row.student.name}
+              </StyledTableCell>
+            </>
+          ) : (
+            <>
+              <StyledTableCell align='left' sx={{ padding: '1%' }}>
+                {session_title}-{program_abbreviation}-{row.rollNo}
+              </StyledTableCell>
+              <StyledTableCell align='left' sx={{ padding: '1%' }}>
+                {row.name}
+              </StyledTableCell>
+            </>
+          )}
+          <StyledTableCell align='center' sx={{ padding: '1%' }}>
+            <TextField
+              id='outlined-basic'
+              label='Mid Marks'
+              variant='outlined'
+              value={row.mids || ''}
+              required
+              onChange={e => setValue(i, e.target.value, 'mids')}
+            />
+          </StyledTableCell>
+          <StyledTableCell align='center' sx={{ padding: '1%' }}>
+            <TextField
+              id='outlined-basic'
+              label='Final Marks'
+              variant='outlined'
+              value={row.finals || ''}
+              required
+              onChange={e => setValue(i, e.target.value, 'finals')}
+            />
+          </StyledTableCell>
+          <StyledTableCell align='center' sx={{ padding: '1%' }}>
+            <TextField
+              id='outlined-basic'
+              label='Sessional Marks'
+              variant='outlined'
+              value={row.sessional || ''}
+              required
+              onChange={e => setValue(i, e.target.value, 'sessional')}
+            />
+          </StyledTableCell>
+        </StyledTableRow>
+      ))
+
+  console.log(dataList)
+
   const setValue = (i, val, para) => {
     setStudentsList(previousList => {
       const newList = [...previousList]
@@ -85,7 +198,26 @@ export default function ClassResult() {
       return newList
     })
   }
-  // console.log(studentsList)
+
+  const updateMarks = async () => {
+    setIsSubmitting(prev => true)
+    const dto = {
+      list: studentsList.map(s => ({
+        mids: s.mids,
+        finals: s.finals,
+        sessional: s.sessional,
+        student: s._id,
+      })),
+    }
+    try {
+      const res = await updateMarkListRequest(token, sheetId, dto)
+      setIsSubmitting(prev => false)
+      setSuccess(true)
+    } catch (err) {
+      setErrorModal(err.response.data.message)
+      setIsSubmitting(prev => false)
+    }
+  }
 
   const submitMarks = async () => {
     console.log('Final Submit')
@@ -99,15 +231,48 @@ export default function ClassResult() {
       subject: subject,
       section: section,
       teacher: user._id,
-      list: studentsList,
+      list: studentsList.map(s => ({
+        mids: s.mids,
+        finals: s.finals,
+        sessional: s.sessional,
+        student: s._id,
+      })),
     }
 
     try {
       const res = await postMarksRequest(token, dto)
       setIsSubmitting(prev => false)
+      setSuccess(true)
     } catch (err) {
       setErrorModal(err.response.data.message)
       setIsSubmitting(prev => false)
+    }
+  }
+
+  const handleUpdate = () => {
+    let shouldBreak = false
+    studentsList?.map((row, i) => {
+      if (shouldBreak) return
+      if (
+        row.mids > 30 ||
+        row.finals > 50 ||
+        row.sessional > 20 ||
+        row.mids === '' ||
+        row.finals === '' ||
+        row.sessional === '' ||
+        row.mids < 0 ||
+        row.finals < 0 ||
+        row.sessional < 0
+      ) {
+        SetSelectValue(prev => row)
+        setShowModal(true)
+        shouldBreak = true
+        return row
+      }
+      return null
+    })
+    if (!shouldBreak) {
+      updateMarks()
     }
   }
 
@@ -143,8 +308,8 @@ export default function ClassResult() {
   return (
     <>
       <Grid>
-        <Paper sx={{ height: '77vh', position: 'relative', paddingY: '4px' }}>
-          {(isLoading || isSubmitting) && (
+        <Paper sx={{ height: '77vh', position: 'relative' }}>
+          {(isLoading || isSubmitting || isSheetLoading) && (
             <LinearProgress
               sx={{
                 width: '100%',
@@ -154,7 +319,42 @@ export default function ClassResult() {
               }}
             />
           )}
-          <TableContainer sx={{ height: '100%' }}>
+          <Grid
+            sx={{ height: '10%' }}
+            container
+            justifyContent='space-between'
+            alignItems='center'
+            padding='0.5em'
+          >
+            <Grid item>
+              <Typography
+                variant='h6'
+                sx={{ textAlign: { xs: 'center', md: 'left' } }}
+                gutterBottom
+              >
+                Enter Marks
+              </Typography>
+            </Grid>
+            <Grid item>
+              <FormControl
+                sx={{ width: { xs: '100%', md: '30ch' } }}
+                size='small'
+                variant='outlined'
+              >
+                <OutlinedInput
+                  size='small'
+                  value={search}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <Search />
+                    </InputAdornment>
+                  }
+                  onChange={e => setSearch(e.target.value)}
+                />
+              </FormControl>
+            </Grid>
+          </Grid>
+          <TableContainer sx={{ height: '90%' }}>
             <Table stickyHeader aria-label='customized table'>
               <TableHead>
                 <TableRow>
@@ -190,45 +390,7 @@ export default function ClassResult() {
                   </StyledTableCell>
                 </TableRow>
               </TableHead>
-              <TableBody sx={{ overflowY: 'auto' }}>
-                {studentsList?.map((row, i) => (
-                  <StyledTableRow key={row._id}>
-                    <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                      {Session}-{Program}-{row.rollNo}
-                    </StyledTableCell>
-                    <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align='center' sx={{ padding: '1%' }}>
-                      <TextField
-                        id='outlined-basic'
-                        label='Mid Marks'
-                        variant='outlined'
-                        required
-                        onChange={e => setValue(i, e.target.value, 'mids')}
-                      />
-                    </StyledTableCell>
-                    <StyledTableCell align='center' sx={{ padding: '1%' }}>
-                      <TextField
-                        id='outlined-basic'
-                        label='Final Marks'
-                        variant='outlined'
-                        required
-                        onChange={e => setValue(i, e.target.value, 'finals')}
-                      />
-                    </StyledTableCell>
-                    <StyledTableCell align='center' sx={{ padding: '1%' }}>
-                      <TextField
-                        id='outlined-basic'
-                        label='Sessional Marks'
-                        variant='outlined'
-                        required
-                        onChange={e => setValue(i, e.target.value, 'sessional')}
-                      />
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
+              <TableBody sx={{ overflowY: 'auto' }}>{dataList}</TableBody>
             </Table>
           </TableContainer>
         </Paper>
@@ -240,20 +402,23 @@ export default function ClassResult() {
             borderTopLeftRadius: 0,
           }}
           disableElevation
-          onClick={handleSubmit}
+          onClick={editMode ? handleUpdate : handleSubmit}
         >
-          Submit
+          {editMode ? 'Update' : 'Submit'}
         </Button>
         <MarksErrorDialogBox
           open={showModal}
           onClose={() => setShowModal(prev => !prev)}
           value={selectValue}
+          Session={editMode ? proSession.Session : session_title}
+          Program={editMode ? proSession.Program : program_abbreviation}
         />
         <ResultErrorDialogBox
           open={!!errorModal}
           text={errorModal}
           onClose={() => setErrorModal(prev => !prev)}
         />
+        <ResultDialogBox open={success} />
       </Grid>
     </>
   )

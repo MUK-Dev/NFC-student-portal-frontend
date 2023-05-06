@@ -22,6 +22,7 @@ import MarkAttandence from './Pages/MarkAttandence/MarkAttandence'
 import ChildsAttendance from './Pages/Parent-Home/ChildsAttendance'
 import ParentOption from './Pages/Parent-Home/ParentOptions'
 import ParentHome from './Pages/Parent-Home/Parent_Home'
+import ResultSheets from './Pages/ResultSheets/ResultSheets'
 import ScannerAttendance from './Pages/ScannerAttendance/ScannerAttendence'
 import PreviousSheets from './Pages/Sheets/PreviousSheets'
 import StudentAttendance from './Pages/StudentAttendance/StudentAttendance'
@@ -130,6 +131,10 @@ const App = () => {
                     element={<MarkAttandence />}
                   />
                   <Route path='/teacher/sheets' element={<PreviousSheets />} />
+                  <Route
+                    path='/teacher/result-sheets'
+                    element={<ResultSheets />}
+                  />
                   <Route path='/head/register/section' element={<RSection />} />
                   <Route path='/head/dashboard' element={<HeadDashboard />} />
                 </Route>

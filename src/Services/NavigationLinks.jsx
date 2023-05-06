@@ -8,10 +8,10 @@ import FactCheckIcon from '@mui/icons-material/FactCheck'
 import GradeIcon from '@mui/icons-material/Grade'
 import GradingIcon from '@mui/icons-material/Grading'
 import HomeIcon from '@mui/icons-material/Home'
-import House from '@mui/icons-material/House'
 import LayersIcon from '@mui/icons-material/Layers'
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
+import ReorderIcon from '@mui/icons-material/Reorder'
 import SchoolIcon from '@mui/icons-material/School'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 
@@ -190,10 +190,10 @@ export const getLinks = (theme, role) => {
         ),
       },
       {
-        title: 'Result Form',
-        path: '/teacher/result-form',
+        title: 'Result Records',
+        path: '/teacher/result-sheets',
         icon: (
-          <SchoolIcon
+          <ReorderIcon
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),
