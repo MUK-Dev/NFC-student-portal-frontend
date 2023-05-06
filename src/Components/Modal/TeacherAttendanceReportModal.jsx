@@ -96,7 +96,7 @@ const TeacherAttendanceReportModal = ({ ...rest }) => {
                 setEnableSections(true)
               }}
             >
-              {user.subjects?.map(s => (
+              {user?.subjects?.map(s => (
                 <MenuItem value={s.subject._id} key={s.subject._id}>
                   {s?.subject.subject_title}
                 </MenuItem>
