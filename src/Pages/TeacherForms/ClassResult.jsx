@@ -107,7 +107,6 @@ export default function ClassResult() {
     },
   )
   useEffect(() => {
-    console.log('Use Effect')
     if (isError || isLoading) return
     setStudentsList(data)
   }, [data])
@@ -120,7 +119,7 @@ export default function ClassResult() {
       Session: sheetData.session_title,
     })
   }, [sheetData])
-  console.log(studentsList)
+  // console.log(studentsList)
 
   const dataList =
     !isLoading &&
@@ -130,8 +129,11 @@ export default function ClassResult() {
       ?.filter(r => {
         if (search === '') return true
         else if (
-          r.student.name?.toLowerCase()?.includes(search?.toLowerCase()) ||
-          r.student.rollNo?.toLowerCase()?.includes(search?.toLowerCase())
+          editMode
+            ? r?.student.name?.toLowerCase()?.includes(search?.toLowerCase()) ||
+              r?.student?.rollNo?.toLowerCase()?.includes(search?.toLowerCase())
+            : r?.name?.toLowerCase()?.includes(search?.toLowerCase()) ||
+              r?.rollNo?.toLowerCase()?.includes(search?.toLowerCase())
         )
           return true
       })
@@ -188,8 +190,6 @@ export default function ClassResult() {
           </StyledTableCell>
         </StyledTableRow>
       ))
-
-  console.log(dataList)
 
   const setValue = (i, val, para) => {
     setStudentsList(previousList => {
