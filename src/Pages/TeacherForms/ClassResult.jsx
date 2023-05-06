@@ -119,7 +119,22 @@ export default function ClassResult() {
       Session: sheetData.session_title,
     })
   }, [sheetData])
-  // console.log(studentsList)
+  console.log(studentsList)
+
+  const setValue = (id, val, para) => {
+    setStudentsList(previousList => {
+      const newList = [...previousList]
+      let i = 0
+      for (let item of newList) {
+        if (item._id == id) {
+          break
+        }
+        i++
+      }
+      newList[i][para] = val
+      return newList
+    })
+  }
 
   const dataList =
     !isLoading &&
@@ -137,7 +152,7 @@ export default function ClassResult() {
         )
           return true
       })
-      ?.map((row, i) => (
+      ?.map(row => (
         <StyledTableRow key={row._id}>
           {editMode ? (
             <>
@@ -165,7 +180,7 @@ export default function ClassResult() {
               variant='outlined'
               value={row.mids || ''}
               required
-              onChange={e => setValue(i, e.target.value, 'mids')}
+              onChange={e => setValue(row._id, e.target.value, 'mids')}
             />
           </StyledTableCell>
           <StyledTableCell align='center' sx={{ padding: '1%' }}>
@@ -175,7 +190,7 @@ export default function ClassResult() {
               variant='outlined'
               value={row.finals || ''}
               required
-              onChange={e => setValue(i, e.target.value, 'finals')}
+              onChange={e => setValue(row._id, e.target.value, 'finals')}
             />
           </StyledTableCell>
           <StyledTableCell align='center' sx={{ padding: '1%' }}>
@@ -185,19 +200,11 @@ export default function ClassResult() {
               variant='outlined'
               value={row.sessional || ''}
               required
-              onChange={e => setValue(i, e.target.value, 'sessional')}
+              onChange={e => setValue(row._id, e.target.value, 'sessional')}
             />
           </StyledTableCell>
         </StyledTableRow>
       ))
-
-  const setValue = (i, val, para) => {
-    setStudentsList(previousList => {
-      const newList = [...previousList]
-      newList[i][para] = val
-      return newList
-    })
-  }
 
   const updateMarks = async () => {
     setIsSubmitting(prev => true)
