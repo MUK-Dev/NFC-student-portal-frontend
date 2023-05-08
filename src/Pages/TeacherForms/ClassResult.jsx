@@ -55,17 +55,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }))
 
 export default function ClassResult() {
+  const { user, token } = useAuth()
   let [searchParams, setSearchParams] = useSearchParams()
   const department = searchParams.get('department')
   const session = searchParams.get('session')
   const program = searchParams.get('program')
   const semester = searchParams.get('semester')
-  const program_abbreviation = searchParams.get('program_abbreviation')
-  const session_title = searchParams.get('session_title')
   const section = searchParams.get('section')
   const subject = searchParams.get('subject')
   const sheetId = searchParams.get('sheetId')
   const editMode = !!sheetId
+  // console.log(sheetId, editMode)
   const [studentsList, setStudentsList] = useState([])
   const [selectValue, SetSelectValue] = useState([])
   const [showModal, setShowModal] = useState(false)
@@ -74,11 +74,14 @@ export default function ClassResult() {
   const [success, setSuccess] = useState(false)
   const [search, setSearch] = useState('')
   const [proSession, setProSession] = useState({
-    Program: '',
-    Session: '',
+    Program: searchParams.get('program_abbreviation'),
+    Session: searchParams.get('session_title'),
+  })
+  const [subjectID, setSubjectID] = useState({
+    Subject: subject,
   })
 
-  const { user, token } = useAuth()
+  console.log(user)
 
   const {
     isLoading: isSheetLoading,
@@ -100,12 +103,14 @@ export default function ClassResult() {
         session,
         program,
         section,
+        subject,
       }),
     {
       enabled: !editMode,
       staleTime: 1000 * 60 * 60 * 24,
     },
   )
+  console.log(data)
   useEffect(() => {
     if (isError || isLoading) return
     setStudentsList(data)
@@ -118,8 +123,15 @@ export default function ClassResult() {
       Program: sheetData.program_abbreviation,
       Session: sheetData.session_title,
     })
+    setSubjectID({
+      Subject: sheetData.subject_Id,
+    })
   }, [sheetData])
   console.log(studentsList)
+  const selectedSubject = user.subjects.filter(
+    sub => sub.subject._id === subjectID.Subject,
+  )[0]
+  console.log(selectedSubject)
 
   const setValue = (id, val, para) => {
     setStudentsList(previousList => {
@@ -166,43 +178,78 @@ export default function ClassResult() {
           ) : (
             <>
               <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                {session_title}-{program_abbreviation}-{row.rollNo}
+                {proSession.Session}-{proSession.Program}-{row.rollNo}
               </StyledTableCell>
               <StyledTableCell align='left' sx={{ padding: '1%' }}>
                 {row.name}
               </StyledTableCell>
             </>
           )}
-          <StyledTableCell align='center' sx={{ padding: '1%' }}>
-            <TextField
-              id='outlined-basic'
-              label='Mid Marks'
-              variant='outlined'
-              value={row.mids || ''}
-              required
-              onChange={e => setValue(row._id, e.target.value, 'mids')}
-            />
-          </StyledTableCell>
-          <StyledTableCell align='center' sx={{ padding: '1%' }}>
-            <TextField
-              id='outlined-basic'
-              label='Final Marks'
-              variant='outlined'
-              value={row.finals || ''}
-              required
-              onChange={e => setValue(row._id, e.target.value, 'finals')}
-            />
-          </StyledTableCell>
-          <StyledTableCell align='center' sx={{ padding: '1%' }}>
-            <TextField
-              id='outlined-basic'
-              label='Sessional Marks'
-              variant='outlined'
-              value={row.sessional || ''}
-              required
-              onChange={e => setValue(row._id, e.target.value, 'sessional')}
-            />
-          </StyledTableCell>
+          {selectedSubject?.theory_hours > 0 && (
+            <>
+              <StyledTableCell align='center' sx={{ padding: '1%' }}>
+                <TextField
+                  id='outlined-basic'
+                  label='Mid Marks'
+                  variant='outlined'
+                  placeholder='< 30'
+                  value={row.mids || ''}
+                  required
+                  onChange={e => setValue(row._id, e.target.value, 'mids')}
+                />
+              </StyledTableCell>
+              <StyledTableCell align='center' sx={{ padding: '1%' }}>
+                <TextField
+                  id='outlined-basic'
+                  label='Final Marks'
+                  variant='outlined'
+                  placeholder='< 50'
+                  value={row.finals || ''}
+                  required
+                  onChange={e => setValue(row._id, e.target.value, 'finals')}
+                />
+              </StyledTableCell>
+              <StyledTableCell align='center' sx={{ padding: '1%' }}>
+                <TextField
+                  id='outlined-basic'
+                  label='Sessional Marks'
+                  variant='outlined'
+                  placeholder='< 20'
+                  value={row.sessional || ''}
+                  required
+                  onChange={e => setValue(row._id, e.target.value, 'sessional')}
+                />
+              </StyledTableCell>
+            </>
+          )}
+          {selectedSubject?.lab_hours > 0 && (
+            <>
+              <StyledTableCell align='center' sx={{ padding: '1%' }}>
+                <TextField
+                  id='outlined-basic'
+                  label='Lab Final Marks'
+                  variant='outlined'
+                  placeholder='< 50'
+                  value={row.lab_final || ''}
+                  required
+                  onChange={e => setValue(row._id, e.target.value, 'lab_final')}
+                />
+              </StyledTableCell>
+              <StyledTableCell align='center' sx={{ padding: '1%' }}>
+                <TextField
+                  id='outlined-basic'
+                  label='Lab Sessional Marks'
+                  variant='outlined'
+                  placeholder='< 50'
+                  value={row.lab_sessional || ''}
+                  required
+                  onChange={e =>
+                    setValue(row._id, e.target.value, 'lab_sessional')
+                  }
+                />
+              </StyledTableCell>
+            </>
+          )}
         </StyledTableRow>
       ))
 
@@ -364,37 +411,36 @@ export default function ClassResult() {
           <TableContainer sx={{ height: '90%' }}>
             <Table stickyHeader aria-label='customized table'>
               <TableHead>
-                <TableRow>
-                  <StyledTableCell
-                    align='left'
-                    sx={{ padding: '2%', width: '20%' }}
-                  >
+                <TableRow sx={{ padding: '2%' }}>
+                  <StyledTableCell align='left' sx={{ width: '13%' }}>
                     Student Roll No.
                   </StyledTableCell>
-                  <StyledTableCell
-                    align='left'
-                    sx={{ padding: '2%', width: '20%' }}
-                  >
+                  <StyledTableCell align='left' sx={{ width: '16%' }}>
                     Student Name
                   </StyledTableCell>
-                  <StyledTableCell
-                    align='left'
-                    sx={{ padding: '2%', width: '20%' }}
-                  >
-                    Mid Marks
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align='left'
-                    sx={{ padding: '2%', width: '20%' }}
-                  >
-                    Final Marks
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align='left'
-                    sx={{ padding: '2%', width: '20%' }}
-                  >
-                    Sessional Marks
-                  </StyledTableCell>
+                  {selectedSubject?.theory_hours > 0 && (
+                    <>
+                      <StyledTableCell align='center'>
+                        Mid Marks
+                      </StyledTableCell>
+                      <StyledTableCell align='center'>
+                        Final Marks
+                      </StyledTableCell>
+                      <StyledTableCell align='center'>
+                        Sessional Marks
+                      </StyledTableCell>
+                    </>
+                  )}
+                  {selectedSubject?.lab_hours > 0 && (
+                    <>
+                      <StyledTableCell align='center'>
+                        Lab Final Marks
+                      </StyledTableCell>
+                      <StyledTableCell align='center'>
+                        Lab Sessional Marks
+                      </StyledTableCell>
+                    </>
+                  )}
                 </TableRow>
               </TableHead>
               <TableBody sx={{ overflowY: 'auto' }}>{dataList}</TableBody>
@@ -417,8 +463,8 @@ export default function ClassResult() {
           open={showModal}
           onClose={() => setShowModal(prev => !prev)}
           value={selectValue}
-          Session={editMode ? proSession.Session : session_title}
-          Program={editMode ? proSession.Program : program_abbreviation}
+          Session={proSession.Session}
+          Program={proSession.Program}
         />
         <ResultErrorDialogBox
           open={!!errorModal}

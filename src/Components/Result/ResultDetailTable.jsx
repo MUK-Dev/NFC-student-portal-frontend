@@ -27,20 +27,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }))
 
-function createData(subject, teacher, gpa, grade) {
-  return { subject, teacher, gpa, grade }
+function createData(id, subject, teacher, gpa, grade) {
+  return { id, subject, teacher, gpa, grade }
 }
 
-const rows = [
-  createData('Professional Practices', 'Mr. Kamran Abid', 2.3, 'C+'),
-  createData('Human Computer Interaction', 'Mr. Ahmad Naeem', 2.4, 'C+'),
-  createData('Compiler Construction', 'Maam Ujala Saleem', 2.5, 'C+'),
-  createData('Game Development', 'Mr. Mustajeeb-ur-Rehman', 2.6, 'C+'),
-  createData('Information Security', 'Mr. Fuzail', 2.7, 'B-'),
-  createData('Final Year Project - I', 'Mr. Ahtesham Noor', 2.8, 'B-'),
-]
+export default function ResultDetailTable(props) {
+  console.log(props.result)
+  const rows = []
+  const result = props.result
+  result.map(row =>
+    rows.push(
+      createData(row._id, row.subject_title, row.teacher, row.gpa, row.grade),
+    ),
+  )
 
-export default function ResultDetailTable() {
   return (
     <TableContainer sx={{ height: '100%', width: '100%' }}>
       <Table stickyHeader aria-label='customized table'>
@@ -65,7 +65,7 @@ export default function ResultDetailTable() {
         </TableHead>
         <TableBody sx={{ overflowY: 'auto' }}>
           {rows.map(row => (
-            <StyledTableRow key={row.subject}>
+            <StyledTableRow key={row.id}>
               <StyledTableCell align='left' sx={{ padding: '1%' }}>
                 {row.subject}
               </StyledTableCell>
