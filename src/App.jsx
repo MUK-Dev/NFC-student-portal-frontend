@@ -114,11 +114,11 @@ const App = () => {
                   />
                   <Route path='/parent/home' element={<ParentHome />} />
                   <Route
-                    path='/parent/home/option'
+                    path='/parent/home/:studentId'
                     element={<ParentOption />}
                   />
                   <Route
-                    path='/parent/home/childattendance'
+                    path='/parent/home/:studentId/attendance'
                     element={<ChildsAttendance />}
                   />
                   <Route
