@@ -1,8 +1,8 @@
 import CameraswitchIcon from '@mui/icons-material/Cameraswitch'
 import { Button, IconButton, Typography } from '@mui/material'
 import { Stack } from '@mui/system'
+import QrReader from 'modern-react-qr-reader'
 import { useState } from 'react'
-import { QrReader } from 'react-qr-reader'
 
 import AttendanceSuccessModal from '../../Components/Modal/AttendanceSuccessModal'
 import QRAttendanceErrorModel from '../../Components/Modal/QRAttendanceErrorModal'
@@ -20,26 +20,23 @@ const ScannerAttendence = () => {
   const [loadingScan, setLoadingScan] = useState(false)
   const [data, setData] = useState('')
   const { token } = useAuth()
-  const handleScan = async (scanData, err) => {
-    if (err) {
-      console.log(err)
-      return
-    }
+
+  const handleError = err => console.log(err)
+
+  const handleScan = async scanData => {
     setLoadingScan(true)
+    console.log(scanData)
     if (scanData && scanData !== '') {
       try {
         const res = await MarkAttendancewithQR(token, scanData)
         setSuccessModel(res.message)
       } catch (err) {
-        console.log(err)
-
         setErrorModal(err.response.data.message)
         setIsSubmitting(prev => false)
       }
-
-      setStartScan(false)
-      setLoadingScan(false)
     }
+    setStartScan(false)
+    setLoadingScan(false)
   }
 
   const toggleCamera = () => {
@@ -80,12 +77,10 @@ const ScannerAttendence = () => {
 
           {!loadingScan && (
             <QrReader
-              constraints={{
-                facingMode: selected,
-              }}
-              scanDelay={1500}
-              onResult={handleScan}
-              videoContainerStyle={{ width: '300px' }}
+              facingMode={selected}
+              delay={1500}
+              onScan={handleScan}
+              style={{ width: '300px' }}
             />
           )}
         </>
