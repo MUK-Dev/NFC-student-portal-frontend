@@ -166,25 +166,13 @@ export default function ClassResult() {
       })
       ?.map(row => (
         <StyledTableRow key={row._id}>
-          {editMode ? (
-            <>
-              <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                {proSession.Session}-{proSession.Program}-{row.student.rollNo}
-              </StyledTableCell>
-              <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                {row.student.name}
-              </StyledTableCell>
-            </>
-          ) : (
-            <>
-              <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                {proSession.Session}-{proSession.Program}-{row.rollNo}
-              </StyledTableCell>
-              <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                {row.name}
-              </StyledTableCell>
-            </>
-          )}
+          <StyledTableCell align='left' sx={{ padding: '1%' }}>
+            {proSession.Session}-{proSession.Program}-
+            {editMode ? row.student.rollNo : row.rollNo}
+          </StyledTableCell>
+          <StyledTableCell align='left' sx={{ padding: '1%' }}>
+            {editMode ? row.student.name : row.name}
+          </StyledTableCell>
           {selectedSubject?.theory_hours > 0 && (
             <>
               <StyledTableCell align='center' sx={{ padding: '1%' }}>
@@ -256,11 +244,14 @@ export default function ClassResult() {
   const updateMarks = async () => {
     setIsSubmitting(prev => true)
     const dto = {
+      subject: subjectID.Subject,
       list: studentsList.map(s => ({
         mids: s.mids,
         finals: s.finals,
         sessional: s.sessional,
         student: s._id,
+        lab_final: s.lab_final,
+        lab_sessional: s.lab_sessional,
       })),
     }
     try {
@@ -284,12 +275,15 @@ export default function ClassResult() {
       semester: semester,
       subject: subject,
       section: section,
-      teacher: user._id,
+      theory_teacher: user._id,
+      lab_teacher: user._id,
       list: studentsList.map(s => ({
         mids: s.mids,
         finals: s.finals,
         sessional: s.sessional,
         student: s._id,
+        lab_final: s.lab_final,
+        lab_sessional: s.lab_sessional,
       })),
     }
 
@@ -308,15 +302,23 @@ export default function ClassResult() {
     studentsList?.map((row, i) => {
       if (shouldBreak) return
       if (
-        row.mids > 30 ||
-        row.finals > 50 ||
-        row.sessional > 20 ||
-        row.mids === '' ||
-        row.finals === '' ||
-        row.sessional === '' ||
-        row.mids < 0 ||
-        row.finals < 0 ||
-        row.sessional < 0
+        (selectedSubject.theory_hours > 0 &&
+          (row.mids > 30 ||
+            row.finals > 50 ||
+            row.sessional > 20 ||
+            row.mids === '' ||
+            row.finals === '' ||
+            row.sessional === '' ||
+            row.mids < 0 ||
+            row.finals < 0 ||
+            row.sessional < 0)) ||
+        (selectedSubject.lab_hours > 0 &&
+          (row.lab_final > 50 ||
+            row.lab_sessional > 50 ||
+            row.lab_final === '' ||
+            row.lab_sessional === '' ||
+            row.lab_final < 0 ||
+            row.lab_sessional < 0))
       ) {
         SetSelectValue(prev => row)
         setShowModal(true)
@@ -336,15 +338,23 @@ export default function ClassResult() {
     studentsList?.map((row, i) => {
       if (shouldBreak) return
       if (
-        row.mids > 30 ||
-        row.finals > 50 ||
-        row.sessional > 20 ||
-        row.mids === '' ||
-        row.finals === '' ||
-        row.sessional === '' ||
-        row.mids < 0 ||
-        row.finals < 0 ||
-        row.sessional < 0
+        (selectedSubject.theory_hours > 0 &&
+          (row.mids > 30 ||
+            row.finals > 50 ||
+            row.sessional > 20 ||
+            row.mids === '' ||
+            row.finals === '' ||
+            row.sessional === '' ||
+            row.mids < 0 ||
+            row.finals < 0 ||
+            row.sessional < 0)) ||
+        (selectedSubject.lab_hours > 0 &&
+          (row.lab_final > 50 ||
+            row.lab_sessional > 50 ||
+            row.lab_final === '' ||
+            row.lab_sessional === '' ||
+            row.lab_final < 0 ||
+            row.lab_sessional < 0))
       ) {
         console.log(row)
         SetSelectValue(prev => row)
