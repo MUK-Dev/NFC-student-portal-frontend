@@ -1,44 +1,46 @@
-import AssessmentIcon from '@mui/icons-material/Assessment'
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
-import { Grid } from '@mui/material'
-import Box from '@mui/material/Box'
+import { CardActionArea, Grid } from '@mui/material'
 import Card from '@mui/material/Card'
-import Icon from '@mui/material/Icon'
-import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
+import { motion } from 'framer-motion'
 import * as React from 'react'
-import { useState } from 'react'
+import { useNavigate } from 'react-router'
+import { useParams, useSearchParams } from 'react-router-dom'
 
-import useAuth from '../../Hooks/useAuth'
+import audienceImage from '../../Assets/Images/audience.png'
+import notesImage from '../../Assets/Images/notes.png'
 
 export default function ParentOptions() {
+  const navigate = useNavigate()
+  const { studentId } = useParams()
+
   return (
-    <Grid container gap={'1em'} justifyContent={'space-around'}>
-      <Grid item flexGrow={'1'}>
-        <Card sx={{ p: '15px' }} align='center'>
-          <CalendarMonthIcon sx={{ fontSize: 200 }}></CalendarMonthIcon>
-          <Typography
-            sx={{ display: 'block' }}
-            component='span'
-            variant='body2'
-            color='text.primary'
+    <Grid container gap='1em' justifyContent='space-around'>
+      <Grid item flexGrow='1'>
+        <Card
+          component={motion.div}
+          initial={{ x: -20, filter: 'blur(10px)' }}
+          animate={{ x: 0, filter: 'blur(0px)' }}
+        >
+          <CardActionArea
+            sx={{ p: '1em', textAlign: 'center' }}
+            onClick={() => navigate(`/parent/home/${studentId}/attendance`)}
           >
-            See Students Attendence
-          </Typography>
+            <img src={audienceImage} width={80} height={80} />
+
+            <Typography variant='h6'>See Students Attendence</Typography>
+          </CardActionArea>
         </Card>
       </Grid>
-      <Grid item flexGrow={'1'}>
-        <Card sx={{ p: '15px' }} align='center'>
-          <AssessmentIcon sx={{ fontSize: 200 }}></AssessmentIcon>
-          <Typography
-            sx={{ display: 'block' }}
-            component='span'
-            align='center'
-            variant='body2'
-            color='text.primary'
-          >
-            See Students Result
-          </Typography>
+      <Grid item flexGrow='1'>
+        <Card
+          component={motion.div}
+          initial={{ x: 20, filter: 'blur(10px)' }}
+          animate={{ x: 0, filter: 'blur(0px)' }}
+        >
+          <CardActionArea sx={{ p: '1em', textAlign: 'center' }}>
+            <img src={notesImage} width={80} height={80} />
+            <Typography variant='h6'>See Students Result</Typography>
+          </CardActionArea>
         </Card>
       </Grid>
     </Grid>

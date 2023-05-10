@@ -1,20 +1,22 @@
 import { LinearProgress, Paper, Typography, useTheme } from '@mui/material'
-import moment from 'moment'
+import { motion } from 'framer-motion'
 import { EventCalendar } from 'react-mui-event-calendar'
 import { useQuery } from 'react-query'
+import { useParams } from 'react-router'
 
 import useAuth from '../../Hooks/useAuth'
 
-import { getStudentCalendarDataRequest } from '../../Services/API/getStudentCalendarData'
+import { getStudentCalendarDataByIdRequest } from '../../Services/API/getStudentCalendarDataById'
 
 const ChildsAttendance = () => {
   const theme = useTheme()
+  const { studentId } = useParams()
 
   const { token } = useAuth()
 
   const { data, isLoading, isError } = useQuery(
-    ['student-calendar-data', token],
-    () => getStudentCalendarDataRequest(token),
+    ['student-calendar-data-by-id', token, studentId],
+    () => getStudentCalendarDataByIdRequest(token, studentId),
     {
       staleTime: 1000 * 60 * 60 * 24,
       enabled: !!token,
@@ -32,17 +34,22 @@ const ChildsAttendance = () => {
         Previous Attendance
       </Typography>
       {data && (
-        <EventCalendar
-          width='100%'
-          readonly
-          showEventPopup={false}
-          elevation={0}
-          pallet={{
-            primary: theme.palette.primary.main,
-            secondary: theme.palette.secondary.main,
-          }}
-          dataSource={data}
-        />
+        <motion.div
+          initial={{ filter: 'blur(20px)' }}
+          animate={{ filter: 'blur(0px)' }}
+        >
+          <EventCalendar
+            width='100%'
+            readonly
+            showEventPopup={false}
+            elevation={0}
+            pallet={{
+              primary: theme.palette.primary.main,
+              secondary: theme.palette.secondary.main,
+            }}
+            dataSource={data}
+          />
+        </motion.div>
       )}
     </Paper>
   )

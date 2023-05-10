@@ -63,34 +63,19 @@ const App = () => {
             <LocalizationProvider dateAdapter={AdapterMoment}>
               <CssBaseline />
               <Routes>
+                {/* Auth Routes */}
                 <Route element={<AuthLayout />}>
                   <Route path='/' element={<Login />} />
                   <Route path='/register' element={<Register />} />
                 </Route>
+
+                {/* Dashboard Routes */}
                 <Route element={<DashboardLayout />}>
+                  {/* Student Routes */}
                   <Route path='/student/home' element={<StudentDashboard />} />
                   <Route
                     path='/student/attendance'
                     element={<StudentAttendance />}
-                  />
-                  <Route
-                    path='/head/register/department'
-                    element={<RDepartment />}
-                  />
-                  <Route path='/head/register/subject' element={<RSubject />} />
-                  <Route
-                    path='/head/register/teachers_subject'
-                    element={<RTeachersInSubject />}
-                  />
-                  <Route path='/head/register/program' element={<RProgram />} />
-                  <Route path='/head/register/session' element={<RSession />} />
-                  <Route
-                    path='/head/register/semester'
-                    element={<RSemester />}
-                  />
-                  <Route
-                    path='/head/register/teachers'
-                    element={<RTeachers />}
                   />
                   <Route
                     path='/student/progress'
@@ -112,15 +97,42 @@ const App = () => {
                     path='/student/scanner'
                     element={<ScannerAttendance />}
                   />
+
+                  {/* Admin Routes */}
+                  <Route path='/head/register/section' element={<RSection />} />
+                  <Route path='/head/dashboard' element={<HeadDashboard />} />
+                  <Route
+                    path='/head/register/department'
+                    element={<RDepartment />}
+                  />
+                  <Route path='/head/register/subject' element={<RSubject />} />
+                  <Route
+                    path='/head/register/teachers_subject'
+                    element={<RTeachersInSubject />}
+                  />
+                  <Route path='/head/register/program' element={<RProgram />} />
+                  <Route path='/head/register/session' element={<RSession />} />
+                  <Route
+                    path='/head/register/semester'
+                    element={<RSemester />}
+                  />
+                  <Route
+                    path='/head/register/teachers'
+                    element={<RTeachers />}
+                  />
+
+                  {/* Parent Routes */}
                   <Route path='/parent/home' element={<ParentHome />} />
                   <Route
-                    path='/parent/home/option'
+                    path='/parent/home/:studentId'
                     element={<ParentOption />}
                   />
                   <Route
-                    path='/parent/home/childattendance'
+                    path='/parent/home/:studentId/attendance'
                     element={<ChildsAttendance />}
                   />
+
+                  {/* Teacher Routes */}
                   <Route
                     path='/teacher/result-form'
                     element={<ClassResult />}
@@ -135,8 +147,6 @@ const App = () => {
                     path='/teacher/result-sheets'
                     element={<ResultSheets />}
                   />
-                  <Route path='/head/register/section' element={<RSection />} />
-                  <Route path='/head/dashboard' element={<HeadDashboard />} />
                 </Route>
               </Routes>
             </LocalizationProvider>
