@@ -32,12 +32,19 @@ function createData(id, subject, teacher, gpa, grade) {
 }
 
 export default function ResultDetailTable(props) {
-  console.log(props.result)
-  const rows = []
+  console.log(props.resultList)
+  const resultListRows = []
+  const resultList = props.resultList
   const result = props.result
-  result.map(row =>
-    rows.push(
-      createData(row._id, row.subject_title, row.teacher, row.gpa, row.grade),
+  resultList.map(row =>
+    resultListRows.push(
+      createData(
+        row._id,
+        row.subject_title,
+        row.theory_teacher,
+        row.gpa,
+        row.grade,
+      ),
     ),
   )
 
@@ -64,7 +71,7 @@ export default function ResultDetailTable(props) {
           </TableRow>
         </TableHead>
         <TableBody sx={{ overflowY: 'auto' }}>
-          {rows.map(row => (
+          {resultListRows.map(row => (
             <StyledTableRow key={row.id}>
               <StyledTableCell align='left' sx={{ padding: '1%' }}>
                 {row.subject}
@@ -86,13 +93,13 @@ export default function ResultDetailTable(props) {
               sx={{ padding: '1%' }}
             ></StyledTableCell>
             <StyledTableCell align='left' sx={{ padding: '1%' }}>
-              Total
+              SGPA
             </StyledTableCell>
             <StyledTableCell align='center' sx={{ padding: '1%' }}>
-              2.5
+              {result.sGPA}
             </StyledTableCell>
             <StyledTableCell align='center' sx={{ padding: '1%' }}>
-              C+
+              {result.sGrade}
             </StyledTableCell>
           </StyledTableRow>
         </TableBody>

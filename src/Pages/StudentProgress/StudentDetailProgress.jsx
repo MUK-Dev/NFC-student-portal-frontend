@@ -3,7 +3,7 @@ import { Grid, Paper, Typography } from '@mui/material'
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import ResultDetailTable from '../../Components/Result/ResultDetailTable'
@@ -13,9 +13,9 @@ import useAuth from '../../Hooks/useAuth'
 import { getStudentResultRequest } from '../../Services/API/getStudentResultRequest'
 
 const StudentDetailProgress = () => {
-  const semesterArray = [1, 2, 3, 4, 5, 6, 7, 8]
-
   const { token } = useAuth()
+  const [resultList, setResultList] = useState({})
+  const [result, setResult] = useState()
 
   const { isError, isLoading, data } = useQuery(
     ['student-result', token],
@@ -25,44 +25,46 @@ const StudentDetailProgress = () => {
       enabled: !!token,
     },
   )
-  console.log(data)
-
-  const resultsBySemester = {}
-  if (data) {
-    for (let result of data) {
-      if (!resultsBySemester[result.semester_title]) {
-        resultsBySemester[result.semester_title] = []
-      }
-      resultsBySemester[result.semester_title].push(result)
+  console.log('28', data)
+  useEffect(() => {
+    if (data) {
+      setResultList(data?.detailResult)
+      setResult(data?.result)
+      console.log('34', data.detailResult)
+      console.log('35', data.result)
     }
+  }, [data])
 
-    console.log(resultsBySemester)
-  }
   return (
     <div>
-      {Object.keys(resultsBySemester)?.map((row, i) => (
-        <Accordion container='true' gap='2em' key={i}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-          >
-            <Typography variant='h6' align='center'>
-              Semester {row} Details
-            </Typography>
-          </AccordionSummary>
+      {!isLoading &&
+        !!data &&
+        Object.keys(resultList)?.map((row, i) => (
+          <Accordion container='true' gap='2em' key={i}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls='panel1a-content'
+              id='panel1a-header'
+            >
+              <Typography variant='h6' align='center'>
+                Semester {row} Details
+              </Typography>
+            </AccordionSummary>
 
-          <Paper
-            sx={{
-              padding: '1em',
-            }}
-          >
-            <AccordionDetails>
-              <ResultDetailTable result={resultsBySemester[row]} />
-            </AccordionDetails>
-          </Paper>
-        </Accordion>
-      ))}
+            <Paper
+              sx={{
+                padding: '1em',
+              }}
+            >
+              <AccordionDetails>
+                <ResultDetailTable
+                  resultList={resultList[row]}
+                  result={result[row]}
+                />
+              </AccordionDetails>
+            </Paper>
+          </Accordion>
+        ))}
     </div>
   )
 }
