@@ -16,6 +16,7 @@ const StudentDetailProgress = () => {
   const { token } = useAuth()
   const [resultList, setResultList] = useState({})
   const [result, setResult] = useState({})
+  const [overallResult, setOverallResult] = useState({})
 
   const { isError, isLoading, data } = useQuery(
     ['student-result', token],
@@ -30,6 +31,7 @@ const StudentDetailProgress = () => {
     if (data) {
       setResultList(data?.detailResult)
       setResult(data?.result)
+      setOverallResult(data?.overall)
       console.log('34', data.detailResult)
       console.log('35', data.result)
     }
@@ -60,6 +62,7 @@ const StudentDetailProgress = () => {
                 <ResultDetailTable
                   resultList={resultList[row]}
                   result={result[row]}
+                  overallResult={overallResult[row]}
                 />
               </AccordionDetails>
             </Paper>
