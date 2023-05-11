@@ -1,5 +1,8 @@
 import { Button, Grid, Paper, useMediaQuery, useTheme } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
+import { object } from 'yup'
 
 import BarChart from '../../Components/Charts/BarChart'
 // import Scheduler from 'react-mui-scheduler';
@@ -7,10 +10,34 @@ import BarChart from '../../Components/Charts/BarChart'
 import Progress from '../../Components/Progress/Progress'
 import SemesterDetailTable from '../../Components/Progress/SemesterDetailTable'
 
+import useAuth from '../../Hooks/useAuth'
+
+import { getStudentResultRequest } from '../../Services/API/getStudentResultRequest'
+
 const StudentProgress = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const [result, setResult] = useState({})
+  const { token } = useAuth()
   const navigate = useNavigate()
+
+  const { isError, isLoading, data } = useQuery(
+    ['student-result', token],
+    () => getStudentResultRequest(token),
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+      enabled: !!token,
+    },
+  )
+  console.log('28', data)
+  useEffect(() => {
+    if (data) {
+      setResult(data?.result)
+      console.log('31', data.result)
+    }
+  }, [data])
+  console.log('46', result)
+
   return (
     <Grid container direction='column' width='100%' gap='1em'>
       <Grid item>
@@ -31,9 +58,6 @@ const StudentProgress = () => {
               sx={{
                 height: '40vh',
                 padding: '1em',
-                // height: '100%',
-                // overflow: 'hidden',
-                // maxWidth: { xs: 'inherit', md: '45vw' },
               }}
             >
               <SemesterDetailTable />
@@ -47,37 +71,50 @@ const StudentProgress = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                // height: '100%',
-                // flexGrow: 1,
-                // overflow: 'hidden',
-                // maxWidth: { xs: 'inherit', md: '45vw' },
               }}
             >
               <BarChart
                 series={[
                   {
                     name: 'Semester 1',
-                    data: [3.4, 0, 0, 0, 0, 0, 0, 0],
+                    data: [parseFloat(result[1]?.sGPA) || 0],
                   },
                   {
                     name: 'Semester 2',
-                    data: [0, 3.3, 0, 0, 0, 0, 0, 0],
+                    data: [0, parseFloat(result[2]?.sGPA) || 0],
                   },
                   {
                     name: 'Semester 3',
-                    data: [0, 0, 3, 0, 0, 0, 0, 0],
+                    data: [0, 0, parseFloat(result[3]?.sGPA) || 0],
                   },
                   {
                     name: 'Semester 4',
-                    data: [0, 0, 0, 3.3, 0, 0, 0, 0],
+                    data: [0, 0, 0, parseFloat(result[4]?.sGPA) || 0],
                   },
                   {
                     name: 'Semester 5',
-                    data: [0, 0, 0, 0, 3.53, 0, 0, 0],
+                    data: [0, 0, 0, 0, parseFloat(result[5]?.sGPA) || 0],
                   },
                   {
                     name: 'Semester 6',
-                    data: [0, 0, 0, 0, 0, 3.55, 0, 0],
+                    data: [0, 0, 0, 0, 0, parseFloat(result[6]?.sGPA) || 0],
+                  },
+                  {
+                    name: 'Semester 7',
+                    data: [0, 0, 0, 0, 0, 0, parseFloat(result[7]?.sGPA) || 0],
+                  },
+                  {
+                    name: 'Semester 8',
+                    data: [
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      parseFloat(result[8]?.sGPA) || 0,
+                    ],
                   },
                 ]}
               />

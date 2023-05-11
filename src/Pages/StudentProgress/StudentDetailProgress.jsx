@@ -15,7 +15,7 @@ import { getStudentResultRequest } from '../../Services/API/getStudentResultRequ
 const StudentDetailProgress = () => {
   const { token } = useAuth()
   const [resultList, setResultList] = useState({})
-  const [result, setResult] = useState()
+  const [result, setResult] = useState({})
 
   const { isError, isLoading, data } = useQuery(
     ['student-result', token],
