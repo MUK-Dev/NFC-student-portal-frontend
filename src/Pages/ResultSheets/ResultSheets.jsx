@@ -1,4 +1,4 @@
-import { Search } from '@mui/icons-material'
+import { Save, Search } from '@mui/icons-material'
 import {
   Card,
   CardActionArea,
@@ -8,6 +8,7 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
+  IconButton,
   InputAdornment,
   OutlinedInput,
   Paper,
@@ -19,12 +20,15 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import moment from 'moment'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router'
+
+import ClassResultDialogBox from '../../Components/DialogBox/ClassResultDialodBox'
 
 import useAuth from '../../Hooks/useAuth'
 
@@ -38,11 +42,20 @@ const tableHeaders = [
   'Semester',
   'Subject - Code',
   'Marked on',
+  'Download',
 ]
 
 const ResultSheets = () => {
   const { token } = useAuth()
   const [search, setSearch] = useState('')
+  const [dialogBox, setDialogBox] = useState(false)
+  const [values, setValues] = useState({
+    Session: '',
+    Program: '',
+    Section: '',
+    Subject: '',
+    SheetId: '',
+  })
   const navigate = useNavigate()
 
   const { isError, isLoading, data } = useQuery(
@@ -89,70 +102,132 @@ const ResultSheets = () => {
           hover
           key={r._id}
           sx={{ cursor: 'pointer' }}
-          onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+          // onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
         >
-          <TableCell align='center'>{r.department.department_name}</TableCell>
-          <TableCell align='center'>{r.program.program_abbreviation}</TableCell>
-          <TableCell align='center'>{r.session.session_title}</TableCell>
-          <TableCell align='center'>{r.section.section_title}</TableCell>
-          <TableCell align='center'>{r.semester.semester_title}</TableCell>
-          <TableCell align='center'>{`${r.subject.subject_title} ${r.subject.subject_code}`}</TableCell>
-          <TableCell align='center'>{moment(r.date).format('LLL')}</TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+          >
+            {r.department.department_name}
+          </TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+          >
+            {r.program.program_abbreviation}
+          </TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+          >
+            {r.session.session_title}
+          </TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+          >
+            {r.section.section_title}
+          </TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+          >
+            {r.semester.semester_title}
+          </TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+          >{`${r.subject.subject_title} ${r.subject.subject_code}`}</TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+          >
+            {moment(r.date).format('LLL')}
+          </TableCell>
+          <TableCell align='center'>
+            <Tooltip title='Generate Report' placement='top'>
+              <IconButton
+                color='primary'
+                sx={{ marginRight: '1em' }}
+                onClick={e => {
+                  setValues({
+                    Session: r.session.session_title,
+                    Program: r.program.program_abbreviation,
+                    Section: r.section.section_title,
+                    Subject: r.subject.subject_title,
+                    SheetId: r._id,
+                  })
+                  setDialogBox(true)
+                }}
+              >
+                <Save />
+              </IconButton>
+            </Tooltip>
+          </TableCell>
         </TableRow>
       ))
 
   return (
-    <Paper sx={{ padding: '1em' }}>
-      <Grid container justifyContent='space-between' alignItems='center'>
-        <Grid item>
-          <Typography
-            variant='h6'
-            sx={{ textAlign: { xs: 'center', md: 'left' } }}
-            gutterBottom
-          >
-            Result Records
-          </Typography>
-        </Grid>
-        <Grid item>
-          <FormControl
-            sx={{ width: { xs: '100%', md: '30ch' } }}
-            size='small'
-            variant='outlined'
-          >
-            <OutlinedInput
+    <>
+      <Paper sx={{ padding: '1em' }}>
+        <Grid container justifyContent='space-between' alignItems='center'>
+          <Grid item>
+            <Typography
+              variant='h6'
+              sx={{ textAlign: { xs: 'center', md: 'left' } }}
+              gutterBottom
+            >
+              Result Records
+            </Typography>
+          </Grid>
+          <Grid item>
+            <FormControl
+              sx={{ width: { xs: '100%', md: '30ch' } }}
               size='small'
-              value={search}
-              endAdornment={
-                <InputAdornment position='end'>
-                  <Search />
-                </InputAdornment>
-              }
-              onChange={e => setSearch(e.target.value)}
-            />
-          </FormControl>
+              variant='outlined'
+            >
+              <OutlinedInput
+                size='small'
+                value={search}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <Search />
+                  </InputAdornment>
+                }
+                onChange={e => setSearch(e.target.value)}
+              />
+            </FormControl>
+          </Grid>
         </Grid>
-      </Grid>
-      {isLoading && (
-        <Stack alignItems='center' width='100%'>
-          <CircularProgress />
-        </Stack>
-      )}
-      {isError && <Typography color='error'>Couldn't find records</Typography>}
-      <TableContainer sx={{ maxHeight: '80vh', overflow: 'auto' }}>
-        <Table stickyHeader aria-label='sticky table'>
-          <TableHead>
-            <TableRow>
-              {tableHeaders.map(h => (
-                <TableCell id={h} key={h} align='center'>
-                  {h}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>{dataList}</TableBody>
-        </Table>
-      </TableContainer>
-    </Paper>
+        {isLoading && (
+          <Stack alignItems='center' width='100%'>
+            <CircularProgress />
+          </Stack>
+        )}
+        {isError && (
+          <Typography color='error'>Couldn't find records</Typography>
+        )}
+        <TableContainer sx={{ maxHeight: '80vh', overflow: 'auto' }}>
+          <Table stickyHeader aria-label='sticky table'>
+            <TableHead>
+              <TableRow>
+                {tableHeaders.map(h => (
+                  <TableCell id={h} key={h} align='center'>
+                    {h}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>{dataList}</TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+      <ClassResultDialogBox
+        open={dialogBox}
+        value={values}
+        onClose={() => setDialogBox(false)}
+      />
+    </>
   )
 }
 
