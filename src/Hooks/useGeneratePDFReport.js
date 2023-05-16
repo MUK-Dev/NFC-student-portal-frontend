@@ -55,6 +55,19 @@ export default function useGeneratePDFReport() {
           0: { cellWidth: 25, halign: 'left' },
           [data.tableColumn.length - 1]: { cellWidth: 10 },
         },
+        didParseCell: function (data) {
+          if (data.section !== 'body') return
+          if (data.cell.raw === 'P') {
+            data.cell.styles.fillColor = [10, 200, 10]
+            data.cell.styles.textColor = [0, 0, 0]
+          } else if (data.cell.raw === 'A') {
+            data.cell.styles.fillColor = [200, 10, 10]
+            data.cell.styles.textColor = [255, 255, 255]
+          } else {
+            data.cell.styles.textColor = [0, 0, 0]
+            data.cell.styles.fillColor = [255, 255, 255]
+          }
+        },
       })
       const date = Date().split(' ')
       const dateStr = date[0] + date[1] + date[2] + date[3] + date[4]
