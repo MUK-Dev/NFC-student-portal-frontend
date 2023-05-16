@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const generateClassResultReportRequest = async (token, sheetId) => {
+export const generateSubjectResultReportRequest = async (token, sheetId) => {
   console.log('here1', sheetId)
   const { data } = await axios({
     url: `${import.meta.env.VITE_API_URL}/result/subject-report`,

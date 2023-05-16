@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography'
 import * as React from 'react'
 
 export default function MarkDialogBox(props) {
-  console.log(props)
   const { onClose, selectedValue, open } = props
 
   const handleClose = () => {

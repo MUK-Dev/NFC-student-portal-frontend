@@ -2,22 +2,22 @@ import jsPDF from 'jspdf'
 import 'jspdf-autotable'
 import { useState } from 'react'
 
-import { generateClassResultReportRequest } from '../Services/API/generateClassResultReportRequest'
+import { generateSubjectResultReportRequest } from '../Services/API/generateSubjectResultReportRequest'
 
 import NFCLogo from '../Assets/Images/NFC Iet Logo.png'
 
 import useAuth from './useAuth'
 
-export default function useClassResultPDFReport() {
+export default function useSubjectResultPDFReport() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [error, setError] = useState(null)
   const { token } = useAuth()
 
-  const generateClassResultPDF = async sheetId => {
+  const generateSubjectResultPDF = async sheetId => {
     setIsGenerating(prev => true)
     setError(null)
     try {
-      const data = await generateClassResultReportRequest(token, sheetId)
+      const data = await generateSubjectResultReportRequest(token, sheetId)
       const doc = new jsPDF({
         orientation: 'portrait',
       })
@@ -63,5 +63,5 @@ export default function useClassResultPDFReport() {
     }
   }
 
-  return { generateClassResultPDF, isGenerating, error }
+  return { generateSubjectResultPDF, isGenerating, error }
 }

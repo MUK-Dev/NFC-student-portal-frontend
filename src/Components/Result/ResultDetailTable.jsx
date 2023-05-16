@@ -37,8 +37,6 @@ function createData(id, subject, teacher, gpa, grade) {
 
 export default function ResultDetailTable(props) {
   const [value, setValue] = useState()
-  console.log(!!value)
-  console.log(props.resultList)
   const resultListRows = []
   const resultList = props.resultList
   const result = props.result

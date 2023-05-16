@@ -20,16 +20,16 @@ import { useState } from 'react'
 import { useQuery } from 'react-query'
 
 import useAuth from '../../Hooks/useAuth'
-import useClassResultPDFReport from '../../Hooks/useClassResultPDFReport'
+import useSubjectResultPDFReport from '../../Hooks/useSubjectResultPDFReport'
 
 export default function ClassResultDialogBox(props) {
   const { onClose, selectedValue, open } = props
-  const { generateClassResultPDF, isGenerating, error } =
-    useClassResultPDFReport()
+  const { generateSubjectResultPDF, isGenerating, error } =
+    useSubjectResultPDFReport()
   const theme = useTheme()
   const { user } = useAuth()
 
-  const handleDownload = () => generateClassResultPDF(props.value.SheetId)
+  const handleDownload = () => generateSubjectResultPDF(props.value.SheetId)
 
   return (
     <Dialog onClose={onClose} open={open}>
