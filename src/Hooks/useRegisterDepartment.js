@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react'
 
 import { registerDepartmentRequest } from '../Services/API/registerDepartment'
+import { updateDepartmentRequest } from '../Services/API/updateDepartmentRequest'
 
 import useAuth from './useAuth'
+import useSnackbar from './useSnackbar'
 
 export default function useRegisterDepartment() {
   const { token } = useAuth()
+  const { snackbar, onClose, setSnackbar } = useSnackbar()
+  const [selectedDepartment, setSelectedDepartment] = useState(null)
+  const [editMode, setEditMode] = useState(false)
 
   const submitForm = async (
     values,
-    { setErrors, setStatus, setSubmitting },
+    { setErrors, setStatus, setSubmitting, resetForm },
   ) => {
     setSubmitting(true)
     const d = {
@@ -18,17 +23,75 @@ export default function useRegisterDepartment() {
       no_of_programs: values.noOfPrograms,
       lat: values.lat,
       lng: values.lng,
-      description: values.description,
     }
     try {
       const data = await registerDepartmentRequest(token, d)
       setSubmitting(false)
-      console.log(data)
+      setSnackbar(prev => ({
+        ...prev,
+        severity: 'success',
+        message: data?.message,
+        open: true,
+      }))
+      resetForm()
     } catch (err) {
       setSubmitting(false)
-      console.log(err)
+      setSnackbar(prev => ({
+        ...prev,
+        severity: 'error',
+        message: err?.response?.data?.message,
+        open: true,
+      }))
     }
   }
 
-  return { submitForm }
+  const updateForm = async (
+    departmentId,
+    values,
+    { setErrors, setStatus, setSubmitting, resetForm },
+  ) => {
+    setSubmitting(true)
+    const d = {
+      department_name: values.name,
+      department_abbreviation: values.abbreviation,
+      no_of_programs: values.noOfPrograms,
+      location: {
+        lat: values.lat,
+        lng: values.lng,
+      },
+    }
+    try {
+      const data = await updateDepartmentRequest(token, departmentId, d)
+      setSubmitting(false)
+      setSnackbar(prev => ({
+        ...prev,
+        severity: 'success',
+        message: data?.message,
+        open: true,
+      }))
+      setSelectedDepartment(null)
+      setEditMode(false)
+      resetForm()
+    } catch (err) {
+      setSubmitting(false)
+      console.log(err)
+      setSnackbar(prev => ({
+        ...prev,
+        severity: 'error',
+        message: err.response.data.message,
+        open: true,
+      }))
+    }
+  }
+
+  return {
+    submitForm,
+    updateForm,
+    snackbar,
+    selectedDepartment,
+    setSelectedDepartment,
+    editMode,
+    setEditMode,
+    onClose,
+  }
 }
