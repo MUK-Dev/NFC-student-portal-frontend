@@ -35,7 +35,6 @@ export default function DialogBox(props) {
       enabled: open,
     },
   )
-  console.log(sectionsData)
 
   const handleClose = () => {
     onClose()

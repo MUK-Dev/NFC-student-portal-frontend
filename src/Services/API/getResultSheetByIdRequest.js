@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export const getResultSheetByIdRequest = async (token, sheetId) => {
-  console.log(sheetId)
   const { data } = await axios.get(
     `${import.meta.env.VITE_API_URL}/result-sheet/${sheetId}`,
     {
@@ -10,6 +9,5 @@ export const getResultSheetByIdRequest = async (token, sheetId) => {
       },
     },
   )
-  console.log(data)
   return data
 }

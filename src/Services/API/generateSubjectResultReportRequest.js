@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export const generateSubjectResultReportRequest = async (token, sheetId) => {
-  console.log('here1', sheetId)
   const { data } = await axios({
     url: `${import.meta.env.VITE_API_URL}/result/subject-report`,
     data: { sheetId },
@@ -10,7 +9,6 @@ export const generateSubjectResultReportRequest = async (token, sheetId) => {
       Authorization: `Bearer ${token}`,
     },
   })
-  console.log('here2', data)
 
   return data
 }

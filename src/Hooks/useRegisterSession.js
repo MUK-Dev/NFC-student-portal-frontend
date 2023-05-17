@@ -25,11 +25,9 @@ export default function useRegisterSession() {
       department: selectedValue.department,
       program: selectedValue.program,
     }
-    console.log(d)
     try {
       const data = await registerSessionRequest(token, d)
       setSubmitting(false)
-      console.log(data)
     } catch (err) {
       setSubmitting(false)
       console.log(err)

@@ -156,7 +156,6 @@ const RSection = () => {
         program: submitErrors.program,
         session: submitErrors.session,
       }))
-      // console.log(values, selectedValue)
       submitForm(values, selectedValue, {
         setErrors,
         setStatus,

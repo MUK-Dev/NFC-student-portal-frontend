@@ -29,14 +29,12 @@ const StudentProgress = () => {
       enabled: !!token,
     },
   )
-  console.log('28', data)
+
   useEffect(() => {
     if (data) {
       setResult(data?.result)
-      console.log('31', data.result)
     }
   }, [data])
-  console.log('46', result)
 
   return (
     <Grid container direction='column' width='100%' gap='1em'>

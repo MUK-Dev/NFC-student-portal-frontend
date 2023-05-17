@@ -233,7 +233,7 @@ const MarkAttandence = () => {
       const res = await updateAttendanceListRequest(token, sheetId, dto)
       location.reload()
     } catch (err) {
-      // console.log(err)
+      console.log(err)
       setErrorModal("Couldn't update")
     }
 
@@ -277,8 +277,6 @@ const MarkAttandence = () => {
       setIsSubmitting(prev => false)
     }
   }
-
-  console.log(studentsList)
 
   return (
     <Paper sx={{ padding: '2em 1em', position: 'relative' }}>

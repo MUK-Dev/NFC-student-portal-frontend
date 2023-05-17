@@ -22,11 +22,10 @@ export default function useRegisterProgram() {
       department: values.department,
       ending: starting.toDate(),
     }
-    console.log(d)
+
     try {
       const data = await registerProgramRequest(token, d)
       setSubmitting(false)
-      console.log(data)
     } catch (err) {
       setSubmitting(false)
       console.log(err)

@@ -6,7 +6,6 @@ import * as React from 'react'
 
 export default function MarksErrorDialogBox(props) {
   const { onClose, selectedValue, open } = props
-  // console.log(props)
 
   const handleClose = () => {
     onClose()

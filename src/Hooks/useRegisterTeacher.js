@@ -21,11 +21,9 @@ export default function useRegisterTeacher() {
       password: values.password,
       subjects: subjects,
     }
-    console.log(d)
     try {
       const data = await registerTeacherRequest(token, d)
       setSubmitting(false)
-      console.log(data)
     } catch (err) {
       setSubmitting(false)
       console.log(err)

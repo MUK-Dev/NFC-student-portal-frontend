@@ -25,7 +25,6 @@ const ScannerAttendence = () => {
 
   const handleScan = async scanData => {
     setLoadingScan(true)
-    console.log(scanData)
     if (scanData && scanData !== '') {
       try {
         const res = await MarkAttendancewithQR(token, scanData)

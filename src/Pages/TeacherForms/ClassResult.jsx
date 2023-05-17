@@ -65,7 +65,6 @@ export default function ClassResult() {
   const subject = searchParams.get('subject')
   const sheetId = searchParams.get('sheetId')
   const editMode = !!sheetId
-  // console.log(sheetId, editMode)
   const [studentsList, setStudentsList] = useState([])
   const [selectValue, SetSelectValue] = useState([])
   const [showModal, setShowModal] = useState(false)
@@ -80,8 +79,6 @@ export default function ClassResult() {
   const [subjectID, setSubjectID] = useState({
     Subject: subject,
   })
-
-  console.log(user)
 
   const {
     isLoading: isSheetLoading,
@@ -110,7 +107,6 @@ export default function ClassResult() {
       staleTime: 1000 * 60 * 60 * 24,
     },
   )
-  console.log(data)
   useEffect(() => {
     if (isError || isLoading) return
     setStudentsList(data)
@@ -127,11 +123,9 @@ export default function ClassResult() {
       Subject: sheetData.subject_Id,
     })
   }, [sheetData])
-  console.log(studentsList)
   const selectedSubject = user.subjects.filter(
     sub => sub.subject._id === subjectID.Subject,
   )[0]
-  console.log(selectedSubject)
 
   const setValue = (id, val, para) => {
     setStudentsList(previousList => {
@@ -265,7 +259,6 @@ export default function ClassResult() {
   }
 
   const submitMarks = async () => {
-    console.log('Final Submit')
     setIsSubmitting(prev => true)
     const dto = {
       date: new Date(),
@@ -333,7 +326,6 @@ export default function ClassResult() {
   }
 
   const handleSubmit = () => {
-    console.log(studentsList)
     let shouldBreak = false
     studentsList?.map((row, i) => {
       if (shouldBreak) return
@@ -356,7 +348,6 @@ export default function ClassResult() {
             row.lab_final < 0 ||
             row.lab_sessional < 0))
       ) {
-        console.log(row)
         SetSelectValue(prev => row)
         setShowModal(true)
         shouldBreak = true
