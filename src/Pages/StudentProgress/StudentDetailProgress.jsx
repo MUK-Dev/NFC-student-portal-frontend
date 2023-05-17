@@ -18,6 +18,7 @@ import ResultDetailTable from '../../Components/Result/ResultDetailTable'
 
 import useAuth from '../../Hooks/useAuth'
 import useStudentResultPDFReport from '../../Hooks/useStudentResultPDFReport'
+import useStudentSemesterResultPDFReport from '../../Hooks/useStudentSemesterResultPDFReport'
 
 import { getStudentResultRequest } from '../../Services/API/getStudentResultRequest'
 
@@ -29,8 +30,15 @@ const StudentDetailProgress = () => {
   const [overallResult, setOverallResult] = useState({})
   const { generateStudentResultPDF, isGenerating, error } =
     useStudentResultPDFReport()
+  const {
+    generateStudentSemesterResultPDF,
+    isSemesterGenerating,
+    semesterError,
+  } = useStudentSemesterResultPDFReport()
 
   const handleDownload = () => generateStudentResultPDF(user._id)
+  const handleDownloadSemester = row =>
+    generateStudentSemesterResultPDF(user._id, row)
 
   const { isError, isLoading, data } = useQuery(
     ['student-result', token],
@@ -79,6 +87,26 @@ const StudentDetailProgress = () => {
                   result={result[row]}
                   overallResult={overallResult[row]}
                 />
+                <Stack direction={'row'} justifyContent='end' width={'100%'}>
+                  <Button
+                    variant='contained'
+                    sx={{ margin: '1em' }}
+                    onClick={() => handleDownloadSemester(row)}
+                    disabled={isSemesterGenerating}
+                  >
+                    Download
+                  </Button>
+                </Stack>
+                {isSemesterGenerating && (
+                  <Stack direction={'row'} justifyContent='end' width={'100%'}>
+                    <Typography
+                      align='center'
+                      color={theme.palette.warning.main}
+                    >
+                      Generating report, this can take some time
+                    </Typography>
+                  </Stack>
+                )}
               </AccordionDetails>
             </Paper>
           </Accordion>

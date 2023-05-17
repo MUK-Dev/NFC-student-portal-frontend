@@ -32,11 +32,9 @@ export default function useRegisterSubject() {
       session: selectedValue.session,
       semester: selectedValue.semester,
     }
-    console.log(d)
     try {
       const data = await registerSubjectRequest(token, d)
       setSubmitting(false)
-      console.log(data)
     } catch (err) {
       setSubmitting(false)
       console.log(err)

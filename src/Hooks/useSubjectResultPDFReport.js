@@ -32,11 +32,33 @@ export default function useSubjectResultPDFReport() {
       const marginX = (pageWidth - imgWidth) / 2
 
       doc.addImage(img, 'png', marginX, 2, imgWidth, imgHeight)
-      doc.text(`Subject: ${data.subject_name}`, 14, 27)
-      doc.text(`Teacher: ${data.teacher_name}`, 14, 33)
+      doc.setFontSize(12)
+      doc.setTextColor(0, 0, 0)
+      doc.text(
+        'NFC Institute of Engineering & Technology, Multan',
+        pageWidth / 2 - 40,
+        30,
+      )
+      doc.setFontSize(10)
+      doc.text(`Award List`, marginX + 2, 35)
+      doc.setFontSize(8)
+      doc.text(`Program:    ${data.values.program_title}`, 14, 45)
+      doc.text(
+        `Session:     ${data.values.session_start} - ${data.values.session_end}`,
+        14,
+        50,
+      )
+      doc.text(`Course Title:    ${data.values.subject_name}`, marginX + 5, 45)
+      doc.text(
+        `Semester:        ${data.values.semester_title}`,
+        marginX + 5,
+        50,
+      )
+      doc.text(`Course Code:    ${data.values.subject_code}`, 155, 45)
+      doc.text(`Instructor:           ${data.values.teacher_name}`, 155, 50)
       doc.autoTable(data.tableColumn, data.tableRows, {
         theme: 'grid',
-        startY: 40,
+        startY: 55,
         tableWidth: '100%',
         headStyles: {
           fillColor: '#70231d',

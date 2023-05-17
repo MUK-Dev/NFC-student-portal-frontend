@@ -26,11 +26,9 @@ export default function useRegisterSection() {
       program: selectedValue.program,
       session: selectedValue.session,
     }
-    console.log(d)
     try {
       const data = await registerSectionRequest(token, d)
       setSubmitting(false)
-      console.log(data)
     } catch (err) {
       setSubmitting(false)
       console.log(err)

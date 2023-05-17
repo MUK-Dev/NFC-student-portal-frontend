@@ -31,11 +31,9 @@ export default function useRegisterSemester() {
       program: selectedValue.program,
       session: selectedValue.session,
     }
-    console.log(d)
     try {
       const data = await registerSemesterRequest(token, d)
       setSubmitting(false)
-      console.log(data)
     } catch (err) {
       setSubmitting(false)
       console.log(err)

@@ -204,7 +204,6 @@ const RSubject = () => {
         session: submitErrors.session,
         semester: submitErrors.semester,
       }))
-      // console.log(values, selectedValue)
       submitForm(values, selectedValue, {
         setErrors,
         setStatus,
