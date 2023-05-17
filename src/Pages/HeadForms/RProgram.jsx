@@ -67,7 +67,7 @@ const RProgram = () => {
     isError: isProgramsError,
     isLoading: areProgramsLoading,
     data: programsData,
-  } = useQuery(['programs'], () => getAllPrograms(), {
+  } = useQuery('all-programs', () => getAllPrograms(), {
     staleTime: 1000 * 60 * 60 * 24,
   })
 

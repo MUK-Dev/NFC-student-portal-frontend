@@ -121,7 +121,7 @@ const RSession = () => {
     isError: isSessionsError,
     isLoading: areSessionsLoading,
     data: sessionsData,
-  } = useQuery(['sessions'], () => getAllSessions(), {
+  } = useQuery('all-sessions', () => getAllSessions(), {
     staleTime: 1000 * 60 * 60 * 24,
   })
 
@@ -231,6 +231,7 @@ const RSession = () => {
                       label='Session Type'
                       required
                       onChange={handleChange('type')}
+                      onBlur={handleBlur('type')}
                     >
                       <MenuItem value={'spring'}>Spring</MenuItem>
                       <MenuItem value={'fall'}>Fall</MenuItem>
@@ -276,6 +277,7 @@ const RSession = () => {
                       disabled={isDepartmentError || areDepartmentsLoading}
                       required
                       onChange={handleChange('department')}
+                      onBlur={handleBlur('department')}
                     >
                       {departmentsData?.map(d => (
                         <MenuItem value={d._id} key={d._id}>
@@ -308,6 +310,7 @@ const RSession = () => {
                         values.department === ''
                       }
                       onChange={handleChange('program')}
+                      onBlur={handleBlur('program')}
                     >
                       {programsData?.map(p => (
                         <MenuItem key={p._id} value={p._id}>
