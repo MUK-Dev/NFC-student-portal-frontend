@@ -6,6 +6,14 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { styled } from '@mui/material/styles'
 import * as React from 'react'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import { useQuery } from 'react-query'
+
+import useAuth from '../../Hooks/useAuth'
+
+import { getSemesterRequest } from '../../Services/API/getSemesterRequest'
+import { getSubjectRequest } from '../../Services/API/getSubjectRequest'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,16 +39,51 @@ function createData(subject, teacher, hours) {
   return { subject, teacher, hours }
 }
 
-const rows = [
-  createData('Professional Practices', 'Mr. Kamran Abid', '3 + 0'),
-  createData('Human Computer Interaction', 'Mr. Ahmad Naeem', '2 + 1'),
-  createData('Compiler Construction', "Ma'am Ujala Saleem", '2 + 1'),
-  createData('Game Development', 'Mr. Mustajeeb-ur-Rehman', '2 + 1'),
-  createData('Information Security', 'Mr. Fuzail', '2 + 0'),
-  createData('Final Year Project - I', 'Mr. Ahtesham Noor', '0 + 1'),
-]
-
 export default function SemesterDetailTable() {
+  const { token, user } = useAuth()
+  const [semesterId, setSemesterId] = useState()
+  const [enable, setEnable] = useState(false)
+  const session_id = user.session
+  const [rows, setRows] = useState([])
+
+  const {
+    isLoading: isProgramLoading,
+    isError: isProgramError,
+    data: programData,
+  } = useQuery(['semester', session_id, token], () =>
+    getSemesterRequest(token, session_id),
+  )
+  useEffect(() => {
+    if (isProgramLoading || isProgramError) return
+    setSemesterId(programData.semester_id)
+    setEnable(true)
+  }, [programData])
+
+  const {
+    isLoading: isSubjectLoading,
+    isError: isSubjectError,
+    data: subjectData,
+  } = useQuery(
+    ['subject', semesterId, token],
+    () => getSubjectRequest(token, semesterId),
+    {
+      enabled: enable,
+    },
+  )
+  useEffect(() => {
+    if (
+      isProgramLoading ||
+      isProgramError ||
+      isSubjectLoading ||
+      isSubjectError ||
+      !subjectData
+    )
+      return
+    setRows(
+      subjectData?.map(row => createData(row.title, row.teacher, row.hours)),
+    )
+  }, [subjectData])
+
   return (
     <TableContainer sx={{ height: '100%', width: '100%' }}>
       <Table stickyHeader aria-label='customized table'>

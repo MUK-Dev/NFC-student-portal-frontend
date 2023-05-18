@@ -5,65 +5,93 @@ import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import Stepper from '@mui/material/Stepper'
 import { Stack } from '@mui/system'
+import moment from 'moment'
 import * as React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { useQuery } from 'react-query'
 
-const steps = [
-  'Semester 1',
-  'Semester 2',
-  'Semester 3',
-  'Semester 4',
-  'Semester 5',
-  'Semester 6',
-  'Semester 7',
-  'Semester 8',
-]
+import useAuth from '../../Hooks/useAuth'
 
-const maxVal = 65
+import { getSemesterRequest } from '../../Services/API/getSemesterRequest'
 
 const Progress = () => {
   const [activeStep, setActiveStep] = useState(-1)
   const [value, setValue] = useState(0)
   const [bufferValue, setBufferValue] = useState(10)
+  const [selectedSemester, setSelectedSemester] = useState(0)
+  const [maxVal, setMaxVal] = useState(0)
+  const [endDate, setEndDate] = useState()
   const theme = useTheme()
+  const { token, user } = useAuth()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const session_id = user.session
+  const program_type = user.program.type
 
-  const increaseValue = () => {
+  const steps = []
+  let semester = 0
+  if (program_type === '1 Year') {
+    semester = 2
+  } else if (program_type === '2 Year') {
+    semester = 4
+  } else if (program_type === '3 Year') {
+    semester = 6
+  } else if (program_type === '4 Year') {
+    semester = 8
+  } else if (program_type === '5 Year') {
+    semester = 10
+  }
+  for (let index = 0; index < semester; index++) {
+    steps.push(`Semester ${index + 1}`)
+  }
+
+  const {
+    isLoading: isProgramLoading,
+    isError: isProgramError,
+    data: programData,
+  } = useQuery(['semester', session_id, token], () =>
+    getSemesterRequest(token, session_id),
+  )
+
+  const increaseValue = sSemester => {
     setActiveStep(prev => {
-      if (prev >= 6) return prev
-      else {
-        setTimeout(increaseValue, 500)
+      if (prev >= sSemester - 1) {
+        return prev
+      } else {
+        setTimeout(() => increaseValue(sSemester), 500)
         return (prev += 1)
       }
     })
   }
 
-  const increaseProgressValue = () => {
+  const increaseProgressValue = p => {
     setValue(prev => {
-      if (prev >= maxVal) return prev
+      if (prev >= p) return prev
       else {
-        setTimeout(increaseProgressValue, 15)
+        setTimeout(() => increaseProgressValue(p), 15)
         return (prev += 1)
       }
     })
   }
 
-  const increaseBufferValue = () => {
+  const increaseBufferValue = p => {
     setBufferValue(prev => {
-      if (prev >= maxVal + 2) return prev
+      if (prev >= p + 3) return prev
       else {
-        setTimeout(increaseBufferValue, 15)
+        setTimeout(() => increaseBufferValue(p), 15)
         return (prev += 1)
       }
     })
   }
-
   useEffect(() => {
-    increaseValue()
-    increaseProgressValue()
-    increaseBufferValue()
-  }, [])
+    if (isProgramLoading || isProgramError) return
+    setSelectedSemester(parseInt(programData.semester_title))
+    setMaxVal(parseInt(programData.percentage))
+    setEndDate(moment(new Date(programData.ending)))
+    increaseValue(parseInt(programData.semester_title))
+    increaseProgressValue(parseInt(programData.percentage))
+    increaseBufferValue(parseInt(programData.percentage))
+  }, [programData])
 
   return (
     <Stack
@@ -90,8 +118,8 @@ const Progress = () => {
           alignItems='center'
           sx={{ width: isMobile ? null : '25%' }}
         >
-          <Typography variant='h4' color=''>
-            65%
+          <Typography variant='h5' color=''>
+            {maxVal} % Completed
           </Typography>
           <LinearProgress
             variant='buffer'
@@ -102,14 +130,12 @@ const Progress = () => {
             }}
           />
         </Stack>
-        <Stack
-        // sx={{ width: '25%' }}
-        >
+        <Stack>
           <Typography variant='h5' align={isMobile ? 'left' : 'right'}>
-            Expiry Date!
+            End Date
           </Typography>
           <Typography variant='h5' align={isMobile ? 'left' : 'right'}>
-            12 Dec, 2022
+            {endDate?.format('LL')}
           </Typography>
         </Stack>
       </Stack>
