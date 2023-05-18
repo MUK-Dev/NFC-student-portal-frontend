@@ -126,7 +126,7 @@ export default function useStudentResultPDFReport() {
           },
           styles: {
             minCellWidth: 5,
-            fontSize: 5,
+            fontSize: 7,
             halign: 'center',
             overflow: 'hidden',
             pageBreak: 'avoid',
