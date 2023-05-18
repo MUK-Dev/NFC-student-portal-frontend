@@ -178,9 +178,9 @@ const RSection = () => {
                   primary={s.section_title}
                   secondary={`${s.department.department_abbreviation} - ${
                     s.program.program_abbreviation
-                  } - ${moment(s.starting_year).format('YYYY')} - ${moment(
-                    s.ending_year,
-                  ).format('YYYY')}`}
+                  } - ${moment(s.session.starting_year).format(
+                    'YYYY',
+                  )} - ${moment(s.session.ending_year).format('YYYY')}`}
                 />
               </ListItemButton>
             </ListItem>
