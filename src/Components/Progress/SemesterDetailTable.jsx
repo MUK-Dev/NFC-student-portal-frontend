@@ -1,3 +1,4 @@
+import { CircularProgress, Stack } from '@mui/material'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell, { tableCellClasses } from '@mui/material/TableCell'
@@ -104,6 +105,11 @@ export default function SemesterDetailTable() {
           </TableRow>
         </TableHead>
         <TableBody sx={{ overflowY: 'auto' }}>
+          {isSubjectLoading && (
+            <Stack alignItems='center' width='100%' direction='row'>
+              <CircularProgress />
+            </Stack>
+          )}
           {rows.map(row => (
             <StyledTableRow key={row.subject}>
               <StyledTableCell align='left' sx={{ padding: '1%' }}>
