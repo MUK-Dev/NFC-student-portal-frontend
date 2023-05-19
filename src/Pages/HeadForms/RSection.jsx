@@ -141,7 +141,7 @@ const RSection = () => {
     isLoading: isSectionLoading,
     data: sectionData,
   } = useQuery(
-    ['sections', selectedSection],
+    ['section', selectedSection],
     () => getSectionById(token, selectedSection),
     {
       staleTime: 1000 * 60 * 60 * 24,
@@ -169,18 +169,18 @@ const RSection = () => {
       open={showDrawer}
       onClose={() => setShowDrawer(prev => !prev)}
     >
-      <Box sx={{ width: 250 }}>
+      <Box sx={{ width: 300, overflowX: 'hidden' }}>
         <List>
           {sectionsData?.map(s => (
-            <ListItem key={s._id} disablePadding>
-              <ListItemButton onClick={() => selectSection(s._id)}>
+            <ListItem key={s?._id} disablePadding>
+              <ListItemButton onClick={() => selectSection(s?._id)}>
                 <ListItemText
-                  primary={s.section_title}
-                  secondary={`${s.department.department_abbreviation} - ${
-                    s.program.program_abbreviation
-                  } - ${moment(s.session.starting_year).format(
+                  primary={s?.section_title}
+                  secondary={`${s?.department?.department_abbreviation} - ${
+                    s?.program?.program_abbreviation
+                  } - ${moment(s?.session?.starting_year).format(
                     'YYYY',
-                  )} - ${moment(s.session.ending_year).format('YYYY')}`}
+                  )} - ${moment(s?.session?.ending_year).format('YYYY')}`}
                 />
               </ListItemButton>
             </ListItem>
@@ -364,12 +364,7 @@ const RSection = () => {
         </Grid>
         {drawer}
       </Grid>
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={onClose}
-        TransitionComponent={props => <Slide {...props} direction='down' />}
-      >
+      <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={onClose}>
         <Alert severity={snackbar.severity} sx={{ width: '100%' }}>
           {snackbar.message}
         </Alert>

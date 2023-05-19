@@ -57,7 +57,7 @@ const RDepartment = () => {
     isLoading: isDepartmentLoading,
     data: departmentData,
   } = useQuery(
-    ['departments', selectedDepartment, token],
+    ['departments', selectedDepartment],
     () => getDepartmentById(token, selectedDepartment),
     {
       staleTime: 1000 * 60 * 60 * 24,
@@ -122,7 +122,7 @@ const RDepartment = () => {
       open={showDrawer}
       onClose={() => setShowDrawer(prev => !prev)}
     >
-      <Box sx={{ width: 250 }}>
+      <Box sx={{ width: 300, overflowX: 'hidden' }}>
         <List>
           {departmentsData?.map(d => (
             <ListItem key={d._id} disablePadding>
@@ -267,12 +267,7 @@ const RDepartment = () => {
         </Grid>
         {drawer}
       </Grid>
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={onClose}
-        TransitionComponent={props => <Slide {...props} direction='down' />}
-      >
+      <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={onClose}>
         <Alert severity={snackbar.severity} sx={{ width: '100%' }}>
           {snackbar.message}
         </Alert>

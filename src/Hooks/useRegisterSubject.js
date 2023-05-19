@@ -2,45 +2,46 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 
-import { registerProgramRequest } from '../Services/API/registerProgram'
-import { updateProgramRequest } from '../Services/API/updateProgramRequest'
+import { registerSubjectRequest } from '../Services/API/registerSubject'
+import { updateSubjectRequest } from '../Services/API/updateSubjectsRequest'
 
 import useAuth from './useAuth'
 import useSnackbar from './useSnackbar'
 
-export default function useRegisterProgram() {
+export default function useRegisterSubject() {
   const { token } = useAuth()
   const { onClose, setSnackbar, snackbar } = useSnackbar()
-  const [selectedProgram, setSelectedProgram] = useState(null)
+  const [selectedSubject, setSelectedSubject] = useState(null)
   const [editMode, setEditMode] = useState(false)
   const queryClient = useQueryClient()
 
   const submitForm = async (
-    starting,
     values,
     { setErrors, setStatus, setSubmitting, resetForm },
   ) => {
     setSubmitting(true)
     const d = {
-      program_title: values.program_title,
-      program_abbreviation: values.program_abbreviation,
+      subject_title: values.subject_title,
       type: values.type,
-      starting: starting.toDate(),
+      subject_code: values.subject_code,
+      theory_hours: values.theory_hours,
+      lab_hours: values.lab_hours,
       department: values.department,
-      ending: starting.toDate(),
+      program: values.program,
+      session: values.session,
+      semester: values.semester,
     }
-
     try {
-      const data = await registerProgramRequest(token, d)
-      setSubmitting(false)
+      const data = await registerSubjectRequest(token, d)
       setSnackbar(prev => ({
         ...prev,
         severity: 'success',
         message: data?.message,
         open: true,
       }))
-      queryClient.invalidateQueries('all-programs')
-      queryClient.invalidateQueries(['program', selectedProgram])
+      queryClient.invalidateQueries('all-subjects')
+      queryClient.invalidateQueries(['subject', selectedSubject])
+      setSubmitting(false)
       resetForm()
     } catch (err) {
       setSubmitting(false)
@@ -54,32 +55,33 @@ export default function useRegisterProgram() {
   }
 
   const updateForm = async (
-    starting,
-    ending,
     values,
     { setErrors, setStatus, setSubmitting, resetForm },
   ) => {
     setSubmitting(true)
     const d = {
-      program_title: values.program_title,
-      program_abbreviation: values.program_abbreviation,
+      subject_title: values.subject_title,
       type: values.type,
-      starting: starting.toDate(),
+      subject_code: values.subject_code,
+      theory_hours: values.theory_hours,
+      lab_hours: values.lab_hours,
       department: values.department,
-      ending: ending.toDate(),
+      program: values.program,
+      session: values.session,
+      semester: values.semester,
     }
     try {
-      const data = await updateProgramRequest(token, selectedProgram, d)
-      setSubmitting(false)
+      const data = await updateSubjectRequest(token, selectedSubject, d)
       setSnackbar(prev => ({
         ...prev,
         severity: 'success',
         message: data?.message,
         open: true,
       }))
-      queryClient.invalidateQueries('all-programs')
-      queryClient.invalidateQueries(['program', selectedProgram])
-      setSelectedProgram(null)
+      queryClient.invalidateQueries('all-subjects')
+      queryClient.invalidateQueries(['subject', selectedSubject])
+      setSubmitting(false)
+      setSelectedSubject(null)
       setEditMode(false)
       resetForm()
     } catch (err) {
@@ -98,8 +100,8 @@ export default function useRegisterProgram() {
     onClose,
     setSnackbar,
     snackbar,
-    selectedProgram,
-    setSelectedProgram,
+    selectedSubject,
+    setSelectedSubject,
     editMode,
     setEditMode,
     updateForm,

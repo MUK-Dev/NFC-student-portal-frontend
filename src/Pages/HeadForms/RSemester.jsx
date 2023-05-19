@@ -155,7 +155,7 @@ const RSemester = () => {
     isLoading: isSemesterLoading,
     data: semesterData,
   } = useQuery(
-    ['semesters', selectedSemester],
+    ['semester', selectedSemester],
     () => getSemesterById(token, selectedSemester),
     {
       staleTime: 1000 * 60 * 60 * 24,
@@ -186,7 +186,7 @@ const RSemester = () => {
       open={showDrawer}
       onClose={() => setShowDrawer(prev => !prev)}
     >
-      <Box sx={{ width: 250 }}>
+      <Box sx={{ width: 300, overflowX: 'hidden' }}>
         <List>
           {semestersData?.map(s => (
             <ListItem key={s._id} disablePadding>
@@ -433,12 +433,7 @@ const RSemester = () => {
         </Grid>
         {drawer}
       </Grid>
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={onClose}
-        TransitionComponent={props => <Slide {...props} direction='down' />}
-      >
+      <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={onClose}>
         <Alert severity={snackbar.severity} sx={{ width: '100%' }}>
           {snackbar.message}
         </Alert>

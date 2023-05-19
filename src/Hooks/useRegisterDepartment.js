@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useQueryClient } from 'react-query'
 
 import { registerDepartmentRequest } from '../Services/API/registerDepartment'
 import { updateDepartmentRequest } from '../Services/API/updateDepartmentRequest'
@@ -11,6 +12,7 @@ export default function useRegisterDepartment() {
   const { snackbar, onClose, setSnackbar } = useSnackbar()
   const [selectedDepartment, setSelectedDepartment] = useState(null)
   const [editMode, setEditMode] = useState(false)
+  const queryClient = useQueryClient()
 
   const submitForm = async (
     values,
@@ -33,6 +35,8 @@ export default function useRegisterDepartment() {
         message: data?.message,
         open: true,
       }))
+      queryClient.invalidateQueries('departments')
+      queryClient.invalidateQueries(['departments', selectedDepartment])
       resetForm()
     } catch (err) {
       setSubmitting(false)
@@ -69,6 +73,8 @@ export default function useRegisterDepartment() {
         message: data?.message,
         open: true,
       }))
+      queryClient.invalidateQueries('departments')
+      queryClient.invalidateQueries(['departments', selectedDepartment])
       setSelectedDepartment(null)
       setEditMode(false)
       resetForm()

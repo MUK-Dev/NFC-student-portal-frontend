@@ -1,7 +1,9 @@
 import moment from 'moment'
 import { useState } from 'react'
+import { useQueryClient } from 'react-query'
 
 import { registerSemesterRequest } from '../Services/API/registerSemester'
+import { updateSemesterRequest } from '../Services/API/updateSemesterRequest'
 
 import useAuth from './useAuth'
 import useSnackbar from './useSnackbar'
@@ -11,6 +13,7 @@ export default function useRegisterSemester() {
   const { onClose, setSnackbar, snackbar } = useSnackbar()
   const [selectedSemester, setSelectedSemester] = useState(null)
   const [editMode, setEditMode] = useState(false)
+  const queryClient = useQueryClient()
 
   const submitForm = async (
     values,
@@ -37,6 +40,8 @@ export default function useRegisterSemester() {
         message: data?.message,
         open: true,
       }))
+      queryClient.invalidateQueries('all-semesters')
+      queryClient.invalidateQueries(['semester', selectedSemester])
       resetForm()
     } catch (err) {
       setSubmitting(false)
@@ -66,7 +71,7 @@ export default function useRegisterSemester() {
       session: values.session,
     }
     try {
-      const data = await registerSemesterRequest(token, d)
+      const data = await updateSemesterRequest(token, selectedSemester, d)
       setSubmitting(false)
       setSnackbar(prev => ({
         ...prev,
@@ -76,6 +81,8 @@ export default function useRegisterSemester() {
       }))
       setSelectedSemester(null)
       setEditMode(false)
+      queryClient.invalidateQueries('all-semesters')
+      queryClient.invalidateQueries(['semester', selectedSemester])
       resetForm()
     } catch (err) {
       setSubmitting(false)
