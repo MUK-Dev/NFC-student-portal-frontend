@@ -395,7 +395,6 @@ const RSubject = () => {
                     marks
                     min={0}
                     max={5}
-                    disabled={editMode}
                     value={parseInt(values.theory_hours)}
                     onBlur={handleBlur('theory_hours')}
                     onChange={handleChange('theory_hours')}
@@ -445,7 +444,6 @@ const RSubject = () => {
                     marks
                     min={0}
                     max={5}
-                    disabled={editMode}
                     value={parseInt(values.lab_hours)}
                     onBlur={handleBlur('lab_hours')}
                     onChange={handleChange('lab_hours')}
