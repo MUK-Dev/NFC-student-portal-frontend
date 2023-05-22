@@ -1,4 +1,4 @@
-import { HolidayVillage, List } from '@mui/icons-material'
+import { HolidayVillage, List, Person } from '@mui/icons-material'
 import AccessibilityIcon from '@mui/icons-material/Accessibility'
 import ApartmentIcon from '@mui/icons-material/Apartment'
 import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion'
@@ -151,10 +151,10 @@ export const getLinks = (theme, role) => {
         ),
       },
       {
-        title: 'Teachers Subject',
-        path: '/head/register/teachers_subject',
+        title: 'Teacher',
+        path: '/head/register/teachers',
         icon: (
-          <SchoolIcon
+          <Person
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),

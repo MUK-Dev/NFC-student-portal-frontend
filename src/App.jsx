@@ -107,7 +107,7 @@ const App = () => {
                   />
                   <Route path='/head/register/subject' element={<RSubject />} />
                   <Route
-                    path='/head/register/teachers_subject'
+                    path='/head/register/teacher'
                     element={<RTeachersInSubject />}
                   />
                   <Route path='/head/register/program' element={<RProgram />} />
