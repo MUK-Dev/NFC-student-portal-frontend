@@ -39,7 +39,12 @@ export default function HeadSearchOptions() {
             initial={{ x: 20, filter: 'blur(10px)' }}
             animate={{ x: 0, filter: 'blur(0px)' }}
           >
-            <CardActionArea sx={{ p: '1em', textAlign: 'center' }}>
+            <CardActionArea
+              sx={{ p: '1em', textAlign: 'center' }}
+              onClick={() =>
+                navigate(`/student/detail-progress?studentId=${studentId}`)
+              }
+            >
               <img src={notesImage} width={80} height={80} />
               <Typography variant='h6'>See Students Result</Typography>
             </CardActionArea>

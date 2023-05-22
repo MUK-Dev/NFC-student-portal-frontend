@@ -17,7 +17,7 @@ export default function useStudentResultPDFReport() {
     setIsGenerating(prev => true)
     setError(null)
     try {
-      const data = await generateStudentResultReportRequest(token)
+      const data = await generateStudentResultReportRequest(token, studentId)
       const doc = []
       let count = 0
       doc[0] = new jsPDF({

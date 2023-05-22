@@ -13,6 +13,7 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
+import { useSearchParams } from 'react-router-dom'
 
 import ResultDetailTable from '../../Components/Result/ResultDetailTable'
 
@@ -23,11 +24,16 @@ import useStudentSemesterResultPDFReport from '../../Hooks/useStudentSemesterRes
 import { getStudentResultRequest } from '../../Services/API/getStudentResultRequest'
 
 const StudentDetailProgress = () => {
+  let [searchParams, setSearchParams] = useSearchParams()
   const { token, user } = useAuth()
   const [resultList, setResultList] = useState({})
   const [result, setResult] = useState({})
   const theme = useTheme()
   const [overallResult, setOverallResult] = useState({})
+  const studentId = searchParams.get('studentId')
+  const editMode = !!studentId
+  console.log(studentId, editMode)
+  const selectedStudent = editMode ? studentId : user._id
   const { generateStudentResultPDF, isGenerating, error } =
     useStudentResultPDFReport()
   const {
@@ -36,13 +42,13 @@ const StudentDetailProgress = () => {
     semesterError,
   } = useStudentSemesterResultPDFReport()
 
-  const handleDownload = () => generateStudentResultPDF(user._id)
+  const handleDownload = () => generateStudentResultPDF(selectedStudent)
   const handleDownloadSemester = row =>
-    generateStudentSemesterResultPDF(user._id, row)
+    generateStudentSemesterResultPDF(selectedStudent, row)
 
   const { isError, isLoading, data } = useQuery(
     ['student-result', token],
-    () => getStudentResultRequest(token),
+    () => getStudentResultRequest(token, selectedStudent),
     {
       staleTime: 1000 * 60 * 60 * 24,
       enabled: !!token,

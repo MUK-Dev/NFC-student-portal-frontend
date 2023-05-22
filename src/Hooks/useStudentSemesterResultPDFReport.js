@@ -17,7 +17,7 @@ export default function useStudentSemesterResultPDFReport() {
     setIsGenerating(prev => true)
     setError(null)
     try {
-      const data = await generateStudentResultReportRequest(token)
+      const data = await generateStudentResultReportRequest(token, studentId)
       const doc = new jsPDF({
         orientation: 'portrait',
       })
