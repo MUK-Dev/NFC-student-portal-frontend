@@ -1,8 +1,10 @@
 import { Search } from '@mui/icons-material'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 import {
   Button,
   FormControl,
   Grid,
+  IconButton,
   InputAdornment,
   LinearProgress,
   OutlinedInput,
@@ -24,12 +26,14 @@ import { useQuery } from 'react-query'
 import { useSearchParams } from 'react-router-dom'
 
 import MarksErrorDialogBox from '../../Components/DialogBox/MarksErrorDialogBox'
+import RepeaterStudentDialogBox from '../../Components/DialogBox/RepeaterStudentDialogBox'
 import ResultDialogBox from '../../Components/DialogBox/ResultDialogBox'
 import ResultErrorDialogBox from '../../Components/DialogBox/ResultErrorDialogBox'
 
 import useAuth from '../../Hooks/useAuth'
 
 import { getResultSheetByIdRequest } from '../../Services/API/getResultSheetByIdRequest'
+import { getSectionById } from '../../Services/API/getSectionByIdRequest'
 import { getMarksSheet } from '../../Services/API/marksSheetRequest'
 import { postMarksRequest } from '../../Services/API/postMarksRequest'
 import { updateMarkListRequest } from '../../Services/API/updateMarkList'
@@ -72,9 +76,12 @@ export default function ClassResult() {
   const [errorModal, setErrorModal] = useState(false)
   const [success, setSuccess] = useState(false)
   const [search, setSearch] = useState('')
+  const [repeat, setRepeat] = useState(false)
   const [proSession, setProSession] = useState({
     Program: searchParams.get('program_abbreviation'),
     Session: searchParams.get('session_title'),
+    Section: searchParams.get('section_title'),
+    Subject: searchParams.get('subject_title'),
   })
   const [subjectID, setSubjectID] = useState({
     Subject: subject,
@@ -118,6 +125,8 @@ export default function ClassResult() {
     setProSession({
       Program: sheetData.program_abbreviation,
       Session: sheetData.session_title,
+      Section: sheetData.section_title,
+      Subject: sheetData.subject_title,
     })
     setSubjectID({
       Subject: sheetData.subject_Id,
@@ -175,7 +184,7 @@ export default function ClassResult() {
                   label='Mid Marks'
                   variant='outlined'
                   placeholder='< 30'
-                  value={row.mids || ''}
+                  value={row.mids}
                   required
                   onChange={e => setValue(row._id, e.target.value, 'mids')}
                 />
@@ -186,7 +195,7 @@ export default function ClassResult() {
                   label='Final Marks'
                   variant='outlined'
                   placeholder='< 50'
-                  value={row.finals || ''}
+                  value={row.finals}
                   required
                   onChange={e => setValue(row._id, e.target.value, 'finals')}
                 />
@@ -197,7 +206,7 @@ export default function ClassResult() {
                   label='Sessional Marks'
                   variant='outlined'
                   placeholder='< 20'
-                  value={row.sessional || ''}
+                  value={row.sessional}
                   required
                   onChange={e => setValue(row._id, e.target.value, 'sessional')}
                 />
@@ -212,7 +221,7 @@ export default function ClassResult() {
                   label='Lab Final Marks'
                   variant='outlined'
                   placeholder='< 50'
-                  value={row.lab_final || ''}
+                  value={row.lab_final}
                   required
                   onChange={e => setValue(row._id, e.target.value, 'lab_final')}
                 />
@@ -223,7 +232,7 @@ export default function ClassResult() {
                   label='Lab Sessional Marks'
                   variant='outlined'
                   placeholder='< 50'
-                  value={row.lab_sessional || ''}
+                  value={row.lab_sessional}
                   required
                   onChange={e =>
                     setValue(row._id, e.target.value, 'lab_sessional')
@@ -253,6 +262,7 @@ export default function ClassResult() {
       setIsSubmitting(prev => false)
       setSuccess(true)
     } catch (err) {
+      console.log(err)
       setErrorModal(err.response.data.message)
       setIsSubmitting(prev => false)
     }
@@ -387,12 +397,22 @@ export default function ClassResult() {
                 sx={{ textAlign: { xs: 'center', md: 'left' } }}
                 gutterBottom
               >
-                Enter Marks
+                Enter Section {proSession.Section?.toUpperCase()} Marks{' '}
+                <span style={{ padding: '0 0.75em' }}> {'=>'} </span>
+                Subject: {proSession.Subject}
               </Typography>
             </Grid>
             <Grid item>
+              <IconButton
+                aria-label='add'
+                color='primary'
+                padding='1em'
+                onClick={() => setRepeat(true)}
+              >
+                <AddCircleIcon />
+              </IconButton>
               <FormControl
-                sx={{ width: { xs: '100%', md: '30ch' } }}
+                sx={{ width: { xs: '100%', md: '20ch' } }}
                 size='small'
                 variant='outlined'
               >
@@ -471,6 +491,12 @@ export default function ClassResult() {
           open={!!errorModal}
           text={errorModal}
           onClose={() => setErrorModal(prev => !prev)}
+        />
+        <RepeaterStudentDialogBox
+          open={repeat}
+          onClose={() => setRepeat(prev => !prev)}
+          sheetId={sheetId}
+          subject={selectedSubject}
         />
         <ResultDialogBox open={success} />
       </Grid>
