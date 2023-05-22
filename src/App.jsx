@@ -15,7 +15,6 @@ import RSection from './Pages/HeadPages/RSection'
 import RSemester from './Pages/HeadPages/RSemester'
 import RSession from './Pages/HeadPages/RSession'
 import RSubject from './Pages/HeadPages/RSubject'
-import RTeachers from './Pages/HeadPages/RTeachers'
 import RTeachersInSubject from './Pages/HeadPages/RTeachersInSubject'
 import SearchStudent from './Pages/HeadPages/SearchStudent'
 import SearchedStudentAttendance from './Pages/HeadPages/SearchedStudentAtteadance'
@@ -119,10 +118,6 @@ const App = () => {
                   <Route
                     path='/head/register/semester'
                     element={<RSemester />}
-                  />
-                  <Route
-                    path='/head/register/teachers'
-                    element={<RTeachers />}
                   />
                   <Route
                     path='/head/search/students'

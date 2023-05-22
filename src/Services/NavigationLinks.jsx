@@ -152,7 +152,7 @@ export const getLinks = (theme, role) => {
       },
       {
         title: 'Teacher',
-        path: '/head/register/teachers',
+        path: '/head/register/teacher',
         icon: (
           <Person
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}

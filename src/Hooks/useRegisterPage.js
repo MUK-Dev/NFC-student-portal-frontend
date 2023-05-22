@@ -12,7 +12,7 @@ export default function useRegisterPage() {
   const [searchParams] = useSearchParams()
 
   useEffect(() => {
-    setXAxis('100vw')
+    setXAxis('-100vw')
   }, [])
 
   const formAnimation = {
@@ -34,15 +34,15 @@ export default function useRegisterPage() {
     const role = searchParams.get('role')
     if (role === 'parent') {
       setForm(0)
-      setXAxis('-100vw')
+      setXAxis('100vw')
       setExitXAxis('-100vw')
     } else if (role === 'student') {
       setForm(1)
-      setXAxis('-100vw')
+      setXAxis('100vw')
       setExitXAxis('-100vw')
     } else {
       setForm(2)
-      setXAxis('100vw')
+      setXAxis('-100vw')
       setExitXAxis('100vw')
     }
   }, [searchParams])

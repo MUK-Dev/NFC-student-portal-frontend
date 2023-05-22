@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material'
 import { Outlet } from 'react-router-dom'
 
-import AuthLeftImage from '../../Assets/Images/auth-left-image.jpg'
+import AuthLeftIllustration from '../../Components/auth/AuthLeftIllustration'
 
 const AuthLayout = ({ children }) => {
   return (
@@ -12,16 +12,26 @@ const AuthLayout = ({ children }) => {
       maxHeight='100vh'
       sx={{ overflow: 'hidden' }}
     >
-      <Grid item md={7} lg={8} sx={{ display: { xs: 'none', md: 'block' } }}>
-        <img
-          src={AuthLeftImage}
-          alt='Auth Left'
-          width='100%'
-          height='100%'
-          style={{ objectFit: 'cover' }}
-        />
+      <Grid
+        item
+        md={7}
+        lg={8}
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'relative',
+          zIndex: -1000,
+          overflow: 'hidden',
+        }}
+      >
+        <AuthLeftIllustration />
       </Grid>
-      <Grid item xs={12} md={5} lg={4}>
+      <Grid
+        item
+        xs={12}
+        md={5}
+        lg={4}
+        sx={{ zIndex: 1000, backgroundColor: '#fcfcfc', overflowX: 'hidden' }}
+      >
         <Outlet />
       </Grid>
     </Grid>
