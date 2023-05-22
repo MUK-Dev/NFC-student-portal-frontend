@@ -1,4 +1,4 @@
-import { CircularProgress, Stack } from '@mui/material'
+import { CircularProgress, Stack, Typography } from '@mui/material'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell, { tableCellClasses } from '@mui/material/TableCell'
@@ -44,7 +44,8 @@ export default function SemesterDetailTable() {
   const { token, user } = useAuth()
   const [semesterId, setSemesterId] = useState()
   const [enable, setEnable] = useState(false)
-  const session_id = user.session
+  const [show, setShow] = useState(false)
+  const session_id = user?.session
   const [rows, setRows] = useState([])
 
   const {
@@ -83,48 +84,80 @@ export default function SemesterDetailTable() {
     setRows(
       subjectData?.map(row => createData(row.title, row.teacher, row.hours)),
     )
+    setShow(true)
   }, [subjectData])
 
   return (
-    <TableContainer sx={{ height: '100%', width: '100%' }}>
-      <Table stickyHeader aria-label='customized table'>
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align='left' sx={{ padding: '2%', width: '40%' }}>
-              Subject
-            </StyledTableCell>
-            <StyledTableCell align='left' sx={{ padding: '2%', width: '40%' }}>
-              Teacher
-            </StyledTableCell>
-            <StyledTableCell
-              align='center'
-              sx={{ padding: '2%', width: '40%' }}
-            >
-              Hours
-            </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody sx={{ overflowY: 'auto' }}>
-          {isSubjectLoading && (
-            <Stack alignItems='center' width='100%' direction='row'>
-              <CircularProgress />
-            </Stack>
-          )}
-          {rows.map(row => (
-            <StyledTableRow key={row.subject}>
-              <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                {row.subject}
-              </StyledTableCell>
-              <StyledTableCell align='left' sx={{ padding: '1%' }}>
-                {row.teacher}
-              </StyledTableCell>
-              <StyledTableCell align='center' sx={{ padding: '1%' }}>
-                {row.hours}
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      {(isSubjectLoading || !show) && (
+        <Stack
+          width='100%'
+          direction='row'
+          justifyContent='center'
+          padding='1em'
+        >
+          <CircularProgress />
+        </Stack>
+      )}
+      {show && (
+        <TableContainer sx={{ height: '100%', width: '100%' }}>
+          <Table stickyHeader aria-label='customized table'>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell
+                  align='left'
+                  sx={{ padding: '2%', width: '40%' }}
+                >
+                  Subject
+                </StyledTableCell>
+                <StyledTableCell
+                  align='left'
+                  sx={{ padding: '2%', width: '40%' }}
+                >
+                  Teacher
+                </StyledTableCell>
+                <StyledTableCell
+                  align='center'
+                  sx={{ padding: '2%', width: '40%' }}
+                >
+                  Hours
+                </StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody sx={{ overflowY: 'auto' }}>
+              {rows.length === 0 ? (
+                <StyledTableRow>
+                  <StyledTableCell
+                    align='left'
+                    sx={{ padding: '1%' }}
+                  ></StyledTableCell>
+                  <StyledTableCell align='left' sx={{ padding: '1%' }}>
+                    No Subject Found
+                  </StyledTableCell>
+                  <StyledTableCell
+                    align='center'
+                    sx={{ padding: '1%' }}
+                  ></StyledTableCell>
+                </StyledTableRow>
+              ) : (
+                rows.map(row => (
+                  <StyledTableRow key={row.subject}>
+                    <StyledTableCell align='left' sx={{ padding: '1%' }}>
+                      {row.subject}
+                    </StyledTableCell>
+                    <StyledTableCell align='left' sx={{ padding: '1%' }}>
+                      {row.teacher}
+                    </StyledTableCell>
+                    <StyledTableCell align='center' sx={{ padding: '1%' }}>
+                      {row.hours}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </>
   )
 }

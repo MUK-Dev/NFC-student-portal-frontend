@@ -40,6 +40,7 @@ export default function ResultDetailTable(props) {
   const resultListRows = []
   const resultList = props.resultList
   const result = props.result
+
   const overallResult = props.overallResult
   resultList.map(row =>
     resultListRows.push(
