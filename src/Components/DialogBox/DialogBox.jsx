@@ -44,7 +44,7 @@ export default function DialogBox(props) {
   const handleListItemClick = value => {
     onClose()
     navigate(
-      `/teacher/result-form?department=${props.value.department._id}&session=${props.value.session._id}&session_title=${props.value.session.session_title}&semester=${props.value.semester._id}&program=${props.value.program._id}&program_abbreviation=${props.value.program.program_abbreviation}&subject=${props.value.subject._id}&section=${value._id}`,
+      `/teacher/result-form?department=${props.value.department._id}&session=${props.value.session._id}&session_title=${props.value.session.session_title}&semester=${props.value.semester._id}&program=${props.value.program._id}&program_abbreviation=${props.value.program.program_abbreviation}&subject=${props.value.subject._id}&subject_title=${props.value.subject.subject_title}&section=${value._id}&section_title=${value.section_title}`,
     )
   }
 
@@ -56,7 +56,7 @@ export default function DialogBox(props) {
         {sectionsData?.map(s => (
           <ListItem disableGutters key={s._id}>
             <ListItemButton onClick={() => handleListItemClick(s)} key={s._id}>
-              <ListItemText primary={s.section_title} />
+              <ListItemText primary={s.section_title.toUpperCase()} />
             </ListItemButton>
           </ListItem>
         ))}

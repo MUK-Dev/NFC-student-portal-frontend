@@ -14,15 +14,14 @@ export default function ResultErrorDialogBox(props) {
   const navigate = useNavigate()
 
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog open={open}>
       <DialogTitle color='error'>Result Not Entered</DialogTitle>
       <DialogContentText>
         <Typography>{props.text}</Typography>
       </DialogContentText>
       <DialogActions>
-        <Button onClick={onClose}>Stay here?</Button>
         <Button onClick={() => navigate('/teacher/home')}>
-          Go to home page?
+          Go to home page
         </Button>
       </DialogActions>
     </Dialog>
