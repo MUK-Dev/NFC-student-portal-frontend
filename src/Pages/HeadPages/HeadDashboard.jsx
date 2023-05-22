@@ -1,4 +1,4 @@
-import { Height } from '@mui/icons-material'
+import { Build, Cached, EmojiPeople, Height } from '@mui/icons-material'
 import { Grid } from '@mui/material'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import * as React from 'react'
 import { useNavigate } from 'react-router'
+
+import audienceImage from '../../Assets/Images/audience.png'
 
 const data = [
   {
@@ -45,26 +47,51 @@ export default function ExampleComponent() {
   const navigate = useNavigate()
 
   return (
-    <Grid
-      container
-      spacing={2}
-      margin={2}
-      // rowSpacing={5}
-      // columnSpacing={5}
-      marginX={1}
-      marginY={5}
-      padding='0 2em 0 0'
-    >
+    <Grid container spacing={2} margin={2} padding='0 4em 0 0'>
+      <Grid
+        item
+        xs={12}
+        component={motion.div}
+        initial={{ filter: 'blur(5px)' }}
+        animate={{ filter: 'blur(0px)' }}
+      >
+        <Card>
+          <CardContent>
+            <Grid container alignItems='center'>
+              <Grid item flexGrow={1}>
+                <Typography variant='h5' component='div'>
+                  Search student
+                </Typography>
+                <Typography variant='body2'>
+                  See individual student attendance, result or update his
+                  details
+                </Typography>
+              </Grid>
+              <Grid item>
+                <img src={audienceImage} width={80} height={80} />
+              </Grid>
+            </Grid>
+          </CardContent>
+          <Button
+            fullWidth
+            variant='contained'
+            disableElevation
+            onClick={() => navigate('/head/search/students')}
+            sx={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
+          >
+            <EmojiPeople />
+          </Button>
+        </Card>
+      </Grid>
       {data.map((item, i) => (
         <Grid
           item
           xs={6}
-          md={3}
+          md={4}
           key={item.title}
           component={motion.div}
-          initial={{ filter: 'blur(5px)', opacity: 0 }}
-          animate={{ filter: 'blur(0px)', opacity: 1 }}
-          transition={{ delay: 0.1 * i }}
+          initial={{ filter: 'blur(5px)' }}
+          animate={{ filter: 'blur(0px)' }}
         >
           <Card>
             <CardContent>
@@ -82,7 +109,7 @@ export default function ExampleComponent() {
               onClick={() => navigate(item.link)}
               sx={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
             >
-              Go to page
+              <Build />
             </Button>
           </Card>
         </Grid>

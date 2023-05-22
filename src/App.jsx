@@ -7,15 +7,19 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import Login from './Pages/Auth/Login'
 import Register from './Pages/Auth/Register'
-import HeadDashboard from './Pages/HeadForms/HeadDashboard'
-import RDepartment from './Pages/HeadForms/RDepartment'
-import RProgram from './Pages/HeadForms/RProgram'
-import RSection from './Pages/HeadForms/RSection'
-import RSemester from './Pages/HeadForms/RSemester'
-import RSession from './Pages/HeadForms/RSession'
-import RSubject from './Pages/HeadForms/RSubject'
-import RTeachers from './Pages/HeadForms/RTeachers'
-import RTeachersInSubject from './Pages/HeadForms/RTeachersInSubject'
+import HeadDashboard from './Pages/HeadPages/HeadDashboard'
+import HeadSearchOptions from './Pages/HeadPages/HeadSearchOptions'
+import RDepartment from './Pages/HeadPages/RDepartment'
+import RProgram from './Pages/HeadPages/RProgram'
+import RSection from './Pages/HeadPages/RSection'
+import RSemester from './Pages/HeadPages/RSemester'
+import RSession from './Pages/HeadPages/RSession'
+import RSubject from './Pages/HeadPages/RSubject'
+import RTeachers from './Pages/HeadPages/RTeachers'
+import RTeachersInSubject from './Pages/HeadPages/RTeachersInSubject'
+import SearchStudent from './Pages/HeadPages/SearchStudent'
+import SearchedStudentAttendance from './Pages/HeadPages/SearchedStudentAtteadance'
+import UpdateStudent from './Pages/HeadPages/UpdateStudent'
 import AuthLayout from './Pages/Layouts/AuthLayout'
 import DashboardLayout from './Pages/Layouts/DashboardLayout'
 import MarkAttandence from './Pages/MarkAttandence/MarkAttandence'
@@ -99,8 +103,8 @@ const App = () => {
                   />
 
                   {/* Admin Routes */}
-                  <Route path='/head/register/section' element={<RSection />} />
                   <Route path='/head/dashboard' element={<HeadDashboard />} />
+                  <Route path='/head/register/section' element={<RSection />} />
                   <Route
                     path='/head/register/department'
                     element={<RDepartment />}
@@ -119,6 +123,22 @@ const App = () => {
                   <Route
                     path='/head/register/teachers'
                     element={<RTeachers />}
+                  />
+                  <Route
+                    path='/head/search/students'
+                    element={<SearchStudent />}
+                  />
+                  <Route
+                    path='/head/search/:studentId'
+                    element={<HeadSearchOptions />}
+                  />
+                  <Route
+                    path='/head/search/:studentId/attendance'
+                    element={<SearchedStudentAttendance />}
+                  />
+                  <Route
+                    path='/head/search/:studentId/update'
+                    element={<UpdateStudent />}
                   />
 
                   {/* Parent Routes */}

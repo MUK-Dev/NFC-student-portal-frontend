@@ -3,6 +3,7 @@ import { CardActionArea, Grid, useMediaQuery } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
+import { motion } from 'framer-motion'
 import * as React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
@@ -31,21 +32,19 @@ export default function TeacherSubject({
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   return (
-    <Grid
-      item
-      sx={{
-        width: isMobile ? '48%' : '24%',
-        height: isMobile ? 'auto' : '50%',
-      }}
-    >
-      <Card>
+    <Grid item xs={6} md={3}>
+      <Card
+        component={motion.div}
+        initial={{ filter: 'blur(5px)' }}
+        animate={{ filter: 'blur(0px)' }}
+      >
         <CardActionArea onClick={handleClassClick}>
           <CardContent>
             <Typography
               gutterBottom
               variant='h5'
               component='div'
-              padding='0 0 0 0.5em'
+              align='center'
             >
               {session.session_title} {program.program_abbreviation}
             </Typography>

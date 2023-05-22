@@ -1,62 +1,87 @@
-import { Grid, Paper, useMediaQuery, useTheme } from '@mui/material'
+import { Blinds } from '@mui/icons-material'
+import { Button, Card, CardContent, Grid, Typography } from '@mui/material'
+import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router'
 
 import TeacherSubject from '../../Components/Cards/TeacherSubject'
-import AreaChart from '../../Components/Charts/AreaChart'
 
 import useAuth from '../../Hooks/useAuth'
 
+const data = [
+  {
+    title: 'Mark Attendance',
+    description: 'Mark todays or some other days attendance',
+    link: '/teacher/mark-attandence',
+  },
+  {
+    title: 'Attendance Records',
+    description: 'View or update attendance previously marked by you',
+    link: '/teacher/sheets',
+  },
+  {
+    title: 'Result Records',
+    description: 'View or update result previously marked by you',
+    link: '/teacher/result-sheets',
+  },
+]
+
 const TeacherDashboard = () => {
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const navigate = useNavigate()
   const { user } = useAuth()
+
   return (
     <Grid container direction='column' width='100%' gap='1em'>
       <Grid item>
-        <Paper sx={{ padding: '1em' }}>
-          <Grid container gap='1em'>
-            {user?.subjects?.map(row => (
-              <TeacherSubject
-                key={row.subject._id}
-                department={row.subject.department}
-                session={row.subject.session}
-                semester={row.subject.semester}
-                program={row.subject.program}
-                subject={row.subject}
-              />
-            ))}
-          </Grid>
-        </Paper>
+        <Grid container spacing={2}>
+          {user?.subjects?.map(row => (
+            <TeacherSubject
+              key={row.subject._id}
+              department={row.subject.department}
+              session={row.subject.session}
+              semester={row.subject.semester}
+              program={row.subject.program}
+              subject={row.subject}
+            />
+          ))}
+        </Grid>
       </Grid>
       <Grid item>
-        <Grid
-          container
-          direction={isMobile ? 'column' : 'row'}
-          width='100%'
-          gap='1em'
-          justifyContent='space-between'
-        >
-          <Grid item flexGrow={1} sx={{ width: isMobile ? '100%' : '45%' }}>
-            <Paper
-              sx={{
-                minHeight: '40vh',
-                padding: '1em 0 0 0',
-              }}
+        <Grid container spacing={2}>
+          {data.map((item, i) => (
+            <Grid
+              item
+              xs={6}
+              md={4}
+              key={item.title}
+              component={motion.div}
+              initial={{ filter: 'blur(5px)' }}
+              animate={{ filter: 'blur(0px)' }}
             >
-              <AreaChart
-                series={[
-                  {
-                    name: 'Presents',
-                    data: [3, 0, 2, 6, 4, 0, 1, 1, 0, 1],
-                  },
-                ]}
-              />
-            </Paper>
-          </Grid>
-          <Grid item flexGrow={1} sx={{ width: isMobile ? '100%' : '45%' }}>
-            <Paper sx={{ minHeight: '40vh', padding: '1em' }}>
-              Mark Attendance
-            </Paper>
-          </Grid>
+              <Card>
+                <CardContent>
+                  <Typography variant='h5' textAlign='center' gutterBottom>
+                    {item.title}
+                  </Typography>
+                  <Typography
+                    variant='body2'
+                    textAlign='center'
+                    padding='2em 0'
+                  >
+                    {item.description}
+                  </Typography>
+                </CardContent>
+                <Button
+                  fullWidth
+                  variant='contained'
+                  disableElevation
+                  onClick={() => navigate(item.link)}
+                  sx={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
+                >
+                  <Blinds />
+                </Button>
+              </Card>
+            </Grid>
+          ))}
         </Grid>
       </Grid>
     </Grid>

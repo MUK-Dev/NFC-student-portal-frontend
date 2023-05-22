@@ -1,3 +1,4 @@
+import { CircularProgress } from '@mui/material'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import List from '@mui/material/List'
@@ -50,6 +51,7 @@ export default function DialogBox(props) {
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>Select Section</DialogTitle>
+      {areSectionsLoading && <CircularProgress sx={{ margin: '0 auto' }} />}
       <List sx={{ pt: 0 }}>
         {sectionsData?.map(s => (
           <ListItem disableGutters key={s._id}>

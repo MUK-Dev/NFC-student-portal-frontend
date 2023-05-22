@@ -1,4 +1,4 @@
-import { HolidayVillage, List, Person } from '@mui/icons-material'
+import { Group, HolidayVillage, List, Person } from '@mui/icons-material'
 import AccessibilityIcon from '@mui/icons-material/Accessibility'
 import ApartmentIcon from '@mui/icons-material/Apartment'
 import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion'
@@ -155,6 +155,15 @@ export const getLinks = (theme, role) => {
         path: '/head/register/teachers',
         icon: (
           <Person
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
+      {
+        title: 'Search Student',
+        path: '/head/search/students',
+        icon: (
+          <Group
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),

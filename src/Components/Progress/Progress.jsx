@@ -25,8 +25,8 @@ const Progress = () => {
   const theme = useTheme()
   const { token, user } = useAuth()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-  const session_id = user.session
-  const program_type = user.program.type
+  const session_id = user?.session
+  const program_type = user?.program.type
 
   const steps = []
   let semester = 0
