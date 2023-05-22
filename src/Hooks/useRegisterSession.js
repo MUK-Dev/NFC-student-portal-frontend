@@ -1,5 +1,6 @@
 import moment from 'moment'
 import { useEffect, useState } from 'react'
+import { useQueryClient } from 'react-query'
 
 import { registerSessionRequest } from '../Services/API/registerSession'
 import { updateSessionRequest } from '../Services/API/updateSessionRequest'
@@ -12,6 +13,7 @@ export default function useRegisterSession() {
   const { onClose, setSnackbar, snackbar } = useSnackbar()
   const [selectedSession, setSelectedSession] = useState(null)
   const [editMode, setEditMode] = useState(false)
+  const queryClient = useQueryClient()
 
   const submitForm = async (
     values,
@@ -37,6 +39,8 @@ export default function useRegisterSession() {
         message: data?.message,
         open: true,
       }))
+      queryClient.invalidateQueries('all-sessions')
+      queryClient.invalidateQueries(['session', selectedSession])
       resetForm()
     } catch (err) {
       setSubmitting(false)
@@ -75,6 +79,8 @@ export default function useRegisterSession() {
       }))
       setSelectedSession(null)
       setEditMode(false)
+      queryClient.invalidateQueries('all-sessions')
+      queryClient.invalidateQueries(['session', selectedSession])
       resetForm()
     } catch (err) {
       setSubmitting(false)

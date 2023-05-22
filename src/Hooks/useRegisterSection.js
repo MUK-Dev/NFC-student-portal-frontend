@@ -1,5 +1,6 @@
 import moment from 'moment'
 import { useEffect, useState } from 'react'
+import { useQueryClient } from 'react-query'
 
 import { registerSectionRequest } from '../Services/API/registerSection'
 import { updateSectionRequest } from '../Services/API/updateSectionRequest'
@@ -12,6 +13,7 @@ export default function useRegisterSection() {
   const { onClose, setSnackbar, snackbar } = useSnackbar()
   const [selectedSection, setSelectedSection] = useState(null)
   const [editMode, setEditMode] = useState(false)
+  const queryClient = useQueryClient()
 
   const submitForm = async (
     values,
@@ -33,6 +35,8 @@ export default function useRegisterSection() {
         message: data?.message,
         open: true,
       }))
+      queryClient.invalidateQueries('all-sections')
+      queryClient.invalidateQueries(['section', selectedSection])
       resetForm()
     } catch (err) {
       setSubmitting(false)
@@ -65,9 +69,11 @@ export default function useRegisterSection() {
         message: data?.message,
         open: true,
       }))
-      resetForm()
+      queryClient.invalidateQueries('all-sections')
+      queryClient.invalidateQueries(['section', selectedSection])
       setSelectedSection(null)
       setEditMode(false)
+      resetForm()
     } catch (err) {
       setSubmitting(false)
       setSnackbar(prev => ({

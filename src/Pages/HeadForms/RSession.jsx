@@ -130,7 +130,7 @@ const RSession = () => {
     isLoading: isSessionLoading,
     data: sessionData,
   } = useQuery(
-    ['sessions', selectedSession],
+    ['session', selectedSession],
     () => getSessionById(token, selectedSession),
     {
       staleTime: 1000 * 60 * 60 * 24,
@@ -168,7 +168,7 @@ const RSession = () => {
       open={showDrawer}
       onClose={() => setShowDrawer(prev => !prev)}
     >
-      <Box sx={{ width: 250 }}>
+      <Box sx={{ width: 300, overflowX: 'hidden' }}>
         <List>
           {sessionsData?.map(s => (
             <ListItem key={s._id} disablePadding>
@@ -373,12 +373,7 @@ const RSession = () => {
         </Grid>
         {drawer}
       </Grid>
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={onClose}
-        TransitionComponent={props => <Slide {...props} direction='down' />}
-      >
+      <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={onClose}>
         <Alert severity={snackbar.severity} sx={{ width: '100%' }}>
           {snackbar.message}
         </Alert>

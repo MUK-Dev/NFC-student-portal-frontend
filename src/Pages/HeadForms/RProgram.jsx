@@ -76,7 +76,7 @@ const RProgram = () => {
     isLoading: isProgramLoading,
     data: programData,
   } = useQuery(
-    ['programs', selectedProgram],
+    ['program', selectedProgram],
     () => getProgramById(token, selectedProgram),
     {
       staleTime: 1000 * 60 * 60 * 24,
@@ -153,7 +153,7 @@ const RProgram = () => {
       open={showDrawer}
       onClose={() => setShowDrawer(prev => !prev)}
     >
-      <Box sx={{ width: 250 }}>
+      <Box sx={{ width: 300, overflowX: 'hidden' }}>
         <List>
           {programsData?.map(p => (
             <ListItem key={p._id} disablePadding>
@@ -349,12 +349,7 @@ const RProgram = () => {
         </Grid>
         {drawer}
       </Grid>
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={onClose}
-        TransitionComponent={props => <Slide {...props} direction='down' />}
-      >
+      <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={onClose}>
         <Alert severity={snackbar.severity} sx={{ width: '100%' }}>
           {snackbar.message}
         </Alert>
