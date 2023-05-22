@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Stack } from '@mui/material'
+import { Fade, Stack } from '@mui/material'
 import { AnimatePresence } from 'framer-motion'
 
 import ParentForm from '../../Components/auth/ParentForm'
@@ -21,23 +21,25 @@ const Register = () => {
 
   return (
     <AuthGuard path='/register'>
-      <Stack
-        direction='column'
-        alignItems='center'
-        width='100%'
-        minHeight='100vh'
-        paddingTop='40%'
-      >
-        <img
-          src={NFCLogo}
-          style={{
-            width: 100,
-            height: 90,
-          }}
-          alt='Logo'
-        />
-        <AnimatePresence mode='wait'>{f}</AnimatePresence>
-      </Stack>
+      <Fade in unmountOnExit style={{ transitionDelay: '500ms' }}>
+        <Stack
+          direction='column'
+          alignItems='center'
+          width='100%'
+          minHeight='100vh'
+          paddingTop='40%'
+        >
+          <img
+            src={NFCLogo}
+            style={{
+              width: 100,
+              height: 90,
+            }}
+            alt='Logo'
+          />
+          <AnimatePresence mode='wait'>{f}</AnimatePresence>
+        </Stack>
+      </Fade>
     </AuthGuard>
   )
 }
