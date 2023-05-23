@@ -264,6 +264,7 @@ export default function ClassResult() {
       setIsSubmitting(prev => false)
       setSuccess(true)
       queryClient.invalidateQueries(['result-sheets', token])
+      queryClient.invalidateQueries(['all-result-sheets', token])
     } catch (err) {
       console.log(err)
       setErrorModal(err.response.data.message)
@@ -297,6 +298,7 @@ export default function ClassResult() {
       const res = await postMarksRequest(token, dto)
       setIsSubmitting(prev => false)
       queryClient.invalidateQueries(['result-sheets', token])
+      queryClient.invalidateQueries(['all-result-sheets', token])
       setSuccess(true)
     } catch (err) {
       setErrorModal(err.response.data.message)

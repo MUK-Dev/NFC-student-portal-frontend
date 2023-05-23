@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import Login from './Pages/Auth/Login'
 import Register from './Pages/Auth/Register'
+import AdminResult from './Pages/HeadPages/AdminResult'
 import HeadDashboard from './Pages/HeadPages/HeadDashboard'
 import HeadSearchOptions from './Pages/HeadPages/HeadSearchOptions'
 import RDepartment from './Pages/HeadPages/RDepartment'
@@ -109,6 +110,7 @@ const App = () => {
                     element={<RDepartment />}
                   />
                   <Route path='/head/register/subject' element={<RSubject />} />
+                  <Route path='/head/result-sheets' element={<AdminResult />} />
                   <Route
                     path='/head/register/teacher'
                     element={<RTeachersInSubject />}
