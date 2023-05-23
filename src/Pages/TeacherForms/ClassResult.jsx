@@ -409,14 +409,16 @@ export default function ClassResult() {
               </Typography>
             </Grid>
             <Grid item>
-              <IconButton
-                aria-label='add'
-                color='primary'
-                padding='1em'
-                onClick={() => setRepeat(true)}
-              >
-                <AddCircleIcon />
-              </IconButton>
+              {editMode && (
+                <IconButton
+                  aria-label='add'
+                  color='primary'
+                  padding='1em'
+                  onClick={() => setRepeat(true)}
+                >
+                  <AddCircleIcon />
+                </IconButton>
+              )}
               <FormControl
                 sx={{ width: { xs: '100%', md: '20ch' } }}
                 size='small'
