@@ -14,14 +14,12 @@ export default function ResultDialogBox(props) {
   const navigate = useNavigate()
 
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog onClose={onClose ? onClose : () => {}} open={open}>
       <DialogTitle color='error'>Result Entered</DialogTitle>
-      <DialogContentText>
-        <Typography>Result Entered Successfully</Typography>
-      </DialogContentText>
+      <DialogContentText>Result Entered Successfully</DialogContentText>
       <DialogActions>
-        <Button onClick={() => navigate('/teacher/home')}>
-          Go to home page
+        <Button onClick={() => navigate('/teacher/result-sheets')}>
+          Go to Record Page
         </Button>
       </DialogActions>
     </Dialog>

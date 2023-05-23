@@ -130,7 +130,6 @@ const RTeachersInSubject = () => {
 
   useEffect(() => {
     if (!teacherData) return
-    console.log(teacherData)
     setFieldValue('name', teacherData.name)
     setFieldValue('email', teacherData.email)
     setFieldValue('phoneNo', teacherData.phoneNo)

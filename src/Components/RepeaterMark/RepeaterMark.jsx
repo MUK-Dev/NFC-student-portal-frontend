@@ -12,6 +12,7 @@ import {
   tableCellClasses,
 } from '@mui/material'
 import React, { useState } from 'react'
+import { useQueryClient } from 'react-query'
 
 import useAuth from '../../Hooks/useAuth'
 
@@ -45,6 +46,7 @@ const RepeaterMark = props => {
   const [success, setSuccess] = useState(false)
   const [errorModal, setErrorModal] = useState(false)
   const { user, token } = useAuth()
+  const queryClient = useQueryClient()
   const [value, setValue] = useState({
     mids: '',
     sessional: '',
@@ -52,8 +54,6 @@ const RepeaterMark = props => {
     lab_final: '',
     lab_sessional: '',
   })
-
-  console.log(props.subject)
 
   const submitMarks = async () => {
     const dto = {
@@ -69,6 +69,7 @@ const RepeaterMark = props => {
     }
     try {
       const res = await repeaterMarkRequest(token, props.sheetId, dto)
+      queryClient.invalidateQueries(['sheet', props.sheetId, token])
       setSuccess(true)
     } catch (err) {
       setErrorModal(err.response.data.message)
@@ -76,7 +77,6 @@ const RepeaterMark = props => {
   }
 
   const handleSubmit = () => {
-    console.log(value)
     let shouldBreak = true
     if (
       (props.subject.theory_hours > 0 &&
@@ -226,8 +226,12 @@ const RepeaterMark = props => {
           Submit
         </Button>
       </Stack>
-      <ResultDialogBox open={success} />
-      <ResultErrorDialogBox open={!!errorModal} text={errorModal} />
+      <ResultDialogBox open={success} onClose={() => setSuccess(false)} />
+      <ResultErrorDialogBox
+        open={!!errorModal}
+        onClose={() => setErrorModal(null)}
+        text={errorModal}
+      />
     </>
   )
 }

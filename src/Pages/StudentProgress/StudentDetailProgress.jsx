@@ -32,8 +32,7 @@ const StudentDetailProgress = () => {
   const [overallResult, setOverallResult] = useState({})
   const studentId = searchParams.get('studentId')
   const editMode = !!studentId
-  console.log(studentId, editMode)
-  const selectedStudent = editMode ? studentId : user._id
+  const selectedStudent = editMode ? studentId : user?._id
   const { generateStudentResultPDF, isGenerating, error } =
     useStudentResultPDFReport()
   const {
@@ -47,7 +46,7 @@ const StudentDetailProgress = () => {
     generateStudentSemesterResultPDF(selectedStudent, row)
 
   const { isError, isLoading, data } = useQuery(
-    ['student-result', token],
+    ['student-result', token, selectedStudent],
     () => getStudentResultRequest(token, selectedStudent),
     {
       staleTime: 1000 * 60 * 60 * 24,

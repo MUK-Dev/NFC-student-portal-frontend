@@ -22,7 +22,7 @@ import { styled } from '@mui/material/styles'
 import * as React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { useSearchParams } from 'react-router-dom'
 
 import MarksErrorDialogBox from '../../Components/DialogBox/MarksErrorDialogBox'
@@ -76,6 +76,8 @@ export default function ClassResult() {
   const [errorModal, setErrorModal] = useState(false)
   const [success, setSuccess] = useState(false)
   const [search, setSearch] = useState('')
+  const queryClient = useQueryClient()
+
   const [repeat, setRepeat] = useState(false)
   const [proSession, setProSession] = useState({
     Program: searchParams.get('program_abbreviation'),
@@ -132,7 +134,7 @@ export default function ClassResult() {
       Subject: sheetData.subject_Id,
     })
   }, [sheetData])
-  const selectedSubject = user.subjects.filter(
+  const selectedSubject = user?.subjects.filter(
     sub => sub.subject._id === subjectID.Subject,
   )[0]
 
@@ -261,6 +263,7 @@ export default function ClassResult() {
       const res = await updateMarkListRequest(token, sheetId, dto)
       setIsSubmitting(prev => false)
       setSuccess(true)
+      queryClient.invalidateQueries(['result-sheets', token])
     } catch (err) {
       console.log(err)
       setErrorModal(err.response.data.message)
@@ -293,6 +296,7 @@ export default function ClassResult() {
     try {
       const res = await postMarksRequest(token, dto)
       setIsSubmitting(prev => false)
+      queryClient.invalidateQueries(['result-sheets', token])
       setSuccess(true)
     } catch (err) {
       setErrorModal(err.response.data.message)

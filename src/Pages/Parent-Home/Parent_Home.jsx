@@ -82,8 +82,8 @@ export default function Parent_Home() {
     setIsLoadingHistory(prev => true)
     const history = localStorage.getItem('search_history')
     if (!history) {
-      return
       setIsLoadingHistory(prev => false)
+      return
     }
     let parsedHistory = JSON.parse(history)
     if (parsedHistory.length > 5) {
