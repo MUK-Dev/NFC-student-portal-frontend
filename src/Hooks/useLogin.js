@@ -22,13 +22,13 @@ export default function useLogin() {
       setToken(token)
       setAccessToken(token)
       setUser(user)
-      if (user.role === 'Student') {
+      if (user?.role === 'Student') {
         navigate('/student/home')
-      } else if (user.role === 'Parent') {
+      } else if (user?.role === 'Parent') {
         navigate('/parent/home')
-      } else if (user.role === 'Admin') {
+      } else if (user?.role === 'Admin') {
         navigate('/head/dashboard')
-      } else if (user.role === 'Teacher') {
+      } else if (user?.role === 'Teacher') {
         navigate('/teacher/home')
       }
       setSubmitting(false)

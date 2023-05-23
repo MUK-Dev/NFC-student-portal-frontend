@@ -281,8 +281,8 @@ export default function ClassResult() {
       semester: semester,
       subject: subject,
       section: section,
-      theory_teacher: user._id,
-      lab_teacher: user._id,
+      theory_teacher: user?._id,
+      lab_teacher: user?._id,
       list: studentsList.map(s => ({
         mids: s.mids,
         finals: s.finals,

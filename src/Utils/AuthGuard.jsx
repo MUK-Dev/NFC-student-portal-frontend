@@ -19,16 +19,16 @@ const AuthGuard = ({ children, path = '/' }) => {
     } else if (!!user && !isAuthLoading) {
       const currentPath = window.location.pathname
       if (currentPath === '/register' || currentPath === '/') {
-        if (user.role === 'Student') {
+        if (user?.role === 'Student') {
           navigate('/student/home', { replace: true })
           setIsChecking(prev => false)
-        } else if (user.role === 'Parent') {
+        } else if (user?.role === 'Parent') {
           navigate('/parent/home', { replace: true })
           setIsChecking(prev => false)
-        } else if (user.role === 'Admin') {
-          navigate('/head/register/department', { replace: true })
+        } else if (user?.role === 'Admin') {
+          navigate('/head/dashboard', { replace: true })
           setIsChecking(prev => false)
-        } else if (user.role === 'Teacher') {
+        } else if (user?.role === 'Teacher') {
           navigate('/teacher/home', { replace: true })
           setIsChecking(prev => false)
         }

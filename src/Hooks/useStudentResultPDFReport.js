@@ -3,6 +3,7 @@ import 'jspdf-autotable'
 import { useState } from 'react'
 
 import { generateStudentResultReportRequest } from '../Services/API/generateStudentResultReportRequest'
+import { getStudentById } from '../Services/API/getStudentById'
 
 import NFCLogo from '../Assets/Images/NFC Iet Logo.png'
 
@@ -17,6 +18,7 @@ export default function useStudentResultPDFReport() {
     setIsGenerating(prev => true)
     setError(null)
     try {
+      const studentData = await getStudentById(token, studentId)
       const data = await generateStudentResultReportRequest(token, studentId)
       const doc = []
       let count = 0
@@ -80,9 +82,9 @@ export default function useStudentResultPDFReport() {
           pageWidth / 2 - 10,
           63,
         )
-        doc[row].text(`Name:      ${user.name}`, 25, 80)
+        doc[row].text(`Name:      ${studentData?.name}`, 25, 80)
         doc[row].text(
-          `Roll No.:      ${data.values.session_title}-${data.values.program_abbreviation}-${user.rollNo}`,
+          `Roll No.:      ${data.values.session_title}-${data.values.program_abbreviation}-${studentData?.rollNo}`,
           pageWidth - 80,
           80,
         )
