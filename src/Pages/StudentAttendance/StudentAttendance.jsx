@@ -1,4 +1,10 @@
-import { LinearProgress, Paper, Typography, useTheme } from '@mui/material'
+import {
+  Collapse,
+  LinearProgress,
+  Paper,
+  Typography,
+  useTheme,
+} from '@mui/material'
 import moment from 'moment'
 import { EventCalendar } from 'react-mui-event-calendar'
 import { useQuery } from 'react-query'
@@ -31,7 +37,7 @@ const StudentAttendance = () => {
       <Typography variant='h4' gutterBottom>
         Previous Attendance
       </Typography>
-      {data && (
+      <Collapse in={!!data} unmountOnExit>
         <EventCalendar
           width='100%'
           readonly
@@ -43,7 +49,7 @@ const StudentAttendance = () => {
           }}
           dataSource={data}
         />
-      )}
+      </Collapse>
     </Paper>
   )
 }

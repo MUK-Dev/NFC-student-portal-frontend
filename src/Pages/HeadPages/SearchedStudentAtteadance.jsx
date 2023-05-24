@@ -1,4 +1,10 @@
-import { LinearProgress, Paper, Typography, useTheme } from '@mui/material'
+import {
+  Collapse,
+  LinearProgress,
+  Paper,
+  Typography,
+  useTheme,
+} from '@mui/material'
 import { motion } from 'framer-motion'
 import { EventCalendar } from 'react-mui-event-calendar'
 import { useQuery } from 'react-query'
@@ -33,24 +39,19 @@ const SearchedStudentAttendance = () => {
       <Typography variant='h4' gutterBottom>
         Previous Attendance
       </Typography>
-      {data && (
-        <motion.div
-          initial={{ filter: 'blur(20px)' }}
-          animate={{ filter: 'blur(0px)' }}
-        >
-          <EventCalendar
-            width='100%'
-            readonly
-            showEventPopup={false}
-            elevation={0}
-            pallet={{
-              primary: theme.palette.primary.main,
-              secondary: theme.palette.secondary.main,
-            }}
-            dataSource={data}
-          />
-        </motion.div>
-      )}
+      <Collapse in={!!data} unmountOnExit>
+        <EventCalendar
+          width='100%'
+          readonly
+          showEventPopup={false}
+          elevation={0}
+          pallet={{
+            primary: theme.palette.primary.main,
+            secondary: theme.palette.secondary.main,
+          }}
+          dataSource={data}
+        />
+      </Collapse>
     </Paper>
   )
 }
