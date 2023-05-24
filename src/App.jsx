@@ -29,8 +29,6 @@ import ResultSheets from './Pages/ResultSheets/ResultSheets'
 import ScannerAttendance from './Pages/ScannerAttendance/ScannerAttendence'
 import PreviousSheets from './Pages/Sheets/PreviousSheets'
 import StudentAttendance from './Pages/StudentAttendance/StudentAttendance'
-import Certificate from './Pages/StudentCertificate/Certificate'
-import StudentCertificate from './Pages/StudentCertificate/StudentCertificate'
 import StudentDashboard from './Pages/StudentDashboard/StudentDashboard'
 import StudentDetailProgress from './Pages/StudentProgress/StudentDetailProgress'
 import StudentProgress from './Pages/StudentProgress/StudentProgress'
@@ -40,7 +38,6 @@ import ClassResult from './Pages/TeacherForms/ClassResult'
 import AuthProvider from './Contexts/AuthContext'
 
 const App = () => {
-  // #dcdfca
   const theme = createTheme({
     palette: {
       type: 'light',
@@ -87,14 +84,6 @@ const App = () => {
                   <Route
                     path='/student/detail-progress'
                     element={<StudentDetailProgress />}
-                  />
-                  <Route
-                    path='/student/certificate'
-                    element={<StudentCertificate />}
-                  />
-                  <Route
-                    path='/student/certificate'
-                    element={<Certificate />}
                   />
                   <Route
                     path='/student/scanner'

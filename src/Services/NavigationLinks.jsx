@@ -63,15 +63,6 @@ export const getLinks = (theme, role) => {
           />
         ),
       },
-      {
-        title: 'Certificate',
-        path: '/student/certificate',
-        icon: (
-          <GradeIcon
-            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
-          />
-        ),
-      },
     ]
   else if (role === 'Parent')
     return [
