@@ -5,7 +5,8 @@ import {
   Typography,
   useTheme,
 } from '@mui/material'
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { useEffect } from 'react'
 import { EventCalendar } from 'react-mui-event-calendar'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router'
@@ -17,6 +18,7 @@ import { getStudentCalendarDataByIdRequest } from '../../Services/API/getStudent
 const ChildsAttendance = () => {
   const theme = useTheme()
   const { studentId } = useParams()
+  const [collapseIn, setCollapseIn] = useState(false)
 
   const { token } = useAuth()
 
@@ -29,6 +31,10 @@ const ChildsAttendance = () => {
     },
   )
 
+  useEffect(() => {
+    if (!!data && !collapseIn) setTimeout(() => setCollapseIn(true), 500)
+  }, [data])
+
   return (
     <Paper sx={{ padding: '1em', flexGrow: 1, position: 'relative' }}>
       {isLoading && (
@@ -40,18 +46,20 @@ const ChildsAttendance = () => {
         Previous Attendance
       </Typography>
 
-      <Collapse in={!!data} unmountOnExit>
-        <EventCalendar
-          width='100%'
-          readonly
-          showEventPopup={false}
-          elevation={0}
-          pallet={{
-            primary: theme.palette.primary.main,
-            secondary: theme.palette.secondary.main,
-          }}
-          dataSource={data}
-        />
+      <Collapse in={collapseIn}>
+        {!!data && (
+          <EventCalendar
+            width='100%'
+            readonly
+            showEventPopup={false}
+            elevation={0}
+            pallet={{
+              primary: theme.palette.primary.main,
+              secondary: theme.palette.secondary.main,
+            }}
+            dataSource={data}
+          />
+        )}
       </Collapse>
     </Paper>
   )
