@@ -109,14 +109,52 @@ const AdminResult = () => {
           sx={{ cursor: 'pointer' }}
           // onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
         >
-          <TableCell align='center'>{r.theory_teacher.name}</TableCell>
-          <TableCell align='center'>{r.department.department_name}</TableCell>
-          <TableCell align='center'>{r.program.program_abbreviation}</TableCell>
-          <TableCell align='center'>{r.session.session_title}</TableCell>
-          <TableCell align='center'>{r.section.section_title}</TableCell>
-          <TableCell align='center'>{r.semester.semester_title}</TableCell>
-          <TableCell align='center'>{`${r.subject.subject_title} ${r.subject.subject_code}`}</TableCell>
-          <TableCell align='center'>{moment(r.date).format('LLL')}</TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
+          >
+            {r.theory_teacher.name}
+          </TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
+          >
+            {r.department.department_name}
+          </TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
+          >
+            {r.program.program_abbreviation}
+          </TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
+          >
+            {r.session.session_title}
+          </TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
+          >
+            {r.section.section_title}
+          </TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
+          >
+            {r.semester.semester_title}
+          </TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
+          >{`${r.subject.subject_title} ${r.subject.subject_code}`}</TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
+          >
+            {moment(r.date).format('LLL')}
+          </TableCell>
           <TableCell align='center'>
             <Tooltip title='Generate Report' placement='top'>
               <IconButton
