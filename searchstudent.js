@@ -9,6 +9,5 @@ export const searchRequest = async (token, queryDTO) => {
       Authorization: `Bearer ${token}`,
     },
   })
-
   return data
 }
