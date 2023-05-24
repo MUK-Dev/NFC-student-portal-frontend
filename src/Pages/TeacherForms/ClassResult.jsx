@@ -264,6 +264,7 @@ export default function ClassResult() {
       setIsSubmitting(prev => false)
       setSuccess(true)
       queryClient.invalidateQueries(['result-sheets', token])
+      queryClient.invalidateQueries(['all-result-sheets', token])
     } catch (err) {
       console.log(err)
       setErrorModal(err.response.data.message)
@@ -281,8 +282,8 @@ export default function ClassResult() {
       semester: semester,
       subject: subject,
       section: section,
-      theory_teacher: user._id,
-      lab_teacher: user._id,
+      theory_teacher: user?._id,
+      lab_teacher: user?._id,
       list: studentsList.map(s => ({
         mids: s.mids,
         finals: s.finals,
@@ -297,6 +298,7 @@ export default function ClassResult() {
       const res = await postMarksRequest(token, dto)
       setIsSubmitting(prev => false)
       queryClient.invalidateQueries(['result-sheets', token])
+      queryClient.invalidateQueries(['all-result-sheets', token])
       setSuccess(true)
     } catch (err) {
       setErrorModal(err.response.data.message)
@@ -407,14 +409,16 @@ export default function ClassResult() {
               </Typography>
             </Grid>
             <Grid item>
-              <IconButton
-                aria-label='add'
-                color='primary'
-                padding='1em'
-                onClick={() => setRepeat(true)}
-              >
-                <AddCircleIcon />
-              </IconButton>
+              {editMode && (
+                <IconButton
+                  aria-label='add'
+                  color='primary'
+                  padding='1em'
+                  onClick={() => setRepeat(true)}
+                >
+                  <AddCircleIcon />
+                </IconButton>
+              )}
               <FormControl
                 sx={{ width: { xs: '100%', md: '20ch' } }}
                 size='small'

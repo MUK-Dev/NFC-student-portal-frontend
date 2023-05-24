@@ -159,6 +159,15 @@ export const getLinks = (theme, role) => {
           />
         ),
       },
+      {
+        title: 'Result Records',
+        path: '/head/result-sheets',
+        icon: (
+          <ReorderIcon
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
     ]
   else if (role === 'Teacher')
     return [

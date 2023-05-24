@@ -46,7 +46,7 @@ const TeacherAttendanceReportModal = ({ ...rest }) => {
 
   const handleChange = (key, value) => {
     if (key === 'subject') {
-      const selectedValue = user.subjects.filter(
+      const selectedValue = user?.subjects.filter(
         s => s.subject._id === value,
       )[0]
       setValues(prev => ({

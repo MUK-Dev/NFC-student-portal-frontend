@@ -183,7 +183,7 @@ const MarkAttandence = () => {
 
   const handleChange = (key, value) => {
     if (key === 'subject') {
-      const selectedValue = user.subjects.filter(
+      const selectedValue = user?.subjects.filter(
         s => s.subject._id === value,
       )[0]
       setValues(prev => ({
@@ -256,7 +256,7 @@ const MarkAttandence = () => {
     const dto = {
       ...values,
       date: values.date.toDate(),
-      teacher: user._id,
+      teacher: user?._id,
       list: studentsList.map(s => ({
         student: s._id,
         present: s.present,
@@ -343,7 +343,7 @@ const MarkAttandence = () => {
                             {sheetData?.sheet.subject?.subject_title}
                           </MenuItem>
                         ) : (
-                          user.subjects?.map(s => (
+                          user?.subjects?.map(s => (
                             <MenuItem value={s.subject._id} key={s.subject._id}>
                               {s?.subject.subject_title}
                             </MenuItem>

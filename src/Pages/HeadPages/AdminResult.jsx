@@ -29,12 +29,15 @@ import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router'
 
 import ClassResultDialogBox from '../../Components/DialogBox/ClassResultDialogBox'
+import SemesterResultDialogBox from '../../Components/DialogBox/SemesterResultDialogBox'
 
 import useAuth from '../../Hooks/useAuth'
 
+import { getAllResultSheetsRequest } from '../../Services/API/getAllResultSheetsRequest'
 import { getResultSheetsDataRequest } from '../../Services/API/getResultSheetsRequest'
 
 const tableHeaders = [
+  'Teacher',
   'Department',
   'Program',
   'Session',
@@ -45,9 +48,10 @@ const tableHeaders = [
   'Download',
 ]
 
-const ResultSheets = () => {
+const AdminResult = () => {
   const { token } = useAuth()
   const [search, setSearch] = useState('')
+  const [semesterResult, setSemesterResult] = useState(false)
   const [dialogBox, setDialogBox] = useState(false)
   const [values, setValues] = useState({
     Session: '',
@@ -59,8 +63,8 @@ const ResultSheets = () => {
   const navigate = useNavigate()
 
   const { isError, isLoading, data } = useQuery(
-    ['result-sheets', token],
-    () => getResultSheetsDataRequest(token),
+    ['all-result-sheets', token],
+    () => getAllResultSheetsRequest(token),
     {
       staleTime: 1000 * 60 * 60 * 24,
       enabled: !!token,
@@ -75,6 +79,7 @@ const ResultSheets = () => {
       ?.filter(r => {
         if (search === '') return true
         else if (
+          r.theory_teacher.name.toLowerCase().includes(search.toLowerCase()) ||
           r.department.department_name
             .toLowerCase()
             .includes(search.toLowerCase()) ||
@@ -106,41 +111,47 @@ const ResultSheets = () => {
         >
           <TableCell
             align='center'
-            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
+          >
+            {r.theory_teacher.name}
+          </TableCell>
+          <TableCell
+            align='center'
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
           >
             {r.department.department_name}
           </TableCell>
           <TableCell
             align='center'
-            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
           >
             {r.program.program_abbreviation}
           </TableCell>
           <TableCell
             align='center'
-            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
           >
             {r.session.session_title}
           </TableCell>
           <TableCell
             align='center'
-            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
           >
             {r.section.section_title}
           </TableCell>
           <TableCell
             align='center'
-            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
           >
             {r.semester.semester_title}
           </TableCell>
           <TableCell
             align='center'
-            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
           >{`${r.subject.subject_title} ${r.subject.subject_code}`}</TableCell>
           <TableCell
             align='center'
-            onClick={() => navigate(`/teacher/result-form?sheetId=${r._id}`)}
+            onClick={() => navigate(`/head/result-sheet?sheetId=${r._id}`)}
           >
             {moment(r.date).format('LLL')}
           </TableCell>
@@ -181,6 +192,13 @@ const ResultSheets = () => {
             </Typography>
           </Grid>
           <Grid item>
+            <IconButton
+              color='primary'
+              sx={{ marginRight: '1em' }}
+              onClick={() => setSemesterResult(true)}
+            >
+              <Save />
+            </IconButton>
             <FormControl
               sx={{ width: { xs: '100%', md: '30ch' } }}
               size='small'
@@ -227,8 +245,12 @@ const ResultSheets = () => {
         value={values}
         onClose={() => setDialogBox(false)}
       />
+      <SemesterResultDialogBox
+        open={semesterResult}
+        onClose={() => setSemesterResult(false)}
+      />
     </>
   )
 }
 
-export default ResultSheets
+export default AdminResult

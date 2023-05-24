@@ -18,12 +18,12 @@ const StudentProgress = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [result, setResult] = useState({})
-  const { token } = useAuth()
+  const { user, token } = useAuth()
   const navigate = useNavigate()
 
   const { isError, isLoading, data } = useQuery(
     ['student-result', token],
-    () => getStudentResultRequest(token),
+    () => getStudentResultRequest(token, user?._id),
     {
       staleTime: 1000 * 60 * 60 * 24,
       enabled: !!token,
