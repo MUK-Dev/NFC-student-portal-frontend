@@ -1,18 +1,21 @@
-import { Group, HolidayVillage, List, Person } from '@mui/icons-material'
-import AccessibilityIcon from '@mui/icons-material/Accessibility'
+import {
+  FeaturedPlayList,
+  Group,
+  HolidayVillage,
+  List,
+  Person,
+} from '@mui/icons-material'
 import ApartmentIcon from '@mui/icons-material/Apartment'
 import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import DocumentScannerIcon from '@mui/icons-material/DocumentScanner'
 import FactCheckIcon from '@mui/icons-material/FactCheck'
-import GradeIcon from '@mui/icons-material/Grade'
 import GradingIcon from '@mui/icons-material/Grading'
 import HomeIcon from '@mui/icons-material/Home'
 import LayersIcon from '@mui/icons-material/Layers'
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import ReorderIcon from '@mui/icons-material/Reorder'
-import SchoolIcon from '@mui/icons-material/School'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 
 export const getLinks = (theme, role) => {
@@ -163,7 +166,7 @@ export const getLinks = (theme, role) => {
         title: 'Result Records',
         path: '/head/result-sheets',
         icon: (
-          <ReorderIcon
+          <FeaturedPlayList
             htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
           />
         ),

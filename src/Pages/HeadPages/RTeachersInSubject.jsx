@@ -90,7 +90,7 @@ const RTeachersInSubject = () => {
             setSubmitting,
             resetForm,
           })
-      : (values, { setErrors, setStatus, setSubmitting }) =>
+      : (values, { setErrors, setStatus, setSubmitting, resetForm }) =>
           submitForm(values, subjects, {
             setErrors,
             setStatus,
@@ -189,6 +189,15 @@ const RTeachersInSubject = () => {
     setSubjects(prev => {
       const newSubjects = [...prev]
       newSubjects[i][key] = keyValue
+      newSubjects[i].lab_hours = '0'
+      newSubjects[i].theory_hours = '0'
+      return newSubjects
+    })
+
+  const selectHours = (i, key, keyValue) =>
+    setSubjects(prev => {
+      const newSubjects = [...prev]
+      newSubjects[i][key] = keyValue
       return newSubjects
     })
 
@@ -274,70 +283,88 @@ const RTeachersInSubject = () => {
                   />
                 </Grid>
 
-                {subjects.map((sub, i) => (
-                  <React.Fragment key={i}>
-                    <Grid item xs={12} md={5} padding='.5em .5em .5em 0'>
-                      <FormControl fullWidth>
-                        <InputLabel>Subject</InputLabel>
-                        <Select
-                          labelId='subject'
-                          id='subject'
-                          value={subjects[i]['subject'] || ''}
-                          label='Subject'
-                          required
+                {subjects.map((sub, i) => {
+                  let selectedSubject = null
+                  if (!!subjects[i]['subject']) {
+                    selectedSubject = subjectsData.find(
+                      s => s._id === subjects[i]['subject'],
+                    )
+                  }
+                  return (
+                    <React.Fragment key={i}>
+                      <Grid item xs={12} md={5} padding='.5em .5em .5em 0'>
+                        <FormControl fullWidth>
+                          <InputLabel>Subject</InputLabel>
+                          <Select
+                            labelId='subject'
+                            id='subject'
+                            value={subjects[i]['subject'] || ''}
+                            label='Subject'
+                            required
+                            onChange={e => {
+                              selectSubject(i, 'subject', e.target.value)
+                            }}
+                          >
+                            {subjectsData?.map(s => (
+                              <MenuItem key={s._id} value={s._id}>
+                                {s.subject_title}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={6} md={3} padding='.5em'>
+                        <Typography gutterBottom>
+                          Theory Credit Hours
+                        </Typography>
+                        <Slider
+                          aria-label='Theory Credit Hours'
+                          valueLabelDisplay='auto'
+                          disabled={
+                            !!!subjects[i]['subject'] ||
+                            parseInt(selectedSubject?.theory_hours) <= 0
+                          }
                           onChange={e => {
-                            selectSubject(i, 'subject', e.target.value)
+                            selectHours(i, 'theory_hours', e.target.value)
                           }}
+                          value={parseInt(subjects[i].theory_hours) || 0}
+                          marks
+                          min={0}
+                          max={parseInt(selectedSubject?.theory_hours) || 5}
+                        />
+                      </Grid>
+                      <Grid item xs={6} md={3} padding='.5em'>
+                        <Typography gutterBottom>Lab Credit Hours</Typography>
+                        <Slider
+                          aria-label='Theory Credit Hours'
+                          valueLabelDisplay='auto'
+                          disabled={
+                            !!!subjects[i]['subject'] ||
+                            parseInt(selectedSubject?.lab_hours) <= 0
+                          }
+                          onChange={e => {
+                            selectHours(i, 'lab_hours', e.target.value)
+                          }}
+                          value={parseInt(subjects[i].lab_hours) || 0}
+                          marks
+                          min={0}
+                          max={parseInt(selectedSubject?.lab_hours) || 5}
+                        />
+                      </Grid>
+                      <Grid item xs={6} md={1} padding='.5em'>
+                        <IconButton
+                          onClick={e => {
+                            delSubject(i)
+                          }}
+                          color='primary'
+                          sx={{ margin: '.5em .5em .5em 0' }}
                         >
-                          {subjectsData?.map(s => (
-                            <MenuItem key={s._id} value={s._id}>
-                              {s.subject_title}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={6} md={3} padding='.5em'>
-                      <Typography gutterBottom>Theory Credit Hours</Typography>
-                      <Slider
-                        aria-label='Theory Credit Hours'
-                        valueLabelDisplay='auto'
-                        onChange={e => {
-                          selectSubject(i, 'theory_hours', e.target.value)
-                        }}
-                        value={parseInt(subjects[i].theory_hours) ?? 0}
-                        marks
-                        min={0}
-                        max={5}
-                      />
-                    </Grid>
-                    <Grid item xs={6} md={3} padding='.5em'>
-                      <Typography gutterBottom>Lab Credit Hours</Typography>
-                      <Slider
-                        aria-label='Theory Credit Hours'
-                        valueLabelDisplay='auto'
-                        onChange={e => {
-                          selectSubject(i, 'lab_hours', e.target.value)
-                        }}
-                        value={parseInt(subjects[i].lab_hours) ?? 0}
-                        marks
-                        min={0}
-                        max={5}
-                      />
-                    </Grid>
-                    <Grid item xs={6} md={1} padding='.5em'>
-                      <IconButton
-                        onClick={e => {
-                          delSubject(i)
-                        }}
-                        color='primary'
-                        sx={{ margin: '.5em .5em .5em 0' }}
-                      >
-                        <DeleteForeverIcon />
-                      </IconButton>
-                    </Grid>
-                  </React.Fragment>
-                ))}
+                          <DeleteForeverIcon />
+                        </IconButton>
+                      </Grid>
+                    </React.Fragment>
+                  )
+                })}
 
                 <Stack direction={'row'} justifyContent='end' width={'100%'}>
                   <Button
