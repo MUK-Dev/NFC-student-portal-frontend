@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './Pages/Auth/Login'
 import Register from './Pages/Auth/Register'
 import AdminResult from './Pages/HeadPages/AdminResult'
+import AllAttendanceSheets from './Pages/HeadPages/AllAttendanceSheets'
 import HeadDashboard from './Pages/HeadPages/HeadDashboard'
 import HeadResultSheet from './Pages/HeadPages/HeadResultSheet'
 import HeadSearchOptions from './Pages/HeadPages/HeadSearchOptions'
@@ -21,6 +22,7 @@ import RTeachersInSubject from './Pages/HeadPages/RTeachersInSubject'
 import SearchStudent from './Pages/HeadPages/SearchStudent'
 import SearchedStudentAttendance from './Pages/HeadPages/SearchedStudentAtteadance'
 import UpdateStudent from './Pages/HeadPages/UpdateStudent'
+import ViewAttendanceRecord from './Pages/HeadPages/ViewAttendanceRecord'
 import AuthLayout from './Pages/Layouts/AuthLayout'
 import DashboardLayout from './Pages/Layouts/DashboardLayout'
 import MarkAttandence from './Pages/MarkAttandence/MarkAttandence'
@@ -131,6 +133,14 @@ const App = () => {
                   <Route
                     path='/head/search/:studentId/update'
                     element={<UpdateStudent />}
+                  />
+                  <Route
+                    path='/head/attendance/records'
+                    element={<AllAttendanceSheets />}
+                  />
+                  <Route
+                    path='/head/attendance/view'
+                    element={<ViewAttendanceRecord />}
                   />
 
                   {/* Parent Routes */}

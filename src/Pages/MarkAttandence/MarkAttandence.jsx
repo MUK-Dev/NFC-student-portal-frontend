@@ -19,29 +19,24 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material'
 import { MobileDatePicker } from '@mui/x-date-pickers'
 import { motion } from 'framer-motion'
 import moment from 'moment'
 import QRCode from 'qrcode'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useSearchParams } from 'react-router-dom'
 
 import AttendanceErrorModal from '../../Components/Modal/AttendanceErrorModal'
-import AttendanceSuccessModal from '../../Components/Modal/AttendanceSuccessModal'
 
 import useAuth from '../../Hooks/useAuth'
 
-import { getDepartments } from '../../Services/API/departmentsRequest'
 import { getAttendanceSheetByIdRequest } from '../../Services/API/getAttenanceSheetByIdRequest'
 import { getStudentAttendanceDataRequest } from '../../Services/API/getStudentAttendanceDataRequest'
 import { postAttendenceRequest } from '../../Services/API/postAttendenceRequest'
-import { getPrograms } from '../../Services/API/programsRequest'
 import { getSections } from '../../Services/API/sectionsRequest'
-import { getSemester } from '../../Services/API/semesterRequest'
-import { getSessions } from '../../Services/API/sessionsRequest'
-import { getSubject } from '../../Services/API/subjectRequest'
 import { updateAttendanceListRequest } from '../../Services/API/updateAttendanceList'
 
 const MarkAttandence = () => {
@@ -52,6 +47,9 @@ const MarkAttandence = () => {
   const editMode = !!sheetId
   const [qrCode, setQrCode] = useState('')
   const { token, user } = useAuth()
+  const [allChecked, setAllChecked] = useState(false)
+  const [indetermined, setIndetermined] = useState(false)
+  const theme = useTheme()
 
   const {
     isLoading: isSheetLoading,
@@ -203,6 +201,10 @@ const MarkAttandence = () => {
   }
 
   const setPresent = index => {
+    if (allChecked) {
+      setAllChecked(false)
+      setIndetermined(true)
+    }
     if (!changeDone) setChangeDone(prev => true)
     setStudentsList(previousList => {
       const newList = [...previousList]
@@ -210,7 +212,33 @@ const MarkAttandence = () => {
       return newList
     })
   }
+
+  const setAllPresent = () => {
+    setAllChecked(prev => !prev)
+    setIndetermined(false)
+    if (!changeDone) setChangeDone(prev => true)
+    setStudentsList(previousList => {
+      const newList = [...previousList]
+      if (allChecked) {
+        newList.forEach(s => {
+          s.present = false
+          s.leave = false
+        })
+      } else if (!allChecked) {
+        newList.forEach(s => {
+          s.present = true
+          s.leave = false
+        })
+      }
+      return newList
+    })
+  }
+
   const setLeave = index => {
+    if (allChecked) {
+      setAllChecked(false)
+      setIndetermined(true)
+    }
     if (!changeDone) setChangeDone(prev => true)
     setStudentsList(previousList => {
       const newList = [...previousList]
@@ -480,6 +508,37 @@ const MarkAttandence = () => {
                   <Typography variant='h6' align='center' gutterBottom>
                     Class Students List
                   </Typography>
+
+                  <ListItem
+                    sx={{ height: '7ch' }}
+                    secondaryAction={
+                      <Stack direction='row' alignItems='end' gap='1em'>
+                        <Stack>
+                          <Tooltip title='Mark all present' placement='left'>
+                            <Checkbox
+                              disabled={
+                                !!!token ||
+                                !enableSections ||
+                                !enableStudentData ||
+                                isSheetLoading ||
+                                isSubmitting ||
+                                !changeDone
+                              }
+                              checked={allChecked}
+                              indeterminate={indetermined}
+                              onChange={() => setAllPresent()}
+                            />
+                          </Tooltip>
+                          <Typography variant='body2' align='right'>
+                            Present
+                          </Typography>
+                        </Stack>
+                        <Typography variant='body2' align='right'>
+                          Leave
+                        </Typography>
+                      </Stack>
+                    }
+                  ></ListItem>
                   {studentsList ? (
                     studentsList?.length > 0 ? (
                       studentsList?.map((student, i) => {
@@ -496,6 +555,15 @@ const MarkAttandence = () => {
                                 opacity: 1,
                                 filter: 'blur(0px)',
                               }}
+                              sx={{
+                                backgroundImage: `linear-gradient(to right,${
+                                  student?.leave
+                                    ? 'transparent'
+                                    : student?.present
+                                    ? theme.palette.success.light
+                                    : theme.palette.error.light
+                                } 20%, transparent)`,
+                              }}
                               transition={{ delay: 0.1 * i }}
                               secondaryAction={
                                 <Stack direction='row' gap='1em'>
@@ -504,7 +572,6 @@ const MarkAttandence = () => {
                                     placement='right'
                                   >
                                     <Checkbox
-                                      edge='end'
                                       disabled={student?.leave}
                                       checked={student?.present}
                                       onChange={() => setPresent(i)}
@@ -519,7 +586,6 @@ const MarkAttandence = () => {
                                     placement='right'
                                   >
                                     <Checkbox
-                                      edge='end'
                                       checked={student?.leave}
                                       onChange={() => setLeave(i)}
                                     />
@@ -561,6 +627,15 @@ const MarkAttandence = () => {
                                 filter: 'blur(0px)',
                               }}
                               transition={{ delay: 0.1 * i }}
+                              sx={{
+                                backgroundImage: `linear-gradient(to right,${
+                                  student?.leave
+                                    ? 'transparent'
+                                    : student?.present
+                                    ? theme.palette.success.light
+                                    : theme.palette.error.light
+                                } 20%, transparent)`,
+                              }}
                               secondaryAction={
                                 <Stack direction='row' gap='1em'>
                                   <Tooltip
@@ -572,7 +647,6 @@ const MarkAttandence = () => {
                                     placement='right'
                                   >
                                     <Checkbox
-                                      edge='end'
                                       disabled={student?.leave}
                                       checked={student?.present}
                                       onChange={() => setPresent(i)}
@@ -583,7 +657,6 @@ const MarkAttandence = () => {
                                     placement='right'
                                   >
                                     <Checkbox
-                                      edge='end'
                                       checked={student.leave}
                                       onChange={() => setLeave(i)}
                                     />

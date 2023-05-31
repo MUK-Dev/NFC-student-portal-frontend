@@ -6,6 +6,8 @@ import {
   Group,
   Layers,
   LibraryBooks,
+  List,
+  MenuBook,
   Person,
 } from '@mui/icons-material'
 import { Grid } from '@mui/material'
@@ -43,7 +45,7 @@ const data = [
     title: 'Semester',
     description: 'Register or edit Semesters',
     link: '/head/register/semester',
-    icon: <AutoAwesomeMotion />,
+    icon: <MenuBook />,
   },
   {
     title: 'Subject',
@@ -66,7 +68,7 @@ export default function ExampleComponent() {
     <Grid container spacing={2} margin={2} padding='0 4em 0 0'>
       <Grid
         item
-        xs={12}
+        xs={6}
         component={motion.div}
         initial={{ filter: 'blur(5px)' }}
         animate={{ filter: 'blur(0px)' }}
@@ -96,6 +98,34 @@ export default function ExampleComponent() {
                 <img src={audienceImage} width={80} height={80} />
               </Grid>
             </Grid>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid
+        item
+        xs={6}
+        component={motion.div}
+        initial={{ filter: 'blur(5px)' }}
+        animate={{ filter: 'blur(0px)' }}
+      >
+        <Card>
+          <Button
+            fullWidth
+            variant='contained'
+            disableElevation
+            onClick={() => navigate('/head/attendance/records')}
+            sx={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
+          >
+            <List />
+          </Button>
+          <CardContent>
+            <Typography variant='h5' component='div' textAlign='center'>
+              Attendace records
+            </Typography>
+            <Typography variant='body2' textAlign='center' padding={2}>
+              View or generate report of all attendance records marked by
+              teachers
+            </Typography>
           </CardContent>
         </Card>
       </Grid>
@@ -145,7 +175,34 @@ export default function ExampleComponent() {
       ))}
       <Grid
         item
-        xs={12}
+        xs={6}
+        component={motion.div}
+        initial={{ filter: 'blur(5px)' }}
+        animate={{ filter: 'blur(0px)' }}
+      >
+        <Card>
+          <CardContent>
+            <Typography variant='h5' component='div' textAlign='center'>
+              Sections
+            </Typography>
+            <Typography variant='body2' textAlign='center' padding={2}>
+              Register or edit sections
+            </Typography>
+          </CardContent>
+          <Button
+            fullWidth
+            variant='contained'
+            disableElevation
+            onClick={() => navigate('/head/register/section')}
+            sx={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
+          >
+            <AutoAwesomeMotion />
+          </Button>
+        </Card>
+      </Grid>
+      <Grid
+        item
+        xs={6}
         component={motion.div}
         initial={{ filter: 'blur(5px)' }}
         animate={{ filter: 'blur(0px)' }}
@@ -168,7 +225,7 @@ export default function ExampleComponent() {
             fullWidth
             variant='contained'
             disableElevation
-            onClick={() => navigate('/head/search/students')}
+            onClick={() => navigate('/head/result-sheets')}
             sx={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
           >
             <FeaturedPlayList />

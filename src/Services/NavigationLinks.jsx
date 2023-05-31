@@ -171,6 +171,15 @@ export const getLinks = (theme, role) => {
           />
         ),
       },
+      {
+        title: 'Attendance Records',
+        path: '/head/attendance/records',
+        icon: (
+          <List
+            htmlColor={theme.palette.getContrastText(theme.palette.grey[400])}
+          />
+        ),
+      },
     ]
   else if (role === 'Teacher')
     return [
